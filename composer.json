@@ -24,6 +24,6 @@
 		}
 	},
     "require": {
-        "cmsgears/module-core": "*",
+        "cmsgears/module-core": "*"
     }
 }
