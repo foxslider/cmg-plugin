@@ -1,0 +1,29 @@
+{
+	"name": "foxslider/cmg-foxslider",
+	"description": "The foxslider module for CMSGears.",
+	"homepage": "http://www.foxslider.com", 
+	"type": "package",
+	"keywords": [ "yii2", "cmsgears", "module", "foxslider" ],
+	"license": "GPLv3",
+	"authors": [
+		{
+			"name": "Bhagwat Singh Chouhan",
+			"email": "bhagwat.chouhan@vulpinecode.com",
+			"homepage": "http://www.cmsgears.org/",
+			"role": "Founder and project lead."
+		}
+	],
+	"support": {
+        "source": "http://www.foxslider.com/downloads/",
+		"resources": "http://www.foxslider.com/guide",
+		"issues": "https://www.amazingdesk.com/foxslider/issues/"
+	},
+	"autoload": {
+		"psr-4": {
+			"foxslider\\": ""
+		}
+	},
+    "require": {
+        "cmsgears/core": "*"
+    }
+}
