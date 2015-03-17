@@ -15,6 +15,9 @@ class Module extends \yii\base\Module {
 
         parent::init();
 
+		// Set FoxSlider
+		Yii::setAlias( "foxslider", __DIR__ );
+
         $this->setViewPath( '@foxslider/views' );
     }
 }

@@ -11,7 +11,7 @@ use cmsgears\core\common\config\CoreGlobal;
 use cmsgears\core\common\config\CoreProperties;
 
 use cmsgears\core\common\models\entities\CmgFile;
-use cmsgears\cms\common\models\entities\CMSPermission;
+use cmsgears\core\common\models\entities\Permission;
 
 use cmsgears\core\admin\controllers\BaseController;
 
@@ -44,8 +44,8 @@ class SlideController extends BaseController {
             'rbac' => [
                 'class' => Yii::$app->cmgCore->getRbacFilterClass(),
                 'permissions' => [
-	                'create' => CMSPermission::PERM_CMS_SLIDER,
-	                'update' => CMSPermission::PERM_CMS_SLIDER
+	                'create' => Permission::PERM_SLIDER,
+	                'update' => Permission::PERM_SLIDER
                 ]
             ],
             'verbs' => [
@@ -76,12 +76,7 @@ class SlideController extends BaseController {
 
 			// send response
 
-			$responseData				= array();
-
-			$responseData['id']			= $slide->getId();
-			$responseData['slider']		= $slide->getSliderId();
-			$responseData['name']		= $slide->getName();
-			$responseData['desc']		= $slide->getDesc();
+			$responseData	= $slide->getAttributes( [ 'id', 'sliderId', 'name', 'description' ] );
 
 			// Trigger Ajax Success
 			AjaxUtil::generateSuccess( MessageUtil::getMessage( CoreGlobal::MESSAGE_REQUEST ), $responseData );

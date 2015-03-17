@@ -10,17 +10,16 @@ $this->title 	= $coreProperties->getSiteTitle() . ' | Update Slider';
 		<h2>Update Slider</h2>
 		<?php $form = ActiveForm::begin( ['id' => 'frm-slider-update', 'options' => ['class' => 'frm-split' ] ] );?>
 
-    	<?= $form->field( $model, 'slider_name' ) ?>
-    	<?= $form->field( $model, 'slider_name' ) ?>
-    	<?= $form->field( $model, 'slider_desc' )->textarea() ?>
-    	<?= $form->field( $model, 'slider_full_page' )->checkbox() ?>
-    	<?= $form->field( $model, 'slider_width' ) ?>
-    	<?= $form->field( $model, 'slider_height' ) ?>
-    	<?= $form->field( $model, 'slider_slide_width' ) ?>
-    	<?= $form->field( $model, 'slider_slide_height' ) ?>
-    	<?= $form->field( $model, 'slider_scroll_auto' )->checkbox() ?>
-    	<?= $form->field( $model, 'slider_scroll_manual' )->checkbox() ?>
-    	<?= $form->field( $model, 'slider_circular' )->checkbox() ?>
+    	<?= $form->field( $model, 'name' ) ?>
+    	<?= $form->field( $model, 'description' )->textarea() ?>
+    	<?= $form->field( $model, 'fullPage' )->checkbox() ?>
+    	<?= $form->field( $model, 'width' ) ?>
+    	<?= $form->field( $model, 'height' ) ?>
+    	<?= $form->field( $model, 'slideWidth' ) ?>
+    	<?= $form->field( $model, 'slideHeight' ) ?>
+    	<?= $form->field( $model, 'scrollAuto' )->checkbox() ?>
+    	<?= $form->field( $model, 'scrollManual' )->checkbox() ?>
+    	<?= $form->field( $model, 'circular' )->checkbox() ?>
  
 		<div class="box-filler"></div>
 

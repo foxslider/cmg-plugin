@@ -9,6 +9,7 @@ use yii\data\Sort;
 use cmsgears\core\common\services\Service;
 
 // FXS Imports
+use foxslider\models\entities\FXSTables;
 use foxslider\models\entities\Slider;
 use foxslider\models\entities\Slide;
 
@@ -20,7 +21,7 @@ class SliderService extends Service {
 
 	public static function findById( $id ) {
 
-		return Slider::findOne( $id );
+		return Slider::findById( $id );
 	}
 
 	public static function findByName( $name ) {
@@ -30,92 +31,70 @@ class SliderService extends Service {
 
 	public static function getIdList() {
 
-		$slidersList	= array();
-
-		// Execute the command
-		$sliders 		= Slider::find()->all();
-
-		foreach ( $sliders as $slider ) {
-			
-			array_push( $slidersList, $slider->getId() );
-		}
-
-		return $slidersList;
+		return self::findKeyList( 'id', FXSTables::TABLE_SLIDER );
 	}
 
 	public static function getIdNameMap() {
 
-		$slidersMap 	= array();
-
-		// Execute the command
-		$sliders 		= Slider::find()->all();
-
-		foreach ( $sliders as $slider ) {
-
-			$slidersMap[] = [ "id" => $slider->getId(), "name" => $slider->getName() ];
-		}
-
-		return $slidersMap;
+		return self::findKeyValueMap( 'id', 'name', FXSTables::TABLE_SLIDER );
 	}
 
 	// Pagination -------
 
-	public static function getPagination() {
+	public static function getPagination( $conditions = [] ) {
 
 	    $sort = new Sort([
 	        'attributes' => [
 	            'name' => [
-	                'asc' => [ 'slider_name' => SORT_ASC ],
-	                'desc' => ['slider_name' => SORT_DESC ],
+	                'asc' => [ 'name' => SORT_ASC ],
+	                'desc' => [ 'name' => SORT_DESC ],
 	                'default' => SORT_DESC,
 	                'label' => 'name',
 	            ]
 	        ]
 	    ]);
 
-		return self::getPaginationDetails( new Slider(), [ 'sort' => $sort, 'search-col' => 'slider_name' ] );
+		return self::getPaginationDetails( new Slider(), [ 'sort' => $sort, 'search-col' => 'name' ] );
 	}
 
 	// Create -----------
 
 	public static function create( $slider ) {
-
+		
+		// Create Slider
 		$slider->save();
-
+		
+		// Return Slider
 		return true;
 	}
 
 	// Update -----------
 
 	public static function update( $slider ) {
-
-		$sliderToUpdate	= self::findById( $slider->getId() );
-
-		$sliderToUpdate->setName( $slider->getName() );
-		$sliderToUpdate->setDesc( $slider->getDesc() );
-		$sliderToUpdate->setWidth( $slider->getWidth() );
-		$sliderToUpdate->setHeight( $slider->getHeight() );
-		$sliderToUpdate->setSlideWidth( $slider->getSlideWidth() );
-		$sliderToUpdate->setSlideHeight( $slider->getSlideHeight() );
-		$sliderToUpdate->setFullPage( $slider->isFullPage() );
-		$sliderToUpdate->setScrollAuto( $slider->isScrollAuto() );
-		$sliderToUpdate->setScrollManual( $slider->isScrollManual() );
-		$sliderToUpdate->setCircular( $slider->isCircular() );
-
+		
+		// Find existing slider
+		$sliderToUpdate	= self::findById( $slider->id );
+		
+		// Copy Attributes
+		$sliderToUpdate->copyForUpdateFrom( $slider, [ 'name', 'description', 'width', 'height', 'slideWidth', 'slideHeight', 'fullPage', 'scrollAuto', 'scrollManual', 'circular'] );
+		
+		// Update Slider
 		$sliderToUpdate->update();
-
-		return true;
+		
+		// Return updated Slider
+		return $sliderToUpdate;
 	}
 
 	// Delete -----------
 
 	public static function delete( $slider ) {
-
-		$sliderId		= $slider->getId();
+		
+		// Find existing slider
+		$sliderId		= $slider->id;
 		$existingSlider	= self::findById( $sliderId );
 
 		// Clear all related slides
-		Slide::deleteBySlider( $sliderId );
+		Slide::deleteBySliderId( $sliderId );
 
 		// Delete Slider
 		$existingSlider->delete();

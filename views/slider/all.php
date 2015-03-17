@@ -60,24 +60,24 @@ if( !isset( $sortOrder ) ) {
 
 					foreach( $page as $slider ) {
 
-						$id = $slider->getId();
+						$id = $slider->id;
 				?>
 					<tr>
 						<td> <input type='checkbox' /> </td>
-						<td><?= $slider->getName() ?></td>					
-						<td><?= $slider->getDesc() ?></td>
+						<td><?= $slider->name ?></td>					
+						<td><?= $slider->description ?></td>
 						<td><?= $slider->getFullPageStr() ?></td>
-						<td><?= $slider->getWidth() ?></td>
-						<td><?= $slider->getHeight() ?></td>
-						<td><?= $slider->getSlideWidth() ?></td>
-						<td><?= $slider->getSlideHeight() ?></td>
+						<td><?= $slider->width ?></td>
+						<td><?= $slider->height ?></td>
+						<td><?= $slider->slideWidth ?></td>
+						<td><?= $slider->slideHeight ?></td>
 						<td><?= $slider->getScrollAutoStr() ?></td>
 						<td><?= $slider->getScrollManualStr() ?></td>
 						<td><?= $slider->getCircularStr() ?></td>
 						<td>
-							<span class="wrap-icon-action" title="All Slides"><?= Html::a( "", ["/foxslider/slider/slides/?id=$id"], ['class'=>'icon-action icon-action-edit'] )  ?></span>
-							<span class="wrap-icon-action" title="Update Slider"><?= Html::a( "", ["/foxslider/slider/update/?id=$id"], ['class'=>'icon-action icon-action-edit'] )  ?></span>
-							<span class="wrap-icon-action" title="Delete Slider"><?= Html::a( "", ["/foxslider/slider/delete/?id=$id"], ['class'=>'icon-action icon-action-delete'] )  ?></span>
+							<span class="wrap-icon-action" title="All Slides"><?= Html::a( "", ["/foxslider/slider/slides?id=$id"], ['class'=>'icon-action icon-action-edit'] )  ?></span>
+							<span class="wrap-icon-action" title="Update Slider"><?= Html::a( "", ["/foxslider/slider/update?id=$id"], ['class'=>'icon-action icon-action-edit'] )  ?></span>
+							<span class="wrap-icon-action" title="Delete Slider"><?= Html::a( "", ["/foxslider/slider/delete?id=$id"], ['class'=>'icon-action icon-action-delete'] )  ?></span>
 						</td>
 					</tr>
 				<?php } ?>

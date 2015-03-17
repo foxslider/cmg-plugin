@@ -1,7 +1,10 @@
 <?php
+// Yii Imports
 use yii\widgets\ActiveForm;
 use yii\helpers\Html;
-use cmsgears\widgets\other\Editor;
+
+// CMG Imports
+use cmsgears\core\widgets\Editor;
 
 $coreProperties = $this->context->getCoreProperties();
 $this->title 	= $coreProperties->getSiteTitle() . ' | Slider Slides';
@@ -13,38 +16,38 @@ Editor::widget( [ 'selector' => '.content-editor' ] );
 		<h2>Slider Slides</h2>
 		<form action="#" class="frm-split">
 			<label>Name</label>
-			<label><?=$model->getName()?></label>
+			<label><?=$slider->name?></label>
 			<label>Description</label>
-			<label><?=$model->getDesc()?></label>
+			<label><?=$slider->description?></label>
 		</form>
 
 		<h4>Create Slide</h4>
 		<form class="frm-split frm-ajax" id="frm-slide-create" group="1001" key="1001" action="<?php echo Yii::$app->urlManager->createAbsoluteUrl("apix/foxslider/slide/create"); ?>" method="post">
 			<!-- name -->
 			<label>Title</label>
-			<input type="text" name="Slide[slide_name]" placeholder="Title">
-			<span class="form-error" formError="slide_name"></span>
+			<input type="text" name="Slide[name]" placeholder="Title">
+			<span class="form-error" formError="name"></span>
 			<!-- desc -->
 			<label>Description</label>
-			<input type="text" name="Slide[slide_desc]" placeholder="Description">
-			<span class="form-error" formError="slide_desc"></span>
+			<input type="text" name="Slide[description]" placeholder="Description">
+			<span class="form-error" formError="description"></span>
 			<!-- content -->
 			<label>Content</label>
-			<textarea class="editor-slide content-editor" name="Slide[slide_content]" placeholder="Content"></textarea>
-			<span class="form-error" formError="slide_content"></span>
+			<textarea class="editor-slide content-editor" name="Slide[content]" placeholder="Content"></textarea>
+			<span class="form-error" formError="content"></span>
 			<!-- url -->
 			<label>Slide Url</label>
-			<input type="text" name="Slide[slide_url]" placeholder="Url">
-			<span class="form-error" formError="slide_url"></span>
-			<input type="hidden" name="Slide[slide_slider]" value="<?=$model->getId()?>" />
+			<input type="text" name="Slide[url]" placeholder="Url">
+			<span class="form-error" formError="url"></span>
+			<input type="hidden" name="Slide[sliderId]" value="<?=$slider->id?>" />
 			<div id="file-slide" class="file-container" legend="Slide Image" selector="slide" utype="image" btn-class="btn file-input-wrap" btn-text="Choose Image">
 				<div class="file-fields">
-					<input type="hidden" name="File[file_name]" class= "file-name" />
-					<input type="hidden" name="File[file_extension]" class= "file-extension" />
-					<input type="hidden" name="File[file_directory]" value="slide" />
+					<input type="hidden" name="File[name]" class= "file-name" />
+					<input type="hidden" name="File[extension]" class= "file-extension" />
+					<input type="hidden" name="File[directory]" value="slide" />
 					<input type="hidden" name="File[changed]" class="file-change" />
-					<label>Image Description</label> <input type="text" name="File[file_desc]" />
-					<label>Image Alternate Text</label> <input type="text" name="File[file_alt_text]" />
+					<label>Image Description</label> <input type="text" name="File[desc]" />
+					<label>Image Alternate Text</label> <input type="text" name="File[alt_text]" />
 				</div>
 			</div>
 			<!-- submit -->
@@ -60,41 +63,41 @@ Editor::widget( [ 'selector' => '.content-editor' ] );
 		<?php
 			foreach ( $slides as $slide ) {
 
-				$slideId	= $slide->getId();
-				$slideImage	= $slide->slideImage;
+				$slideId	= $slide->id;
+				$slideImage	= $slide->image;
 		?>
 			<li>
 				<form class="frm-ajax" group="1001" key="1001" id="frm-slide-update-<?=$slideId?>" group="0" key="0" action="<?php echo Yii::$app->urlManager->createAbsoluteUrl("apix/foxslider/slide/update?id=$slideId"); ?>" method="post" keepData="true" >
 					<!-- name -->
 					<label>Title</label>
-					<input type="text" name="Slide[slide_name]" value="<?=$slide->getName()?>" placeholder="Title">
-					<span class="form-error" formError="slide_name"></span>
+					<input type="text" name="Slide[name]" value="<?=$slide->name?>" placeholder="Title">
+					<span class="form-error" formError="name"></span>
 					<!-- desc -->
 					<label>Description</label>
-					<input type="text" name="Slide[slide_desc]" value="<?=$slide->getDesc()?>" placeholder="Description">
-					<span class="form-error" formError="slide_desc"></span>
+					<input type="text" name="Slide[description]" value="<?=$slide->description?>" placeholder="Description">
+					<span class="form-error" formError="description"></span>
 					<!-- content -->
 					<label>Content</label>
-					<textarea class="editor-slide content-editor" name="Slide[slide_content]" placeholder="Content"><?=$slide->getContent()?></textarea>
-					<span class="form-error" formError="slide_content"></span>
+					<textarea class="editor-slide content-editor" name="Slide[content]" placeholder="Content"><?=$slide->content?></textarea>
+					<span class="form-error" formError="content"></span>
 					<!-- url -->
 					<label>Slide Url</label>
-					<input type="text" name="Slide[slide_url]" value="<?=$slide->getUrl()?>" placeholder="Url">
-					<span class="form-error" formError="slide_url"></span>
+					<input type="text" name="Slide[url]" value="<?=$slide->url?>" placeholder="Url">
+					<span class="form-error" formError="url"></span>
 
 					<div id="file-slide-<?=$slideId?>" class="file-container" legend="Slide Image" selector="slide" utype="image" btn-class="btn file-input-wrap" btn-text="Change Image">
 						<div class="file-fields">
-							<input type="hidden" name="File[file_id]" value="<?php if( isset( $slideImage ) ) echo $slideImage->getId(); ?>" />
-							<input type="hidden" name="File[file_name]" class= "file-name" />
-							<input type="hidden" name="File[file_extension]" class= "file-extension" />
-							<input type="hidden" name="File[file_directory]" value="slide" />
+							<input type="hidden" name="File[id]" value="<?php if( isset( $slideImage ) ) echo $slideImage->id; ?>" />
+							<input type="hidden" name="File[name]" class= "file-name" />
+							<input type="hidden" name="File[extension]" class= "file-extension" />
+							<input type="hidden" name="File[directory]" value="slide" />
 							<input type="hidden" name="File[changed]" class="file-change" />
-							<label>Slide Description</label> <input type="text" name="File[file_desc]" value="<?php if( isset( $slideImage ) ) echo $slideImage->getDesc(); ?>" />
-							<label>Slide Alternate Text</label> <input type="text" name="File[file_alt_text]" value="<?php if( isset( $slideImage ) ) echo $slideImage->getAltText(); ?>" />
+							<label>Slide Description</label> <input type="text" name="File[description]" value="<?php if( isset( $slideImage ) ) echo $slideImage->description; ?>" />
+							<label>Slide Alternate Text</label> <input type="text" name="File[altText]" value="<?php if( isset( $slideImage ) ) echo $slideImage->altText; ?>" />
 						</div>
 					</div>
 
-					<input type="hidden" name="Slide[slide_slider]" value="<?=$model->getId()?>" />					
+					<input type="hidden" name="Slide[sliderId]" value="<?=$slider->id?>" />					
 					<!-- submit -->
 		            <input type="submit" class="" value="Update">
 					<!-- spinner and success -->
@@ -116,12 +119,12 @@ Editor::widget( [ 'selector' => '.content-editor' ] );
 <?php 
 	foreach ( $slides as $slide ) {
 
-		$slideId		= $slide->getId();
-		$slideImage		= $slide->slideImage;
+		$slideId		= $slide->id;
+		$slideImage		= $slide->image;
 
 		if( isset( $slideImage ) ) {
 
-			$slideImageUrl	= Yii::$app->fileManager->uploadUrl . $slideImage->getUrl(); 
+			$slideImageUrl	= Yii::$app->fileManager->uploadUrl . $slideImage->url; 
 			$image 			= "<img src='$slideImageUrl' />";
 ?>
 

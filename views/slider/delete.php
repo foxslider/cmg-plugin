@@ -10,19 +10,16 @@ $this->title 	= $coreProperties->getSiteTitle() . ' | Delete Slider';
 		<h2>Delete Slider</h2>
 		<?php $form = ActiveForm::begin( ['id' => 'frm-slider-delete', 'options' => ['class' => 'frm-split' ] ] );?>
 
-    	<?= $form->field( $model, 'slider_name' )->textInput( [ 'disabled'=>'true' ] ) ?>
-    	<?= $form->field( $model, 'slider_desc' )->textarea( [ 'disabled'=>'true' ] ) ?>
-
-    	<?= $form->field( $model, 'slider_name' )->textInput( [ 'disabled'=>'true' ] ) ?>
-    	<?= $form->field( $model, 'slider_desc' )->textarea( [ 'disabled'=>'true' ] ) ?>
-    	<?= $form->field( $model, 'slider_full_page' )->checkbox( [ 'disabled'=>'true' ] ) ?>
-    	<?= $form->field( $model, 'slider_width' )->textInput( [ 'disabled'=>'true' ] ) ?>
-    	<?= $form->field( $model, 'slider_height' )->textInput( [ 'disabled'=>'true' ] ) ?>
-    	<?= $form->field( $model, 'slider_slide_width' )->textInput( [ 'disabled'=>'true' ] ) ?>
-    	<?= $form->field( $model, 'slider_slide_height' )->textInput( [ 'disabled'=>'true' ] ) ?>
-    	<?= $form->field( $model, 'slider_scroll_auto' )->checkbox( [ 'disabled'=>'true' ] ) ?>
-    	<?= $form->field( $model, 'slider_scroll_manual' )->checkbox( [ 'disabled'=>'true' ] ) ?>
-    	<?= $form->field( $model, 'slider_circular' )->checkbox( [ 'disabled'=>'true' ] ) ?>
+    	<?= $form->field( $model, 'name' )->textInput( [ 'disabled'=>'true' ] ) ?>
+    	<?= $form->field( $model, 'description' )->textarea( [ 'disabled'=>'true' ] ) ?>
+    	<?= $form->field( $model, 'fullPage' )->checkbox( [ 'disabled'=>'true' ] ) ?>
+    	<?= $form->field( $model, 'width' )->textInput( [ 'disabled'=>'true' ] ) ?>
+    	<?= $form->field( $model, 'height' )->textInput( [ 'disabled'=>'true' ] ) ?>
+    	<?= $form->field( $model, 'slideWidth' )->textInput( [ 'disabled'=>'true' ] ) ?>
+    	<?= $form->field( $model, 'slideHeight' )->textInput( [ 'disabled'=>'true' ] ) ?>
+    	<?= $form->field( $model, 'scrollAuto' )->checkbox( [ 'disabled'=>'true' ] ) ?>
+    	<?= $form->field( $model, 'scrollManual' )->checkbox( [ 'disabled'=>'true' ] ) ?>
+    	<?= $form->field( $model, 'circular' )->checkbox( [ 'disabled'=>'true' ] ) ?>
 
 		<div class="box-filler"></div>
 

@@ -3,6 +3,7 @@ namespace foxslider\services;
 
 // Yii Imports
 use \Yii;
+use yii\data\Sort;
 
 // CMG Imports
 use cmsgears\core\common\services\Service;
@@ -32,29 +33,33 @@ class SlideService extends Service {
 
 	// Pagination -------
 
-	public static function getPagination() {
+	public static function getPagination( $conditions = [] ) {
 
-		return Service::getPaginationDetails( new Slide() );
+	    $sort = new Sort([
+	        'attributes' => [
+	            'name' => [
+	                'asc' => [ 'name' => SORT_ASC ],
+	                'desc' => [ 'name' => SORT_DESC ],
+	                'default' => SORT_DESC,
+	                'label' => 'name',
+	            ]
+	        ]
+	    ]);
+
+		return self::getPaginationDetails( new Slide(), [ 'sort' => $sort, 'search-col' => 'name' ] );
 	}
 
 	// Create -----------
 
 	public static function create( $slide, $slideImage ) {
 
+		// Find User and Slider
 		$date 		= DateUtil::getMysqlDate();
 		$user		= Yii::$app->user->getIdentity();
-		$slider		= SliderService::findById( $slide->getSliderId() );
+		$slider		= SliderService::findById( $slide->sliderId );
 
-		// Save Slide Image
-		FileService::saveImage( $slideImage, $user, Yii::$app->fileManager, $slider->getSlideWidth(), $slider->getSlideHeight() );
-
-		// New Slide Image
-		$imageId 	= $slideImage->getId();
-
-		if( isset( $imageId ) && intval( $imageId ) > 0 ) {
-
-			$slide->setSlideImageId( $imageId );
-		}
+		// Save Slide Image to Slide Dimensions
+		FileService::saveImage( $slideImage, $user, $slide, "imageId", Yii::$app->fileManager, $slider->slideWidth, $slider->slideHeight );
 
 		// commit slide
 		$slide->save();
@@ -66,27 +71,19 @@ class SlideService extends Service {
 
 	public static function update( $slide, $slideImage ) {
 
+		// Find User and Slider
 		$date 			= DateUtil::getMysqlDate();
 		$user			= Yii::$app->user->getIdentity();
-		$slider			= SliderService::findById( $slide->getSliderId() );
-		$slideToUpdate	= self::findById( $slide->getId() );
-
-		$slideToUpdate->setName( $slide->getName() );
-		$slideToUpdate->setDesc( $slide->getDesc() );
-		$slideToUpdate->setContent( $slide->getContent() );
-		$slideToUpdate->setUrl( $slide->getUrl() );
-		$slideToUpdate->setSlideImageId( $slide->getSlideImageId() );
+		$slider			= SliderService::findById( $slide->sliderId );
+		
+		// Find existing Slide
+		$slideToUpdate	= self::findById( $slide->id );
+		
+		// Copy Attributes		
+		$slideToUpdate->copyForUpdateFrom( $slide, [ 'name', 'description', 'content', 'url', 'imageId' ] );
 
 		// Save Slide Image
-		FileService::saveImage( $slideImage, $user, Yii::$app->fileManager, $slider->getSlideWidth(), $slider->getSlideHeight() );
-
-		// New Slide Image
-		$imageId 	= $slideImage->getId();
-
-		if( isset( $imageId ) && intval( $imageId ) > 0 ) {
-
-			$slideToUpdate->setSlideImageId( $imageId );
-		}
+		FileService::saveImage( $slideImage, $user, $slideToUpdate, "imageId", Yii::$app->fileManager, $slider->slideWidth, $slider->slideHeight );
 
 		$slideToUpdate->update();
 
@@ -96,9 +93,9 @@ class SlideService extends Service {
 	// Delete -----------
 
 	public static function delete( $slide ) {
-
-		$slideId		= $slide->getId();
-		$existingSlide	= self::findById( $slideId );
+		
+		// Find existing Slide
+		$existingSlide	= self::findById( $slide->id );
 
 		// Delete Slider
 		$existingSlide->delete();

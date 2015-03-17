@@ -9,7 +9,7 @@ use yii\web\NotFoundHttpException;
 // CMG Imports
 use cmsgears\core\common\config\CoreGlobal;
 
-use cmsgears\cms\common\models\entities\CMSPermission;
+use cmsgears\core\common\models\entities\Permission;
 
 use cmsgears\core\admin\controllers\BaseController;
 
@@ -40,12 +40,12 @@ class SliderController extends BaseController {
             'rbac' => [
                 'class' => Yii::$app->cmgCore->getRbacFilterClass(),
                 'permissions' => [
-	                'index'  => CMSPermission::PERM_CMS_SLIDER,
-	                'all'    => CMSPermission::PERM_CMS_SLIDER,
-	                'create' => CMSPermission::PERM_CMS_SLIDER,
-	                'update' => CMSPermission::PERM_CMS_SLIDER,
-	                'delete' => CMSPermission::PERM_CMS_SLIDER,
-	                'slides' => CMSPermission::PERM_CMS_SLIDER
+	                'index'  => Permission::PERM_SLIDER,
+	                'all'    => Permission::PERM_SLIDER,
+	                'create' => Permission::PERM_SLIDER,
+	                'update' => Permission::PERM_SLIDER,
+	                'delete' => Permission::PERM_SLIDER,
+	                'slides' => Permission::PERM_SLIDER
                 ]
             ],
             'verbs' => [
@@ -90,7 +90,7 @@ class SliderController extends BaseController {
 
 			if( SliderService::create( $model ) ) {
 
-				return $this->redirect( [ self::URL_ALL ] );
+				return $this->redirect( "all" );
 			}
 		}
 
@@ -138,7 +138,7 @@ class SliderController extends BaseController {
 	
 				if( SliderService::delete( $model ) ) {
 		
-					return $this->redirect( [ self::URL_ALL ] );
+					return $this->redirect( "all" );
 				}
 			}
 
@@ -154,15 +154,15 @@ class SliderController extends BaseController {
 	public function actionSlides( $id ) {
 		
 		// Find Model		
-		$model			= SliderService::findById( $id );
+		$slider			= SliderService::findById( $id );
 		
 		// Update/Render if exist
-		if( isset( $model ) ) {
+		if( isset( $slider ) ) {
 				
-			$slides 	= SlideService::findBySliderId( $model->getId() );
+			$slides 	= SlideService::findBySliderId( $slider->id );
 
 	    	return $this->render('slides', [
-	    		'model' => $model,
+	    		'slider' => $slider,
 	    		'slides' => $slides
 	    	]);
 		}

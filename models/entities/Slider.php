@@ -8,136 +8,29 @@ class Slider extends NamedActiveRecord {
 
 	// Instance Methods --------------------------------------------
 
-	// db columns
-
-	public function getId() {
-
-		return $this->slider_id;
-	}
-
-	public function getName() {
-
-		return $this->slider_name;	
-	}
-
-	public function setName( $name ) {
-
-		$this->slider_name = $name;	
-	}
-
-	public function getDesc() {
-
-		return $this->slider_desc;	
-	}
-
-	public function setDesc( $desc ) {
-
-		$this->slider_desc = $desc;	
-	}
-
-	public function getWidth() {
-
-		return $this->slider_width;	
-	}
-
-	public function setWidth( $width ) {
-
-		$this->slider_width = $width;	
-	}
-
-	public function getHeight() {
-
-		return $this->slider_height;	
-	}
-
-	public function setHeight( $height ) {
-
-		$this->slider_height = $height;	
-	}
-
-	public function getSlideWidth() {
-
-		return $this->slider_slide_width;	
-	}
-
-	public function setSlideWidth( $width ) {
-
-		$this->slider_slide_width = $width;	
-	}
-
-	public function getSlideHeight() {
-
-		return $this->slider_slide_height;	
-	}
-
-	public function setSlideHeight( $height ) {
-
-		$this->slider_slide_height = $height;	
-	}
-
-	public function isFullPage() {
-
-		return $this->slider_full_page;	
-	}
-
 	public function getFullPageStr() {
 
-		return $this->slider_full_page ? "yes" : "no";	
-	}
-
-	public function setFullPage( $fullPage ) {
-
-		$this->slider_full_page = $fullPage;	
-	}
-
-	public function isScrollAuto() {
-
-		return $this->slider_scroll_auto;	
+		return $this->fullPage ? "yes" : "no";	
 	}
 
 	public function getScrollAutoStr() {
 
-		return $this->slider_scroll_auto ? "yes" : "no";	
-	}
-
-	public function setScrollAuto( $auto ) {
-
-		$this->slider_scroll_auto = $auto;	
-	}
-
-	public function isScrollManual() {
-
-		return $this->slider_scroll_manual;	
+		return $this->scrollAuto ? "yes" : "no";	
 	}
 
 	public function getScrollManualStr() {
 
-		return $this->slider_scroll_manual ? "yes" : "no";	
-	}
-
-	public function setScrollManual( $manual ) {
-
-		$this->slider_scroll_manual = $manual;	
-	}
-
-	public function isCircular() {
-
-		return $this->slider_circular;	
+		return $this->scrollManual ? "yes" : "no";	
 	}
 
 	public function getCircularStr() {
 
-		return $this->slider_circular ? "yes" : "no";	
-	}
-
-	public function setCircular( $circular ) {
-
-		$this->slider_circular = $circular;	
+		return $this->circular ? "yes" : "no";	
 	}
 
 	public function getSlides() {
 
-    	return $this->hasMany( Slide::className(), [ 'slide_slider' => 'slider_id' ] );
+    	return $this->hasMany( Slide::className(), [ 'sliderId' => 'id' ] );
 	}
 
 	// yii\base\Model
@@ -145,28 +38,28 @@ class Slider extends NamedActiveRecord {
 	public function rules() {
 
         return [
-            [ [ 'slider_name', 'slider_full_page', 'slider_slide_width', 'slider_slide_height', 'slider_scroll_auto', 'slider_scroll_manual', 'slider_circular' ], 'required' ],
-            [ [ 'slider_width', 'slider_height','slider_slide_width', 'slider_slide_height' ], 'number', 'integerOnly'=>true ],
-            [ 'slider_name', 'alphanumspace' ],
-            [ 'slider_name', 'validateNameCreate', 'on' => [ 'create' ] ],
-            [ 'slider_name', 'validateNameUpdate', 'on' => [ 'update' ] ],
-            [ [ 'slider_desc' ], 'safe' ]
+            [ [ 'name', 'fullPage', 'slideWidth', 'slideHeight', 'scrollAuto', 'scrollManual', 'circular' ], 'required' ],
+            [ [ 'width', 'height','slideWidth', 'slideHeight' ], 'number', 'integerOnly'=>true ],
+            [ 'name', 'alphanumspace' ],
+            [ 'name', 'validateNameCreate', 'on' => [ 'create' ] ],
+            [ 'name', 'validateNameUpdate', 'on' => [ 'update' ] ],
+            [ [ 'description' ], 'safe' ]
         ];
     }
 
 	public function attributeLabels() {
 
 		return [
-			'slider_name' => 'Name',
-			'slider_desc' => 'Description',
-			'slider_full_page' => 'Full Page',
-			'slider_width' => 'Width',
-			'slider_height' => 'Height',
-			'slider_slide_width' => 'Slide Width',
-			'slider_slide_height' => 'Slide Height',
-			'slider_scroll_auto' => 'Auto Scroll',
-			'slider_scroll_manual' => 'Manual Scroll',
-			'slider_circular' => 'Circular'
+			'name' => 'Name',
+			'desc' => 'Description',
+			'full_page' => 'Full Page',
+			'width' => 'Width',
+			'height' => 'Height',
+			'slideWidth' => 'Slide Width',
+			'slideHeight' => 'Slide Height',
+			'scrollAuto' => 'Auto Scroll',
+			'scrollManual' => 'Manual Scroll',
+			'circular' => 'Circular'
 		];
 	}
 
@@ -183,12 +76,12 @@ class Slider extends NamedActiveRecord {
 
 	public static function findById( $id ) {
 
-		return Slider::find()->where( 'slider_id=:id', [ ':id' => $id ] )->one();
+		return Slider::find()->where( 'id=:id', [ ':id' => $id ] )->one();
 	}
 
 	public static function findByName( $name ) {
 
-		return Slider::find()->where( 'slider_name=:name', [ ':name' => $name ] )->one();
+		return Slider::find()->where( 'name=:name', [ ':name' => $name ] )->one();
 	}
 }
 
