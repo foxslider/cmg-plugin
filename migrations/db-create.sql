@@ -41,9 +41,9 @@ CREATE TABLE `fxs_slide` (
   `order` tinyint(2) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `fk_slide_1` (`sliderId`),
-  KEY `fk_slide_2` (`image`),
+  KEY `fk_slide_2` (`imageId`),
   CONSTRAINT `fk_slide_1` FOREIGN KEY (`sliderId`) REFERENCES `fxs_slider` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `fk_slide_2` FOREIGN KEY (`image`) REFERENCES `cmg_file` (`id`)
+  CONSTRAINT `fk_slide_2` FOREIGN KEY (`imageId`) REFERENCES `cmg_file` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
