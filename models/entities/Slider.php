@@ -2,9 +2,21 @@
 namespace foxslider\models\entities;
 
 // CMG Imports
-use cmsgears\core\common\models\entities\NamedActiveRecord;
+use cmsgears\core\common\models\entities\NamedCmgEntity;
 
-class Slider extends NamedActiveRecord {
+class Slider extends NamedCmgEntity {
+	
+	const SCROLL_LEFT	=  0;
+	const SCROLL_RIGHT	=  5;
+	const SCROLL_UP		= 10;
+	const SCROLL_DOWN	= 15;
+
+	public static $scrollTypeMap = [
+		self::SCROLL_LEFT => "Left",
+		self::SCROLL_RIGHT => "Right",
+		self::SCROLL_UP => "Up",
+		self::SCROLL_DOWN => "Down"
+	];
 
 	// Instance Methods --------------------------------------------
 
@@ -18,9 +30,9 @@ class Slider extends NamedActiveRecord {
 		return $this->scrollAuto ? "yes" : "no";	
 	}
 
-	public function getScrollManualStr() {
+	public function getScrollTypeStr() {
 
-		return $this->scrollManual ? "yes" : "no";	
+		return self::$scrollTypeMap[ $this->scrollType ];	
 	}
 
 	public function getCircularStr() {
@@ -38,9 +50,9 @@ class Slider extends NamedActiveRecord {
 	public function rules() {
 
         return [
-            [ [ 'name', 'fullPage', 'slideWidth', 'slideHeight', 'scrollAuto', 'scrollManual', 'circular' ], 'required' ],
+            [ [ 'name', 'fullPage', 'slideWidth', 'slideHeight', 'scrollAuto', 'scrollType', 'circular' ], 'required' ],
             [ [ 'width', 'height','slideWidth', 'slideHeight' ], 'number', 'integerOnly'=>true ],
-            [ 'name', 'alphanumspace' ],
+            [ 'name', 'alphanumhyphenspace' ],
             [ 'name', 'validateNameCreate', 'on' => [ 'create' ] ],
             [ 'name', 'validateNameUpdate', 'on' => [ 'update' ] ],
             [ [ 'description' ], 'safe' ]
@@ -58,7 +70,7 @@ class Slider extends NamedActiveRecord {
 			'slideWidth' => 'Slide Width',
 			'slideHeight' => 'Slide Height',
 			'scrollAuto' => 'Auto Scroll',
-			'scrollManual' => 'Manual Scroll',
+			'scrollType' => 'Scroll Type',
 			'circular' => 'Circular'
 		];
 	}
@@ -69,7 +81,7 @@ class Slider extends NamedActiveRecord {
 	
 	public static function tableName() {
 		
-		return FXSTables::TABLE_SLIDER;
+		return FxsTables::TABLE_SLIDER;
 	}
 
 	// Slider

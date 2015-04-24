@@ -46,8 +46,8 @@ Editor::widget( [ 'selector' => '.content-editor' ] );
 					<input type="hidden" name="File[extension]" class= "file-extension" />
 					<input type="hidden" name="File[directory]" value="slide" />
 					<input type="hidden" name="File[changed]" class="file-change" />
-					<label>Image Description</label> <input type="text" name="File[desc]" />
-					<label>Image Alternate Text</label> <input type="text" name="File[alt_text]" />
+					<label>Image Description</label> <input type="text" name="File[description]" />
+					<label>Image Alternate Text</label> <input type="text" name="File[altText]" />
 				</div>
 			</div>
 			<!-- submit -->
@@ -88,8 +88,8 @@ Editor::widget( [ 'selector' => '.content-editor' ] );
 					<div id="file-slide-<?=$slideId?>" class="file-container" legend="Slide Image" selector="slide" utype="image" btn-class="btn file-input-wrap" btn-text="Change Image">
 						<div class="file-fields">
 							<input type="hidden" name="File[id]" value="<?php if( isset( $slideImage ) ) echo $slideImage->id; ?>" />
-							<input type="hidden" name="File[name]" class= "file-name" />
-							<input type="hidden" name="File[extension]" class= "file-extension" />
+							<input type="hidden" name="File[name]" class= "file-name" value="<?php if( isset( $slideImage ) ) echo $slideImage->name; ?>" />
+							<input type="hidden" name="File[extension]" class= "file-extension" value="<?php if( isset( $slideImage ) ) echo $slideImage->extension; ?>" />
 							<input type="hidden" name="File[directory]" value="slide" />
 							<input type="hidden" name="File[changed]" class="file-change" />
 							<label>Slide Description</label> <input type="text" name="File[description]" value="<?php if( isset( $slideImage ) ) echo $slideImage->description; ?>" />
@@ -124,7 +124,7 @@ Editor::widget( [ 'selector' => '.content-editor' ] );
 
 		if( isset( $slideImage ) ) {
 
-			$slideImageUrl	= Yii::$app->fileManager->uploadUrl . $slideImage->url; 
+			$slideImageUrl	= $slideImage->getFileUrl(); 
 			$image 			= "<img src='$slideImageUrl' />";
 ?>
 

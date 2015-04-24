@@ -50,7 +50,7 @@ if( !isset( $sortOrder ) ) {
 					<th>Slide Width</th>
 					<th>Slide Height</th>
 					<th>Auto Scroll</th>
-					<th>Manual Scroll</th>
+					<th>Scroll Type</th>
 					<th>Circular</th>
 					<th>Actions</th>
 				</tr>
@@ -72,7 +72,7 @@ if( !isset( $sortOrder ) ) {
 						<td><?= $slider->slideWidth ?></td>
 						<td><?= $slider->slideHeight ?></td>
 						<td><?= $slider->getScrollAutoStr() ?></td>
-						<td><?= $slider->getScrollManualStr() ?></td>
+						<td><?= $slider->getScrollTypeStr() ?></td>
 						<td><?= $slider->getCircularStr() ?></td>
 						<td>
 							<span class="wrap-icon-action" title="All Slides"><?= Html::a( "", ["/foxslider/slider/slides?id=$id"], ['class'=>'icon-action icon-action-edit'] )  ?></span>

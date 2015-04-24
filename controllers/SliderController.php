@@ -9,13 +9,11 @@ use yii\web\NotFoundHttpException;
 // CMG Imports
 use cmsgears\core\common\config\CoreGlobal;
 
-use cmsgears\core\common\models\entities\Permission;
-
 use cmsgears\core\admin\controllers\BaseController;
 
-use cmsgears\core\common\utilities\MessageUtil;
-
 // FXS Imports
+use foxslider\config\FxsCoreGlobal;
+
 use foxslider\models\entities\Slider;
 
 use foxslider\services\SliderService;
@@ -39,13 +37,13 @@ class SliderController extends BaseController {
         return [
             'rbac' => [
                 'class' => Yii::$app->cmgCore->getRbacFilterClass(),
-                'permissions' => [
-	                'index'  => Permission::PERM_SLIDER,
-	                'all'    => Permission::PERM_SLIDER,
-	                'create' => Permission::PERM_SLIDER,
-	                'update' => Permission::PERM_SLIDER,
-	                'delete' => Permission::PERM_SLIDER,
-	                'slides' => Permission::PERM_SLIDER
+                'actions' => [
+	                'index'  => [ 'permission' => FxsCoreGlobal::PERM_SLIDER ],
+	                'all'    => [ 'permission' => FxsCoreGlobal::PERM_SLIDER ],
+	                'create' => [ 'permission' => FxsCoreGlobal::PERM_SLIDER ],
+	                'update' => [ 'permission' => FxsCoreGlobal::PERM_SLIDER ],
+	                'delete' => [ 'permission' => FxsCoreGlobal::PERM_SLIDER ],
+	                'slides' => [ 'permission' => FxsCoreGlobal::PERM_SLIDER ]
                 ]
             ],
             'verbs' => [
@@ -95,7 +93,8 @@ class SliderController extends BaseController {
 		}
 
     	return $this->render('create', [
-    		'model' => $model
+    		'model' => $model,
+    		'scrollTypeMap' => Slider::$scrollTypeMap
     	]);
 	}
 
@@ -118,12 +117,13 @@ class SliderController extends BaseController {
 			}
 
 	    	return $this->render('update', [
-	    		'model' => $model
+	    		'model' => $model,
+	    		'scrollTypeMap' => Slider::$scrollTypeMap
 	    	]);			
 		}
 
 		// Model not found
-		throw new NotFoundHttpException( MessageUtil::getMessage( CoreGlobal::ERROR_NOT_FOUND ) );
+		throw new NotFoundHttpException( Yii::$app->cmgCoreMessageSource->getMessage( CoreGlobal::ERROR_NOT_FOUND ) );
 	}
 
 	public function actionDelete( $id ) {
@@ -143,12 +143,13 @@ class SliderController extends BaseController {
 			}
 
 	    	return $this->render('delete', [
-	    		'model' => $model
+	    		'model' => $model,
+	    		'scrollTypeMap' => Slider::$scrollTypeMap
 	    	]);
 		}
 
 		// Model not found
-		throw new NotFoundHttpException( MessageUtil::getMessage( CoreGlobal::ERROR_NOT_FOUND ) );	
+		throw new NotFoundHttpException( Yii::$app->cmgCoreMessageSource->getMessage( CoreGlobal::ERROR_NOT_FOUND ) );	
 	}
 	
 	public function actionSlides( $id ) {
@@ -168,7 +169,7 @@ class SliderController extends BaseController {
 		}
 
 		// Model not found
-		throw new NotFoundHttpException( MessageUtil::getMessage( CoreGlobal::ERROR_NOT_FOUND ) );
+		throw new NotFoundHttpException( Yii::$app->cmgCoreMessageSource->getMessage( CoreGlobal::ERROR_NOT_FOUND ) );
 	}
 }
 

@@ -10,15 +10,15 @@ $this->title 	= $coreProperties->getSiteTitle() . ' | Delete Slider';
 		<h2>Delete Slider</h2>
 		<?php $form = ActiveForm::begin( ['id' => 'frm-slider-delete', 'options' => ['class' => 'frm-split' ] ] );?>
 
-    	<?= $form->field( $model, 'name' )->textInput( [ 'disabled'=>'true' ] ) ?>
-    	<?= $form->field( $model, 'description' )->textarea( [ 'disabled'=>'true' ] ) ?>
+    	<?= $form->field( $model, 'name' )->textInput( [ 'readonly'=>'true' ] ) ?>
+    	<?= $form->field( $model, 'description' )->textarea( [ 'readonly'=>'true' ] ) ?>
     	<?= $form->field( $model, 'fullPage' )->checkbox( [ 'disabled'=>'true' ] ) ?>
-    	<?= $form->field( $model, 'width' )->textInput( [ 'disabled'=>'true' ] ) ?>
-    	<?= $form->field( $model, 'height' )->textInput( [ 'disabled'=>'true' ] ) ?>
-    	<?= $form->field( $model, 'slideWidth' )->textInput( [ 'disabled'=>'true' ] ) ?>
-    	<?= $form->field( $model, 'slideHeight' )->textInput( [ 'disabled'=>'true' ] ) ?>
+    	<?= $form->field( $model, 'width' )->textInput( [ 'readonly'=>'true' ] ) ?>
+    	<?= $form->field( $model, 'height' )->textInput( [ 'readonly'=>'true' ] ) ?>
+    	<?= $form->field( $model, 'slideWidth' )->textInput( [ 'readonly'=>'true' ] ) ?>
+    	<?= $form->field( $model, 'slideHeight' )->textInput( [ 'readonly'=>'true' ] ) ?>
     	<?= $form->field( $model, 'scrollAuto' )->checkbox( [ 'disabled'=>'true' ] ) ?>
-    	<?= $form->field( $model, 'scrollManual' )->checkbox( [ 'disabled'=>'true' ] ) ?>
+    	<?= $form->field( $model, 'scrollType' )->dropDownList( $scrollTypeMap, [ 'disabled'=>'true' ] ) ?>
     	<?= $form->field( $model, 'circular' )->checkbox( [ 'disabled'=>'true' ] ) ?>
 
 		<div class="box-filler"></div>
@@ -31,5 +31,5 @@ $this->title 	= $coreProperties->getSiteTitle() . ' | Delete Slider';
 </section>
 
 <script type="text/javascript">
-	initSidebar( "sidebar-slider", -1 );
+	initSidebar( "sidebar-slider", 0 );
 </script>

@@ -18,7 +18,7 @@ $this->title 	= $coreProperties->getSiteTitle() . ' | Update Slider';
     	<?= $form->field( $model, 'slideWidth' ) ?>
     	<?= $form->field( $model, 'slideHeight' ) ?>
     	<?= $form->field( $model, 'scrollAuto' )->checkbox() ?>
-    	<?= $form->field( $model, 'scrollManual' )->checkbox() ?>
+    	<?= $form->field( $model, 'scrollType' )->dropDownList( $scrollTypeMap ) ?>
     	<?= $form->field( $model, 'circular' )->checkbox() ?>
  
 		<div class="box-filler"></div>
@@ -31,5 +31,5 @@ $this->title 	= $coreProperties->getSiteTitle() . ' | Update Slider';
 </section>
 
 <script type="text/javascript">
-	initSidebar( "sidebar-slider", -1 );
+	initSidebar( "sidebar-slider", 0 );
 </script>

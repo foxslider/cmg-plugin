@@ -20,6 +20,13 @@ class Module extends \yii\base\Module {
 
         $this->setViewPath( '@foxslider/views' );
     }
+
+	public function getSidebarHtml() {
+
+		$path	= Yii::getAlias( "@foxslider" ) . "/views/sidebar.php";
+
+		return $path;
+	}
 }
 
 ?>

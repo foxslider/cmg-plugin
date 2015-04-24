@@ -59,7 +59,7 @@ class SlideService extends Service {
 		$slider		= SliderService::findById( $slide->sliderId );
 
 		// Save Slide Image to Slide Dimensions
-		FileService::saveImage( $slideImage, $user, $slide, "imageId", Yii::$app->fileManager, $slider->slideWidth, $slider->slideHeight );
+		FileService::saveImage( $slideImage, $user, [ 'model' => $slide, 'attribute' => 'imageId', 'width' => $slider->slideWidth, 'height' => $slider->slideHeight ] );
 
 		// commit slide
 		$slide->save();
@@ -83,7 +83,7 @@ class SlideService extends Service {
 		$slideToUpdate->copyForUpdateFrom( $slide, [ 'name', 'description', 'content', 'url', 'imageId' ] );
 
 		// Save Slide Image
-		FileService::saveImage( $slideImage, $user, $slideToUpdate, "imageId", Yii::$app->fileManager, $slider->slideWidth, $slider->slideHeight );
+		FileService::saveImage( $slideImage, $user, [ 'model' => $slide, 'attribute' => 'imageId', 'width' => $slider->slideWidth, 'height' => $slider->slideHeight ] );
 
 		$slideToUpdate->update();
 

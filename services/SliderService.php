@@ -31,12 +31,12 @@ class SliderService extends Service {
 
 	public static function getIdList() {
 
-		return self::findKeyList( 'id', FXSTables::TABLE_SLIDER );
+		return self::findList( 'id', FxsTables::TABLE_SLIDER );
 	}
 
 	public static function getIdNameMap() {
 
-		return self::findKeyValueMap( 'id', 'name', FXSTables::TABLE_SLIDER );
+		return self::findMap( 'id', 'name', FxsTables::TABLE_SLIDER );
 	}
 
 	// Pagination -------
@@ -76,7 +76,7 @@ class SliderService extends Service {
 		$sliderToUpdate	= self::findById( $slider->id );
 		
 		// Copy Attributes
-		$sliderToUpdate->copyForUpdateFrom( $slider, [ 'name', 'description', 'width', 'height', 'slideWidth', 'slideHeight', 'fullPage', 'scrollAuto', 'scrollManual', 'circular'] );
+		$sliderToUpdate->copyForUpdateFrom( $slider, [ 'name', 'description', 'width', 'height', 'slideWidth', 'slideHeight', 'fullPage', 'scrollAuto', 'scrollType', 'circular'] );
 		
 		// Update Slider
 		$sliderToUpdate->update();

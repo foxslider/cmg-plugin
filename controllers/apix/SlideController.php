@@ -8,24 +8,21 @@ use yii\web\NotFoundHttpException;
 
 // CMG Imports
 use cmsgears\core\common\config\CoreGlobal;
-use cmsgears\core\common\config\CoreProperties;
 
 use cmsgears\core\common\models\entities\CmgFile;
-use cmsgears\core\common\models\entities\Permission;
 
 use cmsgears\core\admin\controllers\BaseController;
 
-use cmsgears\core\common\utilities\MessageUtil;
 use cmsgears\core\common\utilities\AjaxUtil;
 
 // FXS Imports
+use foxslider\config\FxsCoreGlobal;
+
 use foxslider\models\entities\Slide;
 
 use foxslider\services\SlideService;
 
 class SlideController extends BaseController {
-
-	protected $coreProperties;
 
 	// Constructor and Initialisation ------------------------------
 
@@ -43,9 +40,9 @@ class SlideController extends BaseController {
         return [
             'rbac' => [
                 'class' => Yii::$app->cmgCore->getRbacFilterClass(),
-                'permissions' => [
-	                'create' => Permission::PERM_SLIDER,
-	                'update' => Permission::PERM_SLIDER
+                'actions' => [
+	                'create' => [ 'permission' => FxsCoreGlobal::PERM_SLIDER ],
+	                'update' => [ 'permission' => FxsCoreGlobal::PERM_SLIDER ]
                 ]
             ],
             'verbs' => [
@@ -79,14 +76,14 @@ class SlideController extends BaseController {
 			$responseData	= $slide->getAttributes( [ 'id', 'sliderId', 'name', 'description' ] );
 
 			// Trigger Ajax Success
-			AjaxUtil::generateSuccess( MessageUtil::getMessage( CoreGlobal::MESSAGE_REQUEST ), $responseData );
+			AjaxUtil::generateSuccess( Yii::$app->cmgCoreMessageSource->getMessage( CoreGlobal::MESSAGE_REQUEST ), $responseData );
 		}
 
 		// Generate Errors
 		$errors = AjaxUtil::generateErrorMessage( $slide );
 
 		// Trigger Ajax Success
-        AjaxUtil::generateFailure( MessageUtil::getMessage( CoreGlobal::ERROR_REQUEST ), $errors );
+        AjaxUtil::generateFailure( Yii::$app->cmgCoreMessageSource->getMessage( CoreGlobal::ERROR_REQUEST ), $errors );
 	}
 	
 	public function actionUpdate( $id ) {
@@ -107,7 +104,7 @@ class SlideController extends BaseController {
 				if( SlideService::update( $slide, $slideImage ) ) {
 
 					// Trigger Ajax Success
-					AjaxUtil::generateSuccess( MessageUtil::getMessage( CoreGlobal::MESSAGE_REQUEST ) );
+					AjaxUtil::generateSuccess( Yii::$app->cmgCoreMessageSource->getMessage( CoreGlobal::MESSAGE_REQUEST ) );
 				}	
 			}
 		}
@@ -116,7 +113,7 @@ class SlideController extends BaseController {
 		$errors = AjaxUtil::generateErrorMessage( $slide );
 
 		// Trigger Ajax Success
-        AjaxUtil::generateFailure( MessageUtil::getMessage( CoreGlobal::ERROR_REQUEST ), $errors );
+        AjaxUtil::generateFailure( Yii::$app->cmgCoreMessageSource->getMessage( CoreGlobal::ERROR_REQUEST ), $errors );
 	}
 }
 

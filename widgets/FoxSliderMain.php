@@ -17,11 +17,46 @@ class FoxSliderMain extends Widget {
 
 	// Public Variables --------------------
 
+	// html options for Yii Widget
 	public $options 	= [];
-	public $fxOptions	= [];
+
+	// FoxSlider JQuery Plugin Options
+	public $fxOptions	= [
+		// Controls
+		'bullets' => false,
+		'bulletsIndexing' => false,
+		'controls' => false,
+		'bulletClass' => null,
+		'lcontrolClass' => null,
+		'rcontrolClass' => null,
+		'lcontrolContent' => null,
+		'rcontrolContent' => null,
+		// Scrolling
+		'autoScroll' => true,
+		'autoScrollType' => 'left',
+		'autoScrollDuration' => 5000,
+		'stopOnHover' => true,
+		// Full Page Background - Body Background
+		'fullPage' => false,
+		// Custom Dimensions
+		'sliderWidth' => 0,
+		'sliderHeight' => 0,
+		'slideWidth' => 0,
+		'slideHeight' => 0,
+		// Listener Callback for pre processing
+		'preSlideChange' => null,
+		// Listener Callback for post processing
+		'postSlideChange' => null
+	];
+
+	// Additional Configuration
+	public $slideTexture	= '';
+
 	public $includeScripts;
-	public $uploadUrl;
     public $sliderName;
+
+	// TODO: Add options to use background image using img tag
+	public $imageSeo;
 
 	// Constructor and Initialisation ------------------------------
 
@@ -53,9 +88,17 @@ class FoxSliderMain extends Widget {
 
 		$slider	= SliderService::findByName( $this->sliderName );
 		$items 	= [];
-		
+
 		if( isset( $slider ) ) {
 
+			// Additional Config
+			if( isset( $this->slideTexture ) ) {
+				
+				$this->slideTexture	= "<div class='$this->slideTexture'></div>";
+			}
+
+			// Generate Slides Html
+		
 			$slides = $slider->slides;	
 	
 	        foreach( $slides as $slide ) {
@@ -78,20 +121,45 @@ class FoxSliderMain extends Widget {
 
     public function renderItem( $slide ) {
 
-		$slideImage		= $slide->slideImage;
-		$slideTitle		= $slide->getName();
-		$slideDesc		= $slide->getDesc();
-		$slideUrl		= $slide->getUrl();
-		$slideImageUrl	= $this->uploadUrl . $slideImage->getUrl();
-		$slideImageAlt	= $slideImage->getAltText();
+		$slideImage		= $slide->image;
+		$slideTitle		= $slide->name;
+		$slideDesc		= $slide->description;
+		$slideContent	= $slide->content;
+		$slideUrl		= $slide->url;
+		$slideImageUrl	= $slideImage->getFileUrl();
+		$slideImageAlt	= $slideImage->altText;
 
 		if( isset( $slideUrl ) && strlen( $slideUrl ) > 0 ) {
 
-			$slideHtml	= "<div><a href='$slideUrl'><img src='$slideImageUrl' alt='$slideImageAlt' /></a><span class='title'>$slideTitle</span><span class='description'>$slideDesc</span></div>";
+			$slideHtml	= "<div>
+								<a href='$slideUrl'>
+									<div class='slide-content' style='background-image:url($slideImageUrl)'>
+										$this->slideTexture
+										<div class='info'>
+											<span class='title'>$slideTitle</span>
+											<span class='description'>$slideDesc</span>
+										</div>
+										<div class='content'>
+											$slideContent
+										</div>
+									</div>
+								</a>
+							</div>";
 		}
 		else {
 
-			$slideHtml	= "<div><img src='$slideImageUrl' alt='$slideImageAlt' /><span class='title'>$slideTitle</span><span class='description'>$slideDesc</span></div>";
+			$slideHtml	= "<div>
+								<div class='slide-content' style='background-image:url($slideImageUrl)'>
+									$this->slideTexture
+									<div class='info'>
+										<span class='title'>$slideTitle</span>
+										<span class='description'>$slideDesc</span>
+									</div>
+									<div class='content'>
+										$slideContent
+									</div>
+								</div>
+							</div>";
 		}
 
 		return $slideHtml;

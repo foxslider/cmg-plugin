@@ -29,7 +29,7 @@ class Slide extends CmgEntity {
 
         return [
             [ [ 'sliderId', 'name' ], 'required' ],
-            [ 'name', 'alphanumspace' ],
+            [ 'name', 'alphanumhyphenspace' ],
             [ 'name', 'validateNameCreate', 'on' => [ 'create' ] ],
             [ 'name', 'validateNameUpdate', 'on' => [ 'update' ] ],
 			[ [ 'url', 'description', 'content' ], 'safe' ]
@@ -80,7 +80,7 @@ class Slide extends CmgEntity {
 
 	public static function tableName() {
 
-		return FXSTables::TABLE_SLIDE;
+		return FxsTables::TABLE_SLIDE;
 	}
 
 	// Slide -----------
