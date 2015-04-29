@@ -22,7 +22,7 @@
 		// Autoplay
 		if( settings.autoScroll ) {
 			
-			startautoScroll();
+			startAutoScroll();
 		}
 
 		// Windows resize
@@ -234,9 +234,9 @@
 				
 				bullets.append( bullet );
 			}
-		
-			slider.find(".bullet").click( function() {
-		
+
+			slider.find( ".bullet" ).click( function() {
+
 				showSelectedSlide( fx( this ) );
 			});
 
@@ -244,7 +244,7 @@
 			activateBullet( slider, 0 );
 		}
 		
-		function startautoScroll() {
+		function startAutoScroll() {
 
 			setInterval(function() {
 				
@@ -430,11 +430,11 @@
 		function showSelectedSlide( bullet ) {
 
 			var slider			= bullet.parent().parent();
-			var filmstrip		= slider.find(".slides-wrap");
-			var slidesSelector	= slider.find(".slide");
-			var slideWidth		= parseInt( slidesSelector.css("width") );
+			var filmstrip		= slider.find( ".slides-wrap" );
+			var slidesSelector	= slider.find( ".slide" );
+			var slideWidth		= parseInt( slidesSelector.css( "width" ) );
 			var slidesCount		= slidesSelector.length;
-			var bulletNum		= parseInt( bullet.html() ) - 1;
+			var bulletNum		= parseInt( bullet.attr( "slide" ) );
 
 			var activeSlide		= slidesSelector.first();
 			var activeSlideId	= parseInt( activeSlide.attr( "slide" ) );
