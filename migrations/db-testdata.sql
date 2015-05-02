@@ -14,7 +14,7 @@ INSERT INTO `cmg_role` VALUES
 --
 
 INSERT INTO `cmg_permission` VALUES 
-	(1501,1,1,'slider','The permission slider is to manage slider from admin.','2014-10-11 14:22:54','2014-10-11 14:22:54');
+	(1501,1,1,'foxslider','The permission foxslider is to manage foxslider from admin.','2014-10-11 14:22:54','2014-10-11 14:22:54');
 
 --
 -- Dumping data for table `cmg_role_permission`
