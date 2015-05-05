@@ -126,8 +126,14 @@ class FoxSliderMain extends Widget {
 		$slideDesc		= $slide->description;
 		$slideContent	= $slide->content;
 		$slideUrl		= $slide->url;
-		$slideImageUrl	= $slideImage->getFileUrl();
-		$slideImageAlt	= $slideImage->altText;
+		$slideImageUrl	= '';
+		$slideImageAlt	= '';
+
+		if( isset( $slideImage ) ) {
+
+			$slideImageUrl	= $slideImage->getFileUrl();
+			$slideImageAlt	= $slideImage->altText;
+		}
 
 		if( isset( $slideUrl ) && strlen( $slideUrl ) > 0 ) {
 
