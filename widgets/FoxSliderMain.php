@@ -24,9 +24,9 @@ class FoxSliderMain extends Widget {
 	public $fxOptions	= [
 		// Controls
 		'bullets' => false,
-		'bulletsIndexing' => false,
-		'controls' => false,
+		'bulletsIndexing' => true,
 		'bulletClass' => null,
+		'controls' => false,
 		'lcontrolClass' => null,
 		'rcontrolClass' => null,
 		'lcontrolContent' => null,
@@ -43,6 +43,9 @@ class FoxSliderMain extends Widget {
 		'sliderHeight' => 0,
 		'slideWidth' => 0,
 		'slideHeight' => 0,
+		// Resize Background Image
+		'resizeBkgImage' => false,
+		'bkgImageClass' => null,
 		// Listener Callback for pre processing
 		'preSlideChange' => null,
 		// Listener Callback for post processing
@@ -50,13 +53,10 @@ class FoxSliderMain extends Widget {
 	];
 
 	// Additional Configuration
-	public $slideTexture	= '';
+	public $slideTexture	= null;
 
 	public $includeScripts;
     public $sliderName;
-
-	// TODO: Add options to use background image using img tag
-	public $imageSeo;
 
 	// Constructor and Initialisation ------------------------------
 
@@ -94,7 +94,7 @@ class FoxSliderMain extends Widget {
 			// Additional Config
 			if( isset( $this->slideTexture ) ) {
 				
-				$this->slideTexture	= "<div class='$this->slideTexture'></div>";
+				$this->slideTexture	= "<div class='texture $this->slideTexture'></div>";
 			}
 
 			// Generate Slides Html
@@ -128,22 +128,31 @@ class FoxSliderMain extends Widget {
 		$slideUrl		= $slide->url;
 		$slideImageUrl	= '';
 		$slideImageAlt	= '';
+		$bkgImage		= "<div class='slide-content'>";
 
 		if( isset( $slideImage ) ) {
 
 			$slideImageUrl	= $slideImage->getFileUrl();
 			$slideImageAlt	= $slideImage->altText;
+			$bkgImage		= "<div class='slide-content' style='background-image:url($slideImageUrl)'>";
+
+			if( isset( $this->fxOptions[ 'resizeBkgImage' ] ) && isset( $this->fxOptions[ 'bkgImageClass' ] ) && $this->fxOptions[ 'resizeBkgImage' ] ) {
+
+				$imgClass	= $this->fxOptions[ 'bkgImageClass' ];
+				$bkgImage	= "<img src='$slideImageUrl' class='$imgClass' alt='$slideImageAlt' />
+								<div class='slide-content'>";
+			}
 		}
 
 		if( isset( $slideUrl ) && strlen( $slideUrl ) > 0 ) {
 
 			$slideHtml	= "<div>
 								<a href='$slideUrl'>
-									<div class='slide-content' style='background-image:url($slideImageUrl)'>
+									$bkgImage
 										$this->slideTexture
 										<div class='info'>
-											<span class='title'>$slideTitle</span>
-											<span class='description'>$slideDesc</span>
+											<h2>$slideTitle</h2>
+											<p>$slideDesc</p>
 										</div>
 										<div class='content'>
 											$slideContent
@@ -155,11 +164,11 @@ class FoxSliderMain extends Widget {
 		else {
 
 			$slideHtml	= "<div>
-								<div class='slide-content' style='background-image:url($slideImageUrl)'>
+								$bkgImage
 									$this->slideTexture
 									<div class='info'>
-										<span class='title'>$slideTitle</span>
-										<span class='description'>$slideDesc</span>
+										<h2>$slideTitle</h2>
+										<p>$slideDesc</p>
 									</div>
 									<div class='content'>
 										$slideContent

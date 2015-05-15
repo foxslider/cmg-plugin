@@ -8,8 +8,8 @@
 		// == Init =================================================================== //
 
 		// Configure Sliders
-		var settings 	= fx.extend( {}, fx.fn.foxslider.defaults, options );
-		var sliders		= this;
+		var settings 		= fx.extend( {}, fx.fn.foxslider.defaults, options );
+		var sliders			= this;
 
 		// Iterate and initialise all the fox sliders
 		sliders.each( function() {
@@ -108,7 +108,8 @@
 		function normaliseSlides( slider ) {
 
 			// Calculate and set Slider Width
-			var sliderWidth		= slider.css( "width" );
+			var sliderWidth		= slider.width();
+			var sliderHeight	= slider.height();
 			var slidesWrapper	= slider.find( ".slides-wrap" );
 			var slidesSelector	= slider.find( ".slide" );
 
@@ -118,13 +119,14 @@
 				slider.css( { 'width': settings.sliderWidth + "px", 'height': settings.sliderHeight + "px" } );
 				
 				sliderWidth		= settings.sliderWidth;
+				sliderHeight	= settings.sliderHeight;
 			}
 
 			var slideWidth		= parseInt( sliderWidth );
+			var slideHeight		= parseInt( sliderHeight );
 			var slidesCount		= slidesSelector.length;
-			var sliderWidth		= slideWidth * slidesCount;
 
-			slidesWrapper.width( sliderWidth );
+			slidesWrapper.width( slideWidth * slidesCount );
 
 			// Initialise Slide Width and reposition
 			var count			= 0;
@@ -134,9 +136,9 @@
 			if( settings.slideWidth > 0 && settings.slideHeight > 0 ) {
 				
 				slideWidth 		= parseInt( settings.slideWidth );
-				sliderWidth		= slideWidth * slidesCount;
+				slideHeight		= parseInt( settings.slideHeight );
 
-				slidesWrapper.width( sliderWidth );
+				slidesWrapper.width( slideWidth * slidesCount );
 			}
 			
 			// Set slides dimensions
@@ -155,7 +157,38 @@
 				fx( this ).attr( "slide", count );
 		
 				currentPosition += slideWidth;
-				count++;				
+				count++;
+
+				// Resize background image if required
+				if( settings.resizeBkgImage && null != settings.bkgImageClass ) {
+
+					var image 	= fx( this ).children( "." + settings.bkgImageClass );
+
+					if( null != image && image.length > 0 ) {
+
+						var slideAspectRatio	= slideWidth / slideHeight;
+						var imageAspectRatio	= image[0].width / image[0].height;
+
+						if ( slideAspectRatio > imageAspectRatio ) {
+
+							image.removeClass( 'width-100 height-100' );
+							image.addClass( 'width-100' );
+
+							var adjust = ( image.height() - slideHeight ) / 2;
+
+							image.css( { 'margin-top': "-" + adjust + "px" } );
+						}
+						else {
+
+							image.removeClass( 'width-100 height-100' );
+							image.addClass( 'height-100' );
+
+							var adjust = ( image.width() - slideWidth ) / 2;
+
+							image.css( { 'margin-left': "-" + adjust + "px" } );
+						}
+					}
+				}
 			});
 		}
 		
@@ -302,7 +335,7 @@
 			}
 
 			slidesSelector.each( function() {
-				
+
 				fx( this ).css( { 'left': currentPosition + 'px', 'right' : '' } );
 
 				currentPosition += slideWidth;
@@ -480,8 +513,8 @@
 		// Controls
 		bullets: false,
 		bulletsIndexing: false,
-		controls: false,
 		bulletClass: null,
+		controls: false,
 		lcontrolClass: null,
 		rcontrolClass: null,
 		lcontrolContent: null,
@@ -498,6 +531,9 @@
 		sliderHeight: 0,
 		slideWidth: 0,
 		slideHeight: 0,
+		// Resize Background Image
+		resizeBkgImage: false,
+		bkgImageClass: null,
 		// Listener Callback for pre processing
 		preSlideChange: null,
 		// Listener Callback for post processing
