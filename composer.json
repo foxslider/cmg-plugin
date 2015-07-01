@@ -1,5 +1,5 @@
 {
-	"name": "foxslider/cmg-foxslider",
+	"name": "foxslider/cmg-plugin",
 	"description": "The foxslider module for CMSGears.",
 	"homepage": "http://www.foxslider.com", 
 	"type": "package",

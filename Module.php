@@ -4,9 +4,6 @@ namespace foxslider;
 // Yii Imports
 use \Yii;
 
-// CMG Imports
-use cmsgears\core\common\validators\CoreValidator;
-
 class Module extends \yii\base\Module {
 
     public $controllerNamespace = 'foxslider\controllers';
@@ -16,14 +13,15 @@ class Module extends \yii\base\Module {
         parent::init();
 
 		// Set FoxSlider
-		Yii::setAlias( "foxslider", __DIR__ );
+		Yii::setAlias( 'foxslider', __DIR__ );
 
+		// Views
         $this->setViewPath( '@foxslider/views' );
     }
 
 	public function getSidebarHtml() {
 
-		$path	= Yii::getAlias( "@foxslider" ) . "/views/sidebar.php";
+		$path	= Yii::getAlias( '@foxslider' ) . '/views/sidebar.php';
 
 		return $path;
 	}

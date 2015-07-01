@@ -80,7 +80,7 @@ class FoxSliderMain extends Widget {
 		// Output Javascript at the end of Page
 		if( $this->includeScripts ) {
 
-        	FoxSliderAsset::register( $this->getView() );
+        	MainAssetBundle::register( $this->getView() );
 		}
     }
 
