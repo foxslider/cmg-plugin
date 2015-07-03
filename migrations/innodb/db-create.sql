@@ -1,4 +1,4 @@
-SET FOREIGN_KEY_CHECKS=0;
+/* ============================= FoxSlider ================================================== */
 
 --
 -- Table structure for table `fxs_slider`
@@ -17,7 +17,7 @@ CREATE TABLE `fxs_slider` (
   `slideWidth` smallint(6) DEFAULT NULL,
   `slideHeight` smallint(6) DEFAULT NULL,
   `scrollAuto` tinyint(1) NOT NULL DEFAULT 0,
-  `scrollType` tinyint(1) NOT NULL DEFAULT 0,
+  `scrollType` smallint(6) NOT NULL DEFAULT 0,
   `circular` tinyint(1) NOT NULL DEFAULT 0,  
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -40,11 +40,18 @@ CREATE TABLE `fxs_slide` (
   `url` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `order` smallint(6) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
-  KEY `fk_slide_1` (`sliderId`),
-  KEY `fk_slide_2` (`imageId`),
-  CONSTRAINT `fk_slide_1` FOREIGN KEY (`sliderId`) REFERENCES `fxs_slider` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `fk_slide_2` FOREIGN KEY (`imageId`) REFERENCES `cmg_file` (`id`)
+  KEY `fk_fxs_slide_1` (`sliderId`),
+  KEY `fk_fxs_slide_2` (`imageId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+SET FOREIGN_KEY_CHECKS=0;
+
+--
+-- Constraints for table `fxs_slide`
+--
+ALTER TABLE `fxs_slide`
+	ADD CONSTRAINT `fk_fxs_slide_1` FOREIGN KEY (`sliderId`) REFERENCES `fxs_slider` (`id`) ON DELETE CASCADE,
+	ADD CONSTRAINT `fk_fxs_slide_2` FOREIGN KEY (`imageId`) REFERENCES `cmg_core_file` (`id`) ON DELETE CASCADE;
 
 SET FOREIGN_KEY_CHECKS=1;
