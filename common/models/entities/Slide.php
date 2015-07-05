@@ -1,5 +1,8 @@
 <?php
-namespace foxslider\models\entities;
+namespace foxslider\common\models\entities;
+
+// Yii Imports
+use \Yii;
 
 // CMG Imports
 use cmsgears\core\common\config\CoreGlobal;
@@ -7,8 +10,18 @@ use cmsgears\core\common\config\CoreGlobal;
 use cmsgears\core\common\models\entities\CmgEntity;
 use cmsgears\core\common\models\entities\CmgFile;
 
-use cmsgears\core\common\utilities\MessageUtil;
-
+/**
+ * Slide Entity
+ *
+ * @property integer $id
+ * @property integer $sliderId
+ * @property integer $imageId
+ * @property string $name
+ * @property string $description
+ * @property string $content
+ * @property string $url
+ * @property integer $order
+ */
 class Slide extends CmgEntity {
 
 	// Instance Methods --------------------------------------------
@@ -23,7 +36,7 @@ class Slide extends CmgEntity {
 		return $this->hasOne( Slider::className(), [ 'id' => 'sliderId' ] );
 	}
 
-	// yii\base\Model
+	// yii\base\Model --------------------
 
 	public function rules() {
 
@@ -50,12 +63,10 @@ class Slide extends CmgEntity {
     public function validateNameCreate( $attribute, $params ) {
 
         if( !$this->hasErrors() ) {
-			
-			$slide = self::findByNameSliderName( $this->name, $this->sliderId );
 
-            if( $slide ) {
+            if( self::isExistByNameSliderId( $this->name, $this->sliderId ) ) {
 
-				$this->addError( $attribute, MessageUtil::getMessage( CoreGlobal::ERROR_ENTRY_EXIST_NAME ) );
+				$this->addError( $attribute, Yii::$app->cmgCoreMessage->getMessage( CoreGlobal::ERROR_EXIST ) );
             }
         }
     }
@@ -69,14 +80,14 @@ class Slide extends CmgEntity {
 			if( isset( $existingSlide ) && $existingSlide->id != $this->id && 
 				 strcmp( $existingSlide->name, $this->name ) == 0 && $existingSlide->sliderId == $this->sliderId ) {
 
-				$this->addError( $attribute, MessageUtil::getMessage( CoreGlobal::ERROR_ENTRY_EXIST_NAME ) );
+				$this->addError( $attribute, Yii::$app->cmgCoreMessage->getMessage( CoreGlobal::ERROR_EXIST ) );
 			}
         }
     }
 
 	// Static Methods ----------------------------------------------
 
-	// yii\db\ActiveRecord
+	// yii\db\ActiveRecord ---------------
 
 	public static function tableName() {
 
@@ -84,7 +95,7 @@ class Slide extends CmgEntity {
 	}
 
 	// Slide -----------
-	
+
 	// Read
 
 	public static function findById( $id ) {
@@ -100,6 +111,16 @@ class Slide extends CmgEntity {
 	public static function findByNameSliderId( $name, $sliderId ) {
 
 		return Slide::find()->where( 'sliderId=:id', [ ':id' => $sliderId ] )->andwhere( 'name=:name', [ ':name' => $name ] )->one();
+	}
+
+	/**
+	 * @return boolean - check whether slide exist by name and slider id
+	 */
+	public static function isExistByNameSliderId( $name, $sliderId ) {
+
+		$slide = self::findByNameSliderId( $name, $sliderId );
+
+		return isset( $slide );
 	}
 
 	// Delete

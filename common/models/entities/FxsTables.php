@@ -1,5 +1,5 @@
 <?php
-namespace foxslider\models\entities;
+namespace foxslider\common\models\entities;
 
 class FxsTables {
 

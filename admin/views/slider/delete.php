@@ -4,6 +4,10 @@ use yii\helpers\Html;
 
 $coreProperties = $this->context->getCoreProperties();
 $this->title 	= $coreProperties->getSiteTitle() . ' | Delete Slider';
+
+// Sidebar
+$this->params['sidebar-parent'] = 'sidebar-slider';
+$this->params['sidebar-child'] 	= 'slider';
 ?>
 <section class="wrap-content container clearfix">
 	<div class="cud-box">
@@ -29,7 +33,3 @@ $this->title 	= $coreProperties->getSiteTitle() . ' | Delete Slider';
 		<?php ActiveForm::end(); ?>
 	</div>
 </section>
-
-<script type="text/javascript">
-	initSidebar( "sidebar-slider", 0 );
-</script>

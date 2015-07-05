@@ -1,11 +1,31 @@
 <?php
-namespace foxslider\models\entities;
+namespace foxslider\common\models\entities;
+
+// Yii Imports
+use \Yii;
 
 // CMG Imports
+use cmsgears\core\common\config\CoreGlobal;
+
 use cmsgears\core\common\models\entities\NamedCmgEntity;
 
+/**
+ * Slider Entity
+ *
+ * @property integer $id
+ * @property string $name
+ * @property string $description
+ * @property boolean $fullPage
+ * @property integer $width
+ * @property integer $height
+ * @property integer $slideWidth
+ * @property integer $slideHeight
+ * @property boolean $scrollAuto
+ * @property integer $scrollType
+ * @property boolean $circular
+ */
 class Slider extends NamedCmgEntity {
-	
+
 	const SCROLL_LEFT	=  0;
 	const SCROLL_RIGHT	=  5;
 	const SCROLL_UP		= 10;
@@ -21,13 +41,13 @@ class Slider extends NamedCmgEntity {
 	// Instance Methods --------------------------------------------
 
 	public function getFullPageStr() {
-
-		return $this->fullPage ? "yes" : "no";	
+		
+		return Yii::$app->formatter->asBoolean( $this->fullPage );	
 	}
 
 	public function getScrollAutoStr() {
 
-		return $this->scrollAuto ? "yes" : "no";	
+		return Yii::$app->formatter->asBoolean( $this->scrollAuto );	
 	}
 
 	public function getScrollTypeStr() {
@@ -37,7 +57,7 @@ class Slider extends NamedCmgEntity {
 
 	public function getCircularStr() {
 
-		return $this->circular ? "yes" : "no";	
+		return Yii::$app->formatter->asBoolean( $this->circular );	
 	}
 
 	public function getSlides() {
@@ -45,25 +65,25 @@ class Slider extends NamedCmgEntity {
     	return $this->hasMany( Slide::className(), [ 'sliderId' => 'id' ] );
 	}
 
-	// yii\base\Model
+	// yii\base\Model --------------------
 
 	public function rules() {
 
         return [
             [ [ 'name', 'fullPage', 'slideWidth', 'slideHeight', 'scrollAuto', 'scrollType', 'circular' ], 'required' ],
-            [ [ 'width', 'height','slideWidth', 'slideHeight' ], 'number', 'integerOnly'=>true ],
+            [ [ 'description' ], 'safe' ],
+            [ [ 'width', 'height', 'slideWidth', 'slideHeight' ], 'number', 'integerOnly' => true, 'min' => 0 ],
             [ 'name', 'alphanumhyphenspace' ],
             [ 'name', 'validateNameCreate', 'on' => [ 'create' ] ],
-            [ 'name', 'validateNameUpdate', 'on' => [ 'update' ] ],
-            [ [ 'description' ], 'safe' ]
+            [ 'name', 'validateNameUpdate', 'on' => [ 'update' ] ]
         ];
     }
 
 	public function attributeLabels() {
 
 		return [
-			'name' => 'Name',
-			'desc' => 'Description',
+			'name' => Yii::$app->cmgCoreMessage->getMessage( CoreGlobal::FIELD_NAME ),
+			'desc' => Yii::$app->cmgCoreMessage->getMessage( CoreGlobal::FIELD_DESCRIPTION ),
 			'full_page' => 'Full Page',
 			'width' => 'Width',
 			'height' => 'Height',
@@ -77,24 +97,15 @@ class Slider extends NamedCmgEntity {
 
 	// Static Methods ----------------------------------------------
 
-	// yii\db\ActiveRecord
+	// yii\db\ActiveRecord ---------------
 	
 	public static function tableName() {
 		
 		return FxsTables::TABLE_SLIDER;
 	}
 
-	// Slider
+	// Slider ----------------------------
 
-	public static function findById( $id ) {
-
-		return Slider::find()->where( 'id=:id', [ ':id' => $id ] )->one();
-	}
-
-	public static function findByName( $name ) {
-
-		return Slider::find()->where( 'name=:name', [ ':name' => $name ] )->one();
-	}
 }
 
 ?>

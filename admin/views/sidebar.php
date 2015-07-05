@@ -16,7 +16,7 @@ $user	= Yii::$app->user->getIdentity();
 		</div>
 		<div class="collapsible-tab-content clear">
 			<ul>
-				<li><?= Html::a( "Sliders", ['/foxslider/slider/all'] ) ?></li>
+				<li class='slider'><?= Html::a( "Sliders", ['/foxslider/slider/all'] ) ?></li>
 			</ul>
 		</div>
 	</div>

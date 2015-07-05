@@ -1,19 +1,18 @@
 <?php
-namespace foxslider\services;
+namespace foxslider\common\services;
 
 // Yii Imports
 use \Yii;
-use yii\data\Sort;
 
 // CMG Imports
-use cmsgears\core\common\services\Service;
 
 // FXS Imports
-use foxslider\models\entities\FXSTables;
-use foxslider\models\entities\Slider;
-use foxslider\models\entities\Slide;
+use foxslider\common\models\entities\FXSTables;
 
-class SliderService extends Service {
+use foxslider\common\models\entities\Slider;
+use foxslider\common\models\entities\Slide;
+
+class SliderService extends \cmsgears\core\common\services\Service {
 
 	// Static Methods ----------------------------------------------
 
@@ -39,48 +38,41 @@ class SliderService extends Service {
 		return self::findMap( 'id', 'name', FxsTables::TABLE_SLIDER );
 	}
 
-	// Pagination -------
+	// Data Provider -------
 
-	public static function getPagination( $conditions = [] ) {
+	/**
+	 * @param array $config to generate query
+	 * @return ActiveDataProvider
+	 */
+	public static function getPagination( $config = [] ) {
 
-	    $sort = new Sort([
-	        'attributes' => [
-	            'name' => [
-	                'asc' => [ 'name' => SORT_ASC ],
-	                'desc' => [ 'name' => SORT_DESC ],
-	                'default' => SORT_DESC,
-	                'label' => 'name',
-	            ]
-	        ]
-	    ]);
-
-		return self::getPaginationDetails( new Slider(), [ 'sort' => $sort, 'search-col' => 'name' ] );
+		return self::getDataProvider( new Slider(), $config );
 	}
 
 	// Create -----------
 
 	public static function create( $slider ) {
-		
+
 		// Create Slider
 		$slider->save();
-		
+
 		// Return Slider
-		return true;
+		return $slider;
 	}
 
 	// Update -----------
 
 	public static function update( $slider ) {
-		
+
 		// Find existing slider
 		$sliderToUpdate	= self::findById( $slider->id );
-		
+
 		// Copy Attributes
-		$sliderToUpdate->copyForUpdateFrom( $slider, [ 'name', 'description', 'width', 'height', 'slideWidth', 'slideHeight', 'fullPage', 'scrollAuto', 'scrollType', 'circular'] );
-		
+		$sliderToUpdate->copyForUpdateFrom( $slider, [ 'name', 'description', 'width', 'height', 'slideWidth', 'slideHeight', 'fullPage', 'scrollAuto', 'scrollType', 'circular' ] );
+
 		// Update Slider
 		$sliderToUpdate->update();
-		
+
 		// Return updated Slider
 		return $sliderToUpdate;
 	}
@@ -88,10 +80,9 @@ class SliderService extends Service {
 	// Delete -----------
 
 	public static function delete( $slider ) {
-		
+
 		// Find existing slider
-		$sliderId		= $slider->id;
-		$existingSlider	= self::findById( $sliderId );
+		$existingSlider	= self::findById( $slider->id );
 
 		// Clear all related slides
 		Slide::deleteBySliderId( $sliderId );

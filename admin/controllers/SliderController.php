@@ -1,5 +1,5 @@
 <?php
-namespace foxslider\controllers;
+namespace foxslider\admin\controllers;
 
 // Yii Imports
 use \Yii;
@@ -12,12 +12,12 @@ use cmsgears\core\common\config\CoreGlobal;
 use cmsgears\core\admin\controllers\BaseController;
 
 // FXS Imports
-use foxslider\config\FxsCoreGlobal;
+use foxslider\common\config\FxsCoreGlobal;
 
-use foxslider\models\entities\Slider;
+use foxslider\common\models\entities\Slider;
 
-use foxslider\services\SliderService;
-use foxslider\services\SlideService;
+use foxslider\admin\services\SliderService;
+use foxslider\admin\services\SlideService;
 
 class SliderController extends BaseController {
 
@@ -64,17 +64,15 @@ class SliderController extends BaseController {
 
 	public function actionIndex() {
 
-		$this->redirect( "all" );
+		$this->redirect( [ 'all' ] );
 	}
 
 	public function actionAll() {
 
-		$pagination = SliderService::getPagination();
+		$dataProvider = SliderService::getPagination();
 
-	    return $this->render('all', [
-	         'page' => $pagination['page'],
-	         'pages' => $pagination['pages'],
-	         'total' => $pagination['total']
+	    return $this->render( 'all', [
+	         'dataProvider' => $dataProvider
 	    ]);
 	}
 
@@ -82,17 +80,17 @@ class SliderController extends BaseController {
 
 		$model	= new Slider();
 
-		$model->setScenario( "create" );
+		$model->setScenario( 'create' );
 
-		if( $model->load( Yii::$app->request->post( "Slider" ), "" )  && $model->validate() ) {
+		if( $model->load( Yii::$app->request->post(), 'Slider' )  && $model->validate() ) {
 
 			if( SliderService::create( $model ) ) {
 
-				return $this->redirect( "all" );
+				return $this->redirect([ 'all' ] );
 			}
 		}
 
-    	return $this->render('create', [
+    	return $this->render( 'create', [
     		'model' => $model,
     		'scrollTypeMap' => Slider::$scrollTypeMap
     	]);
@@ -106,24 +104,24 @@ class SliderController extends BaseController {
 		// Update/Render if exist
 		if( isset( $model ) ) {
 
-			$model->setScenario( "update" );
+			$model->setScenario( 'update' );
 	
-			if( $model->load( Yii::$app->request->post( "Slider" ), "" )  && $model->validate() ) {
+			if( $model->load( Yii::$app->request->post(), 'Slider' )  && $model->validate() ) {
 	
 				if( SliderService::update( $model ) ) {
 
-					$this->refresh();
+					return $this->redirect([ 'all' ] );
 				}
 			}
 
-	    	return $this->render('update', [
+	    	return $this->render( 'update', [
 	    		'model' => $model,
 	    		'scrollTypeMap' => Slider::$scrollTypeMap
 	    	]);			
 		}
 
 		// Model not found
-		throw new NotFoundHttpException( Yii::$app->cmgCoreMessageSource->getMessage( CoreGlobal::ERROR_NOT_FOUND ) );
+		throw new NotFoundHttpException( Yii::$app->cmgCoreMessage->getMessage( CoreGlobal::ERROR_NOT_FOUND ) );
 	}
 
 	public function actionDelete( $id ) {
@@ -134,42 +132,42 @@ class SliderController extends BaseController {
 		// Delete/Render if exist
 		if( isset( $model ) ) {
 
-			if( isset( $_POST ) && count( $_POST ) > 0 ) {
+			if( $model->load( Yii::$app->request->post(), 'Slider' ) ) {
 	
 				if( SliderService::delete( $model ) ) {
 		
-					return $this->redirect( "all" );
+					return $this->redirect( [ 'all' ] );
 				}
 			}
 
-	    	return $this->render('delete', [
+	    	return $this->render( 'delete', [
 	    		'model' => $model,
 	    		'scrollTypeMap' => Slider::$scrollTypeMap
 	    	]);
 		}
 
 		// Model not found
-		throw new NotFoundHttpException( Yii::$app->cmgCoreMessageSource->getMessage( CoreGlobal::ERROR_NOT_FOUND ) );	
+		throw new NotFoundHttpException( Yii::$app->cmgCoreMessage->getMessage( CoreGlobal::ERROR_NOT_FOUND ) );	
 	}
-	
+
 	public function actionSlides( $id ) {
-		
-		// Find Model		
+
+		// Find Model
 		$slider			= SliderService::findById( $id );
-		
+
 		// Update/Render if exist
 		if( isset( $slider ) ) {
-				
+
 			$slides 	= SlideService::findBySliderId( $slider->id );
 
-	    	return $this->render('slides', [
+	    	return $this->render( 'slides', [
 	    		'slider' => $slider,
 	    		'slides' => $slides
 	    	]);
 		}
 
 		// Model not found
-		throw new NotFoundHttpException( Yii::$app->cmgCoreMessageSource->getMessage( CoreGlobal::ERROR_NOT_FOUND ) );
+		throw new NotFoundHttpException( Yii::$app->cmgCoreMessage->getMessage( CoreGlobal::ERROR_NOT_FOUND ) );
 	}
 }
 
