@@ -8,8 +8,8 @@
 		// == Init =================================================================== //
 
 		// Configure Sliders
-		var settings 	= fx.extend( {}, fx.fn.foxslider.defaults, options );
-		var sliders		= this;
+		var settings 		= fx.extend( {}, fx.fn.foxslider.defaults, options );
+		var sliders			= this;
 
 		// Iterate and initialise all the fox sliders
 		sliders.each( function() {
@@ -20,9 +20,9 @@
 		});
 
 		// Autoplay
-		if( settings.autoPlay ) {
+		if( settings.autoScroll ) {
 			
-			startAutoplay();
+			startAutoScroll();
 		}
 
 		// Windows resize
@@ -60,7 +60,7 @@
 			}
 			else {
 
-				jQuery( ".fx-slider-control" ).hide();
+				jQuery( ".control" ).hide();
 			}
 
 			// Initialise Bullets
@@ -89,16 +89,16 @@
 				
 				var slide = fx( this );
 
-				slide.addClass( 'fx-slide' );
+				slide.addClass( 'slide' );
 			});
 
 			// wrap the slides
-			var sliderHtml		= "<div class='fx-slides-wrap'>" + slider.html() + "</div>";
-			sliderHtml		   += "<div class='fx-slider-control fx-slider-control-left opaque-50'></div><div class='fx-slider-control fx-slider-control-right opaque-50'></div>";
+			var sliderHtml		= "<div class='slides-wrap'>" + slider.html() + "</div>";
+			sliderHtml		   += "<div class='control control-left opaque-50'></div><div class='control control-right opaque-50'></div>";
 
 			if( settings.bullets ) {
 
-				sliderHtml	   += "<div class='fx-slider-bullets'></div>";				
+				sliderHtml	   += "<div class='bullets'></div>";				
 			}
 
 			slider.html( sliderHtml );	
@@ -108,9 +108,10 @@
 		function normaliseSlides( slider ) {
 
 			// Calculate and set Slider Width
-			var sliderWidth		= slider.css( "width" );
-			var slidesWrapper	= slider.find( ".fx-slides-wrap" );
-			var slidesSelector	= slider.find( ".fx-slide" );
+			var sliderWidth		= slider.width();
+			var sliderHeight	= slider.height();
+			var slidesWrapper	= slider.find( ".slides-wrap" );
+			var slidesSelector	= slider.find( ".slide" );
 
 			// Use settings for Slider dimensions
 			if( settings.sliderWidth > 0 && settings.sliderHeight > 0 ) {
@@ -118,13 +119,14 @@
 				slider.css( { 'width': settings.sliderWidth + "px", 'height': settings.sliderHeight + "px" } );
 				
 				sliderWidth		= settings.sliderWidth;
+				sliderHeight	= settings.sliderHeight;
 			}
 
 			var slideWidth		= parseInt( sliderWidth );
+			var slideHeight		= parseInt( sliderHeight );
 			var slidesCount		= slidesSelector.length;
-			var sliderWidth		= slideWidth * slidesCount;
 
-			slidesWrapper.width( sliderWidth );
+			slidesWrapper.width( slideWidth * slidesCount );
 
 			// Initialise Slide Width and reposition
 			var count			= 0;
@@ -134,9 +136,9 @@
 			if( settings.slideWidth > 0 && settings.slideHeight > 0 ) {
 				
 				slideWidth 		= parseInt( settings.slideWidth );
-				sliderWidth		= slideWidth * slidesCount;
+				slideHeight		= parseInt( settings.slideHeight );
 
-				slidesWrapper.width( sliderWidth );
+				slidesWrapper.width( slideWidth * slidesCount );
 			}
 			
 			// Set slides dimensions
@@ -155,7 +157,38 @@
 				fx( this ).attr( "slide", count );
 		
 				currentPosition += slideWidth;
-				count++;				
+				count++;
+
+				// Resize background image if required
+				if( settings.resizeBkgImage && null != settings.bkgImageClass ) {
+
+					var image 	= fx( this ).children( "." + settings.bkgImageClass );
+
+					if( null != image && image.length > 0 ) {
+
+						var slideAspectRatio	= slideWidth / slideHeight;
+						var imageAspectRatio	= image[0].width / image[0].height;
+
+						if ( slideAspectRatio > imageAspectRatio ) {
+
+							image.removeClass( 'width-100 height-100' );
+							image.addClass( 'width-100' );
+
+							var adjust = ( image.height() - slideHeight ) / 2;
+
+							image.css( { 'margin-top': "-" + adjust + "px" } );
+						}
+						else {
+
+							image.removeClass( 'width-100 height-100' );
+							image.addClass( 'height-100' );
+
+							var adjust = ( image.width() - slideWidth ) / 2;
+
+							image.css( { 'margin-left': "-" + adjust + "px" } );
+						}
+					}
+				}
 			});
 		}
 		
@@ -163,7 +196,7 @@
 		function initControls( slider ) {
 
 			// Show Controls
-			var controls 		= slider.find( ".fx-slider-controls" );
+			var controls 		= slider.find( ".controls" );
 			var lcontrolClass	= settings.lcontrolClass;
 			var rcontrolClass	= settings.rcontrolClass;
 			var lcontrolContent	= settings.lcontrolContent;
@@ -172,8 +205,8 @@
 			controls.show();
 
 			// Init Listeners				
-			var leftControl		= slider.find( ".fx-slider-control-left" );
-			var rightControl	= slider.find( ".fx-slider-control-right" );
+			var leftControl		= slider.find( ".control-left" );
+			var rightControl	= slider.find( ".control-right" );
 			
 			if( null != lcontrolClass ) {
 
@@ -209,9 +242,9 @@
 		// Initialise the Slider bullets
 		function initBullets( slider, bulletClass ) {
 
-			var slides			= slider.find( ".fx-slide" );
+			var slides			= slider.find( ".slide" );
 			var slidesCount		= slides.length;
-			var bullets			= slider.find( ".fx-slider-bullets" );
+			var bullets			= slider.find( ".bullets" );
 
 			if( null != bulletClass ) {
 
@@ -225,18 +258,18 @@
 				
 				if( settings.bulletsIndexing ) {
 					
-					bullet = "<div class='fx-slider-bullet' slide='" + i + "'>" + ( i + 1 ) + "</div>";
+					bullet = "<div class='bullet' slide='" + i + "'>" + ( i + 1 ) + "</div>";
 				}
 				else {
 					
-					bullet = "<div class='fx-slider-bullet' slide='" + i + "'></div>";
+					bullet = "<div class='bullet' slide='" + i + "'></div>";
 				}
 				
 				bullets.append( bullet );
 			}
-		
-			slider.find(".fx-slider-bullet").click( function() {
-		
+
+			slider.find( ".bullet" ).click( function() {
+
 				showSelectedSlide( fx( this ) );
 			});
 
@@ -244,11 +277,11 @@
 			activateBullet( slider, 0 );
 		}
 		
-		function startAutoplay() {
+		function startAutoScroll() {
 
 			setInterval(function() {
 				
-				if( settings.autoPlayDirection == 'left' ) {
+				if( settings.autoScrollType == 'left' ) {
 
 					sliders.each( function() {
 			
@@ -263,7 +296,7 @@
 						showNextSlide( slider );
 					});
 				}
-				else if( settings.autoPlayDirection == 'right' ) {
+				else if( settings.autoScrollType == 'right' ) {
 
 					sliders.each( function() {
 			
@@ -279,7 +312,7 @@
 					});
 				}
 
-			}, settings.autoPlayDuration );
+			}, settings.autoScrollDuration );
 		}
 
 		// == Slides Movements ============================= //
@@ -287,10 +320,10 @@
 		// Calculate and re-position slides to form filmstrip
 		function resetSlides( slider ) {
 
-			var slidesSelector	= slider.find( ".fx-slide" );
+			var slidesSelector	= slider.find( ".slide" );
 			var slideWidth		= parseInt( slider.css("width") );
 			var currentPosition	= 0;
-			var filmstrip		= slider.find( ".fx-slides-wrap" );
+			var filmstrip		= slider.find( ".slides-wrap" );
 
 			// reset filmstrip
 			filmstrip.css( { left: 0 + "px", 'right' : '' } );
@@ -302,7 +335,7 @@
 			}
 
 			slidesSelector.each( function() {
-				
+
 				fx( this ).css( { 'left': currentPosition + 'px', 'right' : '' } );
 
 				currentPosition += slideWidth;
@@ -312,11 +345,11 @@
 		// Show Previous Slide on clicking next button
 		function showNextSlide( slider ) {
 
-			var slidesSelector	= slider.find(".fx-slide");
+			var slidesSelector	= slider.find(".slide");
 			var firstSlide		= slidesSelector.first();
 			var firstSlideIndex	= firstSlide.attr( "slide" );
 			var slideWidth		= parseInt( slidesSelector.css("width") );
-			var filmstrip		= slider.find(".fx-slides-wrap");
+			var filmstrip		= slider.find(".slides-wrap");
 
 			// do pre processing
 			if( null != settings.preSlideChange ) {
@@ -336,14 +369,14 @@
 						var slider = fx( this ).parent();
 
 						// Remove first and append to last
-						var slidesSelector	= slider.find(".fx-slide");
+						var slidesSelector	= slider.find(".slide");
 						var firstSlide		= slidesSelector.first();
 						firstSlide.insertAfter( slidesSelector.eq( slidesSelector.length - 1 ) );
 						firstSlide.css( "right", -slideWidth );
 						
 						resetSlides( slider );
 						
-						slidesSelector		= slider.find(".fx-slide");
+						slidesSelector		= slider.find(".slide");
 						firstSlide			= slidesSelector.first();
 						var activeSlide		= firstSlide.attr( "slide" );
 
@@ -369,11 +402,11 @@
 		// Show Next Slide on clicking previous button
 		function showPrevSlide( slider ) {
 
-			var slidesSelector	= slider.find(".fx-slide");
+			var slidesSelector	= slider.find(".slide");
 			var firstSlide		= slidesSelector.first();
 			var firstSlideIndex	= firstSlide.attr( "slide" );
 			var slideWidth		= parseInt( slidesSelector.css("width") );
-			var filmstrip		= slider.find(".fx-slides-wrap");
+			var filmstrip		= slider.find(".slides-wrap");
 
 			// do pre processing
 			if( null != settings.preSlideChange ) {
@@ -422,19 +455,19 @@
 		// Change active Bullet
 		function activateBullet( slider, bulletNum ) {
 
-			slider.find(".fx-slider-bullet").removeClass( "active" );
-			slider.find(".fx-slider-bullet[slide='" + bulletNum + "']").addClass( "active" );
+			slider.find(".bullet").removeClass( "active" );
+			slider.find(".bullet[slide='" + bulletNum + "']").addClass( "active" );
 		}
 
 		// Show Slide on Bullet click
 		function showSelectedSlide( bullet ) {
 
 			var slider			= bullet.parent().parent();
-			var filmstrip		= slider.find(".fx-slides-wrap");
-			var slidesSelector	= slider.find(".fx-slide");
-			var slideWidth		= parseInt( slidesSelector.css("width") );
+			var filmstrip		= slider.find( ".slides-wrap" );
+			var slidesSelector	= slider.find( ".slide" );
+			var slideWidth		= parseInt( slidesSelector.css( "width" ) );
 			var slidesCount		= slidesSelector.length;
-			var bulletNum		= parseInt( bullet.html() ) - 1;
+			var bulletNum		= parseInt( bullet.attr( "slide" ) );
 
 			var activeSlide		= slidesSelector.first();
 			var activeSlideId	= parseInt( activeSlide.attr( "slide" ) );
@@ -450,7 +483,7 @@
 					for( var i = 0; i < diff; i++ ) {
 
 						// Remove last and append to first
-						var slidesSelector	= slider.find(".fx-slide");
+						var slidesSelector	= slider.find(".slide");
 						var lastSlide		= slidesSelector.last();
 						lastSlide.insertBefore( slidesSelector.eq(0) );
 					}
@@ -464,7 +497,7 @@
 					for( var i = 0; i < diff; i++ ) {
 
 						// Remove first and append to last
-						var slidesSelector	= slider.find(".fx-slide");
+						var slidesSelector	= slider.find(".slide");
 						var firstSlide		= slidesSelector.first();
 						firstSlide.insertAfter( slidesSelector.eq( slidesSelector.length - 1 ) );
 					}
@@ -480,16 +513,16 @@
 		// Controls
 		bullets: false,
 		bulletsIndexing: false,
-		controls: false,
 		bulletClass: null,
+		controls: false,
 		lcontrolClass: null,
 		rcontrolClass: null,
 		lcontrolContent: null,
 		rcontrolContent: null,
-		// Autoplay
-		autoPlay: true,
-		autoPlayDirection: 'left',
-		autoPlayDuration: 5000,
+		// Scrolling
+		autoScroll: true,
+		autoScrollType: 'left',
+		autoScrollDuration: 5000,
 		stopOnHover: true,
 		// Full Page Background - Body Background
 		fullPage: false,
@@ -498,6 +531,9 @@
 		sliderHeight: 0,
 		slideWidth: 0,
 		slideHeight: 0,
+		// Resize Background Image
+		resizeBkgImage: false,
+		bkgImageClass: null,
 		// Listener Callback for pre processing
 		preSlideChange: null,
 		// Listener Callback for post processing

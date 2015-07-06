@@ -5,7 +5,7 @@ namespace foxslider\widgets;
 use yii\web\AssetBundle;
 use yii\web\View;
 
-class FoxSliderAsset extends AssetBundle {
+class MainAssetBundle extends AssetBundle {
 
 	// Constructor and Initialisation ------------------------------
 

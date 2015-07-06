@@ -1,7 +1,7 @@
 <?php
-namespace foxslider\models\entities;
+namespace foxslider\common\models\entities;
 
-class FXSTables {
+class FxsTables {
 
 	// Variables ---------------------------------------------------
 
