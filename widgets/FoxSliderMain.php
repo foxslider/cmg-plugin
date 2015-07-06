@@ -9,7 +9,7 @@ use yii\base\InvalidConfigException;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
-use foxslider\services\SliderService;
+use foxslider\common\services\SliderService;
 
 class FoxSliderMain extends Widget {
 
@@ -73,15 +73,13 @@ class FoxSliderMain extends Widget {
 
     public function run() {
 
-        echo $this->renderSlides();
-		
-		$app = Yii::$app;
-
 		// Output Javascript at the end of Page
 		if( $this->includeScripts ) {
 
         	MainAssetBundle::register( $this->getView() );
 		}
+		
+		return $this->renderSlides();
     }
 
     public function renderSlides() {
