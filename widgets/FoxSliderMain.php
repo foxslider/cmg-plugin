@@ -11,7 +11,7 @@ use yii\helpers\Html;
 // FXS Imports
 use foxslider\common\services\SliderService;
 
-class FoxSliderMain extends \cmsgears\core\widgets\BaseWidget {
+class FoxSliderMain extends \cmsgears\core\common\widgets\BaseWidget {
 
 	// Variables ---------------------------------------------------
 
