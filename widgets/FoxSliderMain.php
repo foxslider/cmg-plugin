@@ -1,24 +1,21 @@
 <?php
 namespace foxslider\widgets;
 
+// Yii Imports
 use \Yii;
-use yii\base\Application;
 use yii\web\View;
 use yii\base\Widget;
 use yii\base\InvalidConfigException;
-use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
+// FXS Imports
 use foxslider\common\services\SliderService;
 
-class FoxSliderMain extends Widget {
+class FoxSliderMain extends \cmsgears\core\widgets\BaseWidget {
 
 	// Variables ---------------------------------------------------
 
 	// Public Variables --------------------
-
-	// html options for Yii Widget
-	public $options 	= [];
 
 	// FoxSlider JQuery Plugin Options
 	public $fxOptions	= [
@@ -55,7 +52,10 @@ class FoxSliderMain extends Widget {
 	// Additional Configuration
 	public $slideTexture	= null;
 
+	// This must be set for the first slider usage on the page.
 	public $includeScripts;
+
+	// Slider name is required if we need to load it from slider db tables. The slider can also be formed from the image urls by overriding renderSlider method.
     public $sliderName;
 
 	// Constructor and Initialisation ------------------------------
@@ -71,6 +71,9 @@ class FoxSliderMain extends Widget {
 
 	// yii\base\Widget
 
+	/**
+	 * @inheritdoc
+	 */
     public function run() {
 
 		// Output Javascript at the end of Page
@@ -78,104 +81,55 @@ class FoxSliderMain extends Widget {
 
         	MainAssetBundle::register( $this->getView() );
 		}
-		
-		return $this->renderSlides();
+
+		// Additional Config
+		if( isset( $this->slideTexture ) ) {
+
+			$this->slideTexture	= "<div class='texture $this->slideTexture'></div>";
+		}
+
+		return $this->renderSlider();
     }
 
-    public function renderSlides() {
+	// FoxSliderMain
+
+    public function renderSlider() {
+
+		if( !isset( $this->sliderName ) ) {
+
+            throw new InvalidConfigException( "The 'label' option is required." );
+        }
 
 		$slider	= SliderService::findByName( $this->sliderName );
 		$items 	= [];
 
-		if( isset( $slider ) ) {
+		if( !isset( $slider ) ) {
 
-			// Additional Config
-			if( isset( $this->slideTexture ) ) {
-				
-				$this->slideTexture	= "<div class='texture $this->slideTexture'></div>";
-			}
+            throw new InvalidConfigException( "Slider does not exist. Please create it via admin having name set to $this->sliderName." );
+        }
 
-			// Generate Slides Html
-		
-			$slides = $slider->slides;	
-	
-	        foreach( $slides as $slide ) {
-	
-	            $items[] = $this->renderItem( $slide );
-	        }
+		// Paths
+		$slidePath		= $this->viewFile . "/slide";
 
-			$sliderOptions	= json_encode( $this->fxOptions );
-			$sliderJs		= "jQuery( '#" . $this->options['id'] . "' ).foxslider( $sliderOptions );";
+		// Generate Slides Html
 
-			$this->getView()->registerJs( $sliderJs, View::POS_READY );
-		}
-		else {
+		$slides = $slider->slides;
 
-			echo "<p>Slider does not exist. Please create it via admin having name set to $this->sliderName.</p>";
-		}
+        foreach( $slides as $slide ) {
 
-        return Html::tag( 'div', implode("\n", $items), $this->options );
-    }
+            $items[] = $this->render( $slidePath, [ 'slide' => $slide ] );
+        }
 
-    public function renderItem( $slide ) {
+		// TODO: Configure from database settings
 
-		$slideImage		= $slide->image;
-		$slideTitle		= $slide->name;
-		$slideDesc		= $slide->description;
-		$slideContent	= $slide->content;
-		$slideUrl		= $slide->url;
-		$slideImageUrl	= '';
-		$slideImageAlt	= '';
-		$bkgImage		= "<div class='slide-content'>";
+		// Register JS
+		$sliderOptions	= json_encode( $this->fxOptions );
+		$sliderJs		= "jQuery( '#" . $this->options['id'] . "' ).foxslider( $sliderOptions );";
 
-		if( isset( $slideImage ) ) {
+		$this->getView()->registerJs( $sliderJs, View::POS_READY );
 
-			$slideImageUrl	= $slideImage->getFileUrl();
-			$slideImageAlt	= $slideImage->altText;
-			$bkgImage		= "<div class='slide-content' style='background-image:url($slideImageUrl)'>";
-
-			if( isset( $this->fxOptions[ 'resizeBkgImage' ] ) && isset( $this->fxOptions[ 'bkgImageClass' ] ) && $this->fxOptions[ 'resizeBkgImage' ] ) {
-
-				$imgClass	= $this->fxOptions[ 'bkgImageClass' ];
-				$bkgImage	= "<img src='$slideImageUrl' class='$imgClass' alt='$slideImageAlt' />
-								<div class='slide-content'>";
-			}
-		}
-
-		if( isset( $slideUrl ) && strlen( $slideUrl ) > 0 ) {
-
-			$slideHtml	= "<div>
-								<a href='$slideUrl'>
-									$bkgImage
-										$this->slideTexture
-										<div class='info'>
-											<h2>$slideTitle</h2>
-											<p>$slideDesc</p>
-										</div>
-										<div class='content'>
-											$slideContent
-										</div>
-									</div>
-								</a>
-							</div>";
-		}
-		else {
-
-			$slideHtml	= "<div>
-								$bkgImage
-									$this->slideTexture
-									<div class='info'>
-										<h2>$slideTitle</h2>
-										<p>$slideDesc</p>
-									</div>
-									<div class='content'>
-										$slideContent
-									</div>
-								</div>
-							</div>";
-		}
-
-		return $slideHtml;
+		// Return HTML
+        return Html::tag( 'div', implode( "\n", $items ), $this->options );
     }
 }
 
