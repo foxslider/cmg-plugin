@@ -4,7 +4,7 @@ use yii\widgets\ActiveForm;
 use yii\helpers\Html;
 
 // CMG Imports
-use cmsgears\core\widgets\Editor;
+use cmsgears\core\common\widgets\Editor;
 
 use cmsgears\files\widgets\FileUploader;
 
@@ -27,7 +27,7 @@ Editor::widget( [ 'selector' => '.content-editor' ] );
 		</form>
 
 		<h4>Create Slide</h4>
-		<form class="frm-split frm-slide" id="frm-slide-create" cmt-controller="slider" cmt-action="updateSlide" action="<?php echo Yii::$app->urlManager->createAbsoluteUrl( 'apix/foxslider/slide/create' ); ?>" method="post">
+		<form class="frm-split frm-slide frm-ajax" id="frm-slide-create" cmt-controller="slider" cmt-action="updateSlide" action="<?php echo Yii::$app->urlManager->createAbsoluteUrl( 'apix/foxslider/slide/create' ); ?>" method="post">
 			<!-- name -->
 			<label>Title</label>
 			<input type="text" name="Slide[name]" placeholder="Title">

@@ -26,7 +26,8 @@ class MainAssetBundle extends AssetBundle {
 		// Load Javascript
 
 	    $this->js      = [
-	            "foxslider-core.js"
+	            'foxslider-core.js',
+	            'ajax-processor.js'
 	    ];
 
 		// Define the Position to load Assets
