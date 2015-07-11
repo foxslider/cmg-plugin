@@ -99,3 +99,39 @@ Editor::widget( [ 'selector' => '.content-editor' ] );
 		</ul>
 	</div>
 </section>
+
+<script type="text/javascript">
+
+/* FoxSlider Controller */
+var CONTROLLER_SLIDER			= 'slider';
+var ACTION_SLIDE_UPDATE			= 'updateSlide';
+
+jQuery( document ).ready( function() {
+
+	postAjaxProcessor.addSuccessListener( postFxsProcessorSuccess );
+});
+
+// Forms --------------------------------------------------------------------------
+
+function postFxsProcessorSuccess( formId, controllerId, actionId, data ) {
+
+	switch( controllerId ) {
+		
+		case CONTROLLER_SLIDER:
+		{
+			switch( actionId ) {
+
+				case ACTION_SLIDE_UPDATE:
+				{
+					location.reload();
+
+					break;
+				}
+			}
+			
+			break;
+		}
+	}
+}
+
+</script>
