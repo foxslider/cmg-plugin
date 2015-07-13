@@ -24,10 +24,10 @@ class FoxSliderMain extends \cmsgears\core\common\widgets\BaseWidget {
 		'bulletsIndexing' => true,
 		'bulletClass' => null,
 		'controls' => false,
-		'lcontrolClass' => null,
-		'rcontrolClass' => null,
-		'lcontrolContent' => null,
-		'rcontrolContent' => null,
+		'lControlClass' => null,
+		'rControlClass' => null,
+		'lControlContent' => null,
+		'rControlContent' => null,
 		// Scrolling
 		'autoScroll' => true,
 		'autoScrollType' => 'left',
@@ -117,7 +117,7 @@ class FoxSliderMain extends \cmsgears\core\common\widgets\BaseWidget {
 
         foreach( $slides as $slide ) {
 
-            $items[] = $this->render( $slidePath, [ 'slide' => $slide ] );
+            $items[] = $this->render( $slidePath, [ 'slide' => $slide, 'fxOptions' => $this->fxOptions, 'slideTexture' => $this->slideTexture ] );
         }
 
 		// TODO: Configure from database settings

@@ -12,13 +12,13 @@ if( isset( $slideImage ) ) {
 
 	$slideImageUrl	= $slideImage->getFileUrl();
 	$slideImageAlt	= $slideImage->altText;
-	$bkgImage		= "<div class='slide-content' style='background-image:url($slideImageUrl)'>";
+	$content		= "<div class='slide-content' style='background-image:url($slideImageUrl)'>";
 
-	if( isset( $this->fxOptions[ 'resizeBkgImage' ] ) && isset( $this->fxOptions[ 'bkgImageClass' ] ) && $this->fxOptions[ 'resizeBkgImage' ] ) {
+	if( isset( $fxOptions[ 'resizeBkgImage' ] ) && isset( $fxOptions[ 'bkgImageClass' ] ) && $fxOptions[ 'resizeBkgImage' ] ) {
 
-		$imgClass	= $this->fxOptions[ 'bkgImageClass' ];
-		$bkgImage	= "<img src='$slideImageUrl' class='$imgClass' alt='$slideImageAlt' />
-						<div class='slide-content'>";
+		$imgClass	= $fxOptions[ 'bkgImageClass' ];
+		$content	= "<img src='$slideImageUrl' class='$imgClass' alt='$slideImageAlt' />
+							<div class='slide-content'>";
 	}
 }
 
@@ -26,14 +26,16 @@ if( isset( $slideUrl ) && strlen( $slideUrl ) > 0 ) {
 
 	$slideHtml	= "<div>
 						<a href='$slideUrl'>
-							$bkgImage
-								$this->slideTexture
-								<div class='info'>
-									<h2>$slideTitle</h2>
-									<p>$slideDesc</p>
-								</div>
-								<div class='content'>
-									$slideContent
+							$content
+								$slideTexture
+								<div class='wrap-content'>
+									<div class='header'>
+										<h2>$slideTitle</h2>
+										<p>$slideDesc</p>
+									</div>
+									<div class='content'>
+										$slideContent
+									</div>
 								</div>
 							</div>
 						</a>
@@ -42,14 +44,16 @@ if( isset( $slideUrl ) && strlen( $slideUrl ) > 0 ) {
 else {
 
 	$slideHtml	= "<div>
-						$bkgImage
-							$this->slideTexture
-							<div class='info'>
-								<h2>$slideTitle</h2>
-								<p>$slideDesc</p>
-							</div>
-							<div class='content'>
-								$slideContent
+						$content
+							$slideTexture
+							<div class='wrap-content'>
+								<div class='header'>
+									<h2>$slideTitle</h2>
+									<p>$slideDesc</p>
+								</div>
+								<div class='content'>
+									$slideContent
+								</div>
 							</div>
 						</div>
 					</div>";
