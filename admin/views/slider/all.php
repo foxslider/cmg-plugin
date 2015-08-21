@@ -44,7 +44,6 @@ if( !isset( $sortOrder ) ) {
 		<table>
 			<thead>
 				<tr>
-					<th> <input type='checkbox' /> </th>
 					<th>Name
 						<span class='box-icon-sort'>
 							<span sort-order='name' class="icon-sort <?php if( strcmp( $sortOrder, 'name') == 0 ) echo 'icon-up-active'; else echo 'icon-up';?>"></span>
@@ -71,7 +70,6 @@ if( !isset( $sortOrder ) ) {
 						$id = $slider->id;
 				?>
 					<tr>
-						<td> <input type='checkbox' /> </td>
 						<td><?= $slider->name ?></td>					
 						<td><?= $slider->description ?></td>
 						<td><?= $slider->getFullPageStr() ?></td>
