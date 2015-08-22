@@ -105,7 +105,7 @@ class FoxSliderMain extends \cmsgears\core\common\base\Widget {
 
 		if( !isset( $slider ) ) {
 
-            throw new InvalidConfigException( "Slider does not exist. Please create it via admin having name set to $this->sliderName." );
+			return "<div>Slider having name set to $this->sliderName does not exist. Please create it via admin.</div>";
         }
 
 		// Paths
