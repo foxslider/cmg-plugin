@@ -5,18 +5,8 @@
 	"type": "package",
 	"keywords": [ "yii2", "cmsgears", "module", "foxslider" ],
 	"license": "GPLv3",
-	"authors": [
-		{
-			"name": "Bhagwat Singh Chouhan",
-			"email": "bhagwat.chouhan@vulpinecode.com",
-			"homepage": "http://www.cmsgears.org/",
-			"role": "Founder and project lead."
-		}
-	],
 	"support": {
-        "source": "http://www.foxslider.com/downloads/",
-		"resources": "http://www.foxslider.com/guide",
-		"issues": "https://www.amazingdesk.com/foxslider/issues/"
+		"resources": "http://www.foxslider.com"
 	},
 	"autoload": {
 		"psr-4": {
