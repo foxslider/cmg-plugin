@@ -94,7 +94,7 @@
 
 			// wrap the slides
 			var sliderHtml		= "<div class='slides-wrap'>" + slider.html() + "</div>";
-			sliderHtml		   += "<div class='control control-left opaque-50'></div><div class='control control-right opaque-50'></div>";
+			sliderHtml		   += "<div class='control control-left'></div><div class='control control-right'></div>";
 
 			if( settings.bullets ) {
 
@@ -197,10 +197,10 @@
 
 			// Show Controls
 			var controls 		= slider.find( ".controls" );
-			var lcontrolClass	= settings.lcontrolClass;
-			var rcontrolClass	= settings.rcontrolClass;
-			var lcontrolContent	= settings.lcontrolContent;
-			var rcontrolContent	= settings.rcontrolContent;
+			var lControlClass	= settings.lControlClass;
+			var rControlClass	= settings.rControlClass;
+			var lControlContent	= settings.lControlContent;
+			var rControlContent	= settings.rControlContent;
 
 			controls.show();
 
@@ -208,24 +208,24 @@
 			var leftControl		= slider.find( ".control-left" );
 			var rightControl	= slider.find( ".control-right" );
 			
-			if( null != lcontrolClass ) {
+			if( null != lControlClass ) {
 
-				leftControl.addClass( lcontrolClass );
+				leftControl.addClass( lControlClass );
 			}
 
-			if( null != rcontrolClass ) {
+			if( null != rControlClass ) {
 
-				rightControl.addClass( rcontrolClass );
+				rightControl.addClass( rControlClass );
 			}
 
-			if( null != lcontrolContent ) {
+			if( null != lControlContent ) {
 
-				leftControl.html( lcontrolContent );
+				leftControl.html( lControlContent );
 			}
 
-			if( null != rcontrolContent ) {
+			if( null != rControlContent ) {
 
-				rightControl.html( rcontrolContent );
+				rightControl.html( rControlContent );
 			}
 
 			leftControl.click( function() {
@@ -515,10 +515,10 @@
 		bulletsIndexing: false,
 		bulletClass: null,
 		controls: false,
-		lcontrolClass: null,
-		rcontrolClass: null,
-		lcontrolContent: null,
-		rcontrolContent: null,
+		lControlClass: null,
+		rControlClass: null,
+		lControlContent: null,
+		rControlContent: null,
 		// Scrolling
 		autoScroll: true,
 		autoScrollType: 'left',

@@ -76,14 +76,14 @@ class SlideController extends BaseController {
 			$responseData	= $slide->getAttributes( [ 'id', 'sliderId', 'name', 'description' ] );
 
 			// Trigger Ajax Success
-			AjaxUtil::generateSuccess( Yii::$app->cmgCoreMessage->getMessage( CoreGlobal::MESSAGE_REQUEST ), $responseData );
+			return AjaxUtil::generateSuccess( Yii::$app->cmgCoreMessage->getMessage( CoreGlobal::MESSAGE_REQUEST ), $responseData );
 		}
 
 		// Generate Errors
 		$errors = AjaxUtil::generateErrorMessage( $slide );
 
 		// Trigger Ajax Success
-        AjaxUtil::generateFailure( Yii::$app->cmgCoreMessage->getMessage( CoreGlobal::ERROR_REQUEST ), $errors );
+        return AjaxUtil::generateFailure( Yii::$app->cmgCoreMessage->getMessage( CoreGlobal::ERROR_REQUEST ), $errors );
 	}
 	
 	public function actionUpdate( $id ) {
@@ -104,7 +104,7 @@ class SlideController extends BaseController {
 				if( SlideService::update( $slide, $slideImage ) ) {
 
 					// Trigger Ajax Success
-					AjaxUtil::generateSuccess( Yii::$app->cmgCoreMessage->getMessage( CoreGlobal::MESSAGE_REQUEST ) );
+					return AjaxUtil::generateSuccess( Yii::$app->cmgCoreMessage->getMessage( CoreGlobal::MESSAGE_REQUEST ) );
 				}	
 			}
 		}
@@ -113,7 +113,7 @@ class SlideController extends BaseController {
 		$errors = AjaxUtil::generateErrorMessage( $slide );
 
 		// Trigger Ajax Success
-        AjaxUtil::generateFailure( Yii::$app->cmgCoreMessage->getMessage( CoreGlobal::ERROR_REQUEST ), $errors );
+        return AjaxUtil::generateFailure( Yii::$app->cmgCoreMessage->getMessage( CoreGlobal::ERROR_REQUEST ), $errors );
 	}
 }
 

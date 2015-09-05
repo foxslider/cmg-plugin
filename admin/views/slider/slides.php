@@ -2,9 +2,10 @@
 // Yii Imports
 use yii\widgets\ActiveForm;
 use yii\helpers\Html;
+use yii\web\View;
 
 // CMG Imports
-use cmsgears\core\widgets\Editor;
+use cmsgears\core\common\widgets\Editor;
 
 use cmsgears\files\widgets\FileUploader;
 
@@ -27,7 +28,7 @@ Editor::widget( [ 'selector' => '.content-editor' ] );
 		</form>
 
 		<h4>Create Slide</h4>
-		<form class="frm-split frm-slide" id="frm-slide-create" cmt-controller="slider" cmt-action="updateSlide" action="<?php echo Yii::$app->urlManager->createAbsoluteUrl( 'apix/foxslider/slide/create' ); ?>" method="post">
+		<form class="frm-split frm-slide frm-ajax" id="frm-slide-create" cmt-controller="slider" cmt-action="updateSlide" action="<?php echo Yii::$app->urlManager->createAbsoluteUrl( 'apix/foxslider/slide/create' ); ?>" method="post">
 			<!-- name -->
 			<label>Title</label>
 			<input type="text" name="Slide[name]" placeholder="Title">
@@ -65,7 +66,7 @@ Editor::widget( [ 'selector' => '.content-editor' ] );
 				$slideImage	= $slide->image;
 		?>
 			<li>
-				<form class="frm-ajax" id="frm-slide-update-<?=$slideId?>" cmt-controller="slider" cmt-action="updateSlide" action="<?php echo Yii::$app->urlManager->createAbsoluteUrl("apix/foxslider/slide/update?id=$slideId"); ?>" method="post" cmt-keep-data="true" >
+				<form class="frm-ajax" id="frm-slide-update-<?=$slideId?>" cmt-controller="slider" cmt-action="updateSlide" action="<?php echo Yii::$app->urlManager->createAbsoluteUrl("apix/foxslider/slide/update?id=$slideId"); ?>" method="post" clearData="false" >
 					<!-- name -->
 					<label>Title</label>
 					<input type="text" name="Slide[name]" value="<?=$slide->name?>" placeholder="Title">
@@ -99,3 +100,15 @@ Editor::widget( [ 'selector' => '.content-editor' ] );
 		</ul>
 	</div>
 </section>
+
+<?php 
+
+ob_start();
+
+include( dirname( __DIR__ ) . "/scripts/main.js" );
+
+$fxsScript	= ob_get_clean();
+
+$this->registerJs( $fxsScript, View::POS_END ); 
+
+?>
