@@ -109,7 +109,7 @@ class FoxSliderMain extends \cmsgears\core\common\base\Widget {
         }
 
 		// Paths
-		$slidePath		= $this->viewFile . "/slide";
+		$slidePath		= $this->template . '/slide';
 
 		// Generate Slides Html
 
