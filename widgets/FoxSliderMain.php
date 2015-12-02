@@ -52,9 +52,6 @@ class FoxSliderMain extends \cmsgears\core\common\base\Widget {
 	// Additional Configuration
 	public $slideTexture	= null;
 
-	// This must be set for the first slider usage on the page.
-	public $includeScripts;
-
 	// Slider name is required if we need to load it from slider db tables. The slider can also be formed from the image urls by overriding renderSlider method.
     public $sliderName;
 
@@ -77,9 +74,9 @@ class FoxSliderMain extends \cmsgears\core\common\base\Widget {
     public function run() {
 
 		// Output Javascript at the end of Page
-		if( $this->includeScripts ) {
+		if( $this->loadAssets ) {
 
-        	MainAssetBundle::register( $this->getView() );
+        	FxsAssetBundle::register( $this->getView() );
 		}
 
 		// Additional Config
