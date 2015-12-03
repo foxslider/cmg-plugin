@@ -6,19 +6,18 @@ $slideContent	= $slide->content;
 $slideUrl		= $slide->url;
 $slideImageUrl	= '';
 $slideImageAlt	= '';
-$bkgImage		= "<div class='slide-content'>";
 
 if( isset( $slideImage ) ) {
 
 	$slideImageUrl	= $slideImage->getFileUrl();
 	$slideImageAlt	= $slideImage->altText;
-	$content		= "<div class='slide-content' style='background-image:url($slideImageUrl)'>";
+	$content		= "<div class='wrap-slide-content' style='background-image:url($slideImageUrl)'>";
 
 	if( isset( $fxOptions[ 'resizeBkgImage' ] ) && isset( $fxOptions[ 'bkgImageClass' ] ) && $fxOptions[ 'resizeBkgImage' ] ) {
 
 		$imgClass	= $fxOptions[ 'bkgImageClass' ];
 		$content	= "<img src='$slideImageUrl' class='$imgClass' alt='$slideImageAlt' />
-							<div class='slide-content'>";
+					   <div class='wrap-slide-content'>";
 	}
 }
 
@@ -28,7 +27,7 @@ if( isset( $slideUrl ) && strlen( $slideUrl ) > 0 ) {
 						<a href='$slideUrl'>
 							$content
 								$slideTexture
-								<div class='wrap-content'>
+								<div class='slide-content'>
 									<div class='header'>
 										<h2>$slideTitle</h2>
 										<p>$slideDesc</p>
@@ -46,7 +45,7 @@ else {
 	$slideHtml	= "<div>
 						$content
 							$slideTexture
-							<div class='wrap-content'>
+							<div class='slide-content'>
 								<div class='header'>
 									<h2>$slideTitle</h2>
 									<p>$slideDesc</p>
