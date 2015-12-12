@@ -2,12 +2,14 @@
 // Yii Imports
 use yii\widgets\ActiveForm;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\web\View;
 
 // CMG Imports
 use cmsgears\core\common\widgets\Editor;
-
 use cmsgears\files\widgets\FileUploader;
+
+use cmsgears\core\common\utilities\CodeGenUtil;
 
 $coreProperties = $this->context->getCoreProperties();
 $this->title 	= $coreProperties->getSiteTitle() . ' | Slider Slides';
@@ -28,7 +30,7 @@ Editor::widget( [ 'selector' => '.content-editor' ] );
 		</form>
 
 		<h4>Create Slide</h4>
-		<form class="frm-split frm-slide frm-ajax" id="frm-slide-create" cmt-controller="slider" cmt-action="updateSlide" action="<?php echo Yii::$app->urlManager->createAbsoluteUrl( 'apix/foxslider/slide/create' ); ?>" method="post">
+		<form class="frm-split frm-slide fxs-form" id="frm-slide-create" cmt-controller="fxslider" cmt-action="updateSlide" action="<?= Url::toRoute( [ '/apix/foxslider/slide/create' ], true ) ?>" method="post">
 			<!-- name -->
 			<label>Title</label>
 			<input type="text" name="Slide[name]" placeholder="Title">
@@ -46,10 +48,11 @@ Editor::widget( [ 'selector' => '.content-editor' ] );
 			<input type="text" name="Slide[url]" placeholder="Url">
 			<div class="clear"><span class="error" cmt-error="url"></span></div>
 			<input type="hidden" name="Slide[sliderId]" value="<?=$slider->id?>" />
-			<?=FileUploader::widget( [ 'options' => 
-					[ 'id' => 'slider-slide', 'class' => 'file-uploader' ], 
-					'directory' => 'gallery', 'infoFields' => true,
-					'btnChooserIcon' => 'icon-action icon-action-edit' ] );?>
+			<?= FileUploader::widget([ 
+				'options' => [ 'id' => 'slider-slide', 'class' => 'file-uploader' ],
+				'directory' => 'gallery', 'infoFields' => true, 'infoFieldsSeoOnly' => true,
+				'btnChooserIcon' => 'icon-action icon-action-edit' 
+			]);?>
 			<!-- submit, spinner, success -->
 			<div class="spinner"></div>
 			<div class="message"></div>
@@ -66,7 +69,7 @@ Editor::widget( [ 'selector' => '.content-editor' ] );
 				$slideImage	= $slide->image;
 		?>
 			<li>
-				<form class="frm-ajax" id="frm-slide-update-<?=$slideId?>" cmt-controller="slider" cmt-action="updateSlide" action="<?php echo Yii::$app->urlManager->createAbsoluteUrl("apix/foxslider/slide/update?id=$slideId"); ?>" method="post" clearData="false" >
+				<form class="fxs-form" id="frm-slide-update-<?=$slideId?>" cmt-controller="fxslider" cmt-action="updateSlide" action="<?= Url::toRoute( [ "/apix/foxslider/slide/update?id=$slideId" ], true ) ?>" method="post" cmt-clear="false" >
 					<!-- name -->
 					<label>Title</label>
 					<input type="text" name="Slide[name]" value="<?=$slide->name?>" placeholder="Title">
@@ -84,10 +87,11 @@ Editor::widget( [ 'selector' => '.content-editor' ] );
 					<input type="text" name="Slide[url]" value="<?=$slide->url?>" placeholder="Url">
 					<div class="clear"><span class="error" cmt-error="url"></span></div>
 					<input type="hidden" name="Slide[sliderId]" value="<?=$slider->id?>" />	
-					<?=FileUploader::widget( [ 'options' => 
-							[ 'id' => "slider-slide-$slideId", 'class' => 'file-uploader' ], 
-							'model' => $slide->image, 'directory' => 'gallery', 'infoFields' => true,
-							'btnChooserIcon' => 'icon-action icon-action-edit' ] );?>				
+					<?= FileUploader::widget([ 
+						'options' => [ 'id' => 'slider-slide-$slideId', 'class' => 'file-uploader' ],
+						'model' => $slide->image, 'directory' => 'gallery', 'infoFields' => true, 'infoFieldsSeoOnly' => true,
+						'btnChooserIcon' => 'icon-action icon-action-edit' 
+					]);?>
 					<!-- submit, spinner, success -->
 					<div class="spinner"></div>
 					<div class="message"></div>
@@ -101,14 +105,4 @@ Editor::widget( [ 'selector' => '.content-editor' ] );
 	</div>
 </section>
 
-<?php 
-
-ob_start();
-
-include( dirname( __DIR__ ) . "/scripts/main.js" );
-
-$fxsScript	= ob_get_clean();
-
-$this->registerJs( $fxsScript, View::POS_END ); 
-
-?>
+<?= CodeGenUtil::registerJsFromFile( $this, View::POS_END, dirname( __DIR__ ) . "/scripts/main.js" ); ?> 

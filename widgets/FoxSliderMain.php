@@ -40,6 +40,9 @@ class FoxSliderMain extends \cmsgears\core\common\base\Widget {
 		'sliderHeight' => 0,
 		'slideWidth' => 0,
 		'slideHeight' => 0,
+		// Slide arrangement - filmstrip, stacked
+		'circular' => true,
+		'slideArrangement' => 'filmstrip',
 		// Resize Background Image
 		'resizeBkgImage' => false,
 		'bkgImageClass' => null,
@@ -54,6 +57,9 @@ class FoxSliderMain extends \cmsgears\core\common\base\Widget {
 
 	// Slider name is required if we need to load it from slider db tables. The slider can also be formed from the image urls by overriding renderSlider method.
     public $sliderName;
+	
+	// Content array common for all the slides. The array elements can be included within slides.
+	public $genericContent	= [];
 
 	// Constructor and Initialisation ------------------------------
 
@@ -94,7 +100,7 @@ class FoxSliderMain extends \cmsgears\core\common\base\Widget {
 
 		if( !isset( $this->sliderName ) ) {
 
-            throw new InvalidConfigException( "The 'label' option is required." );
+            throw new InvalidConfigException( "The slider name option is required." );
         }
 
 		$slider	= SliderService::findByName( $this->sliderName );
@@ -105,7 +111,7 @@ class FoxSliderMain extends \cmsgears\core\common\base\Widget {
 			return "<div>Slider having name set to $this->sliderName does not exist. Please create it via admin.</div>";
         }
 
-		// Paths
+		// Views Path
 		$slidePath		= $this->template . '/slide';
 
 		// Generate Slides Html
@@ -114,19 +120,22 @@ class FoxSliderMain extends \cmsgears\core\common\base\Widget {
 
         foreach( $slides as $slide ) {
 
-            $items[] = $this->render( $slidePath, [ 'slide' => $slide, 'fxOptions' => $this->fxOptions, 'slideTexture' => $this->slideTexture ] );
+            $items[] = $this->render( $slidePath, [
+            				'fxOptions' => $this->fxOptions, 'slide' => $slide, 'slideTexture' => $this->slideTexture,
+            				'genericContent' => $this->genericContent
+            			]);
         }
 
 		// TODO: Configure from database settings
 
 		// Register JS
 		$sliderOptions	= json_encode( $this->fxOptions );
-		$sliderJs		= "jQuery( '#" . $this->options['id'] . "' ).foxslider( $sliderOptions );";
+		$sliderJs		= "jQuery( '#" . $this->options[ 'id' ] . "' ).foxslider( $sliderOptions );";
 
 		$this->getView()->registerJs( $sliderJs, View::POS_READY );
 
 		// Return HTML
-        return Html::tag( 'div', implode( "\n", $items ), $this->options );
+		return Html::tag( 'div', implode( "\n", $items ), $this->options );
     }
 }
 

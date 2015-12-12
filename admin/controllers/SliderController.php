@@ -9,8 +9,6 @@ use yii\web\NotFoundHttpException;
 // CMG Imports
 use cmsgears\core\common\config\CoreGlobal;
 
-use cmsgears\core\admin\controllers\BaseController;
-
 // FXS Imports
 use foxslider\common\config\FxsCoreGlobal;
 
@@ -19,7 +17,7 @@ use foxslider\common\models\entities\Slider;
 use foxslider\admin\services\SliderService;
 use foxslider\admin\services\SlideService;
 
-class SliderController extends BaseController {
+class SliderController extends \cmsgears\core\admin\controllers\base\Controller {
 
 	// Constructor and Initialisation ------------------------------
 
@@ -49,12 +47,12 @@ class SliderController extends BaseController {
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-	                'index'  => ['get'],
-	                'all'    => ['get'],
-	                'create' => ['get', 'post'],
-	                'update' => ['get', 'post'],
-	                'delete' => ['get', 'post'],
-	                'slides' => ['get']
+	                'index'  => [ 'get' ],
+	                'all'    => [ 'get' ],
+	                'create' => [ 'get', 'post' ],
+	                'update' => [ 'get', 'post' ],
+	                'delete' => [ 'get', 'post' ],
+	                'slides' => [ 'get' ]
                 ]
             ]
         ];

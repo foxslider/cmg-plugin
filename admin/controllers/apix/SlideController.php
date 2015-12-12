@@ -11,8 +11,6 @@ use cmsgears\core\common\config\CoreGlobal;
 
 use cmsgears\core\common\models\entities\CmgFile;
 
-use cmsgears\core\admin\controllers\BaseController;
-
 use cmsgears\core\common\utilities\AjaxUtil;
 
 // FXS Imports
@@ -22,7 +20,7 @@ use foxslider\common\models\entities\Slide;
 
 use foxslider\admin\services\SlideService;
 
-class SlideController extends BaseController {
+class SlideController extends \cmsgears\core\admin\controllers\base\Controller {
 
 	// Constructor and Initialisation ------------------------------
 
@@ -48,8 +46,8 @@ class SlideController extends BaseController {
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-	                'create' => ['post'],
-	                'update' => ['post']
+	                'create' => [ 'post' ],
+	                'update' => [ 'post' ]
                 ]
             ]
         ];
