@@ -69,7 +69,7 @@ Editor::widget( [ 'selector' => '.content-editor' ] );
 				$slideImage	= $slide->image;
 		?>
 			<li>
-				<form class="fxs-form" id="frm-slide-update-<?=$slideId?>" cmt-controller="fxslider" cmt-action="updateSlide" action="<?= Url::toRoute( [ "/apix/foxslider/slide/update?id=$slideId" ], true ) ?>" method="post" cmt-clear="false" >
+				<form class="fxs-form frm-split" id="frm-slide-update-<?=$slideId?>" cmt-controller="fxslider" cmt-action="updateSlide" action="<?= Url::toRoute( [ "/apix/foxslider/slide/update?id=$slideId" ], true ) ?>" method="post" cmt-clear="false" >
 					<!-- name -->
 					<label>Title</label>
 					<input type="text" name="Slide[name]" value="<?=$slide->name?>" placeholder="Title">
@@ -79,7 +79,6 @@ Editor::widget( [ 'selector' => '.content-editor' ] );
 					<input type="text" name="Slide[description]" value="<?=$slide->description?>" placeholder="Description">
 					<div class="clear"><span class="error" cmt-error="description"></span></div>
 					<!-- content -->
-					<label>Content</label>
 					<textarea class="editor-slide content-editor" name="Slide[content]" placeholder="Content"><?=$slide->content?></textarea>
 					<div class="clear"><span class="error" cmt-error="content"></span></div>
 					<!-- url -->
