@@ -1,16 +1,17 @@
 /* ============================= FoxSlider ============================================== */
 
 --
--- Dumping data for table `cmg_core_permission`
+-- FoxSlider roles and permissions
 --
 
-INSERT INTO `cmg_core_permission` VALUES 
-	(1501,1,1,'foxslider','foxslider','The permission foxslider is to manage foxslider from admin.','system',NULL,'2014-10-11 14:22:54','2014-10-11 14:22:54');
+SELECT @rolesadmin := `id` FROM cmg_core_role WHERE slug = 'super-admin';
+SELECT @roleadmin := `id` FROM cmg_core_role WHERE slug = 'admin';
 
---
--- Dumping data for table `cmg_role_permission`
---
+INSERT INTO `cmg_core_permission` (`createdBy`,`modifiedBy`,`name`,`slug`,`type`,`description`,`icon`,`createdAt`,`modifiedAt`) VALUES 
+	(1,1,'FoxSlider','foxslider','system','The permission foxslider is to manage foxslider from admin.',NULL,'2014-10-11 14:22:54','2014-10-11 14:22:54');
+
+SELECT @permfxs := `id` FROM cmg_core_permission WHERE slug = 'foxslider';
 
 INSERT INTO `cmg_core_role_permission` VALUES 
-	(1,1501),
-	(2,1501);
+	(@rolesadmin,@permfxs),
+	(@roleadmin,@permfxs);

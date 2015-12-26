@@ -1,28 +1,24 @@
-/* FoxSlider Controller */
-var CONTROLLER_SLIDER			= 'slider';
-var ACTION_SLIDE_UPDATE			= 'updateSlide';
+jQuery(document).ready( function() {
 
-// Forms --------------------------------------------------------------------------
+	var appControllers				= [];
 
-function postFxsProcessorSuccess( formId, controllerId, actionId, response ) {
+	appControllers[ 'fxslider' ]	= 'FoxSliderController';
 
-	switch( controllerId ) {
-		
-		case CONTROLLER_SLIDER:
-		{
-			switch( actionId ) {
+	jQuery( ".fxs-form" ).processAjax({
+		controllers: appControllers
+	});
+});
 
-				case ACTION_SLIDE_UPDATE:
-				{
-					location.reload();
+// FoxSliderController --------------------------------------
 
-					break;
-				}
-			}
-			
-			break;
-		}
+FoxSliderController	= function() {};
+
+FoxSliderController.inherits( cmt.api.controllers.BaseController );
+
+FoxSliderController.prototype.updateSlideActionPost = function( success, parentElement, message, response ) {
+
+	if( success ) {
+
+		location.reload( true );
 	}
-}
-
-postCmtApiProcessor.addSuccessListener( postFxsProcessorSuccess );
+};
