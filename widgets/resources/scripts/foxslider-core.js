@@ -1,4 +1,4 @@
-(function( fx ) {
+(function( fxs ) {
 
 	/**
 	 * Notes: 
@@ -9,18 +9,18 @@
 	 */
 
 	// Slider
-	fx.fn.foxslider = function( options ) {
+	fxs.fn.foxslider = function( options ) {
 
 		// == Init =================================================================== //
 
 		// Configure Sliders
-		var settings 		= fx.extend( {}, fx.fn.foxslider.defaults, options );
+		var settings 		= fxs.extend( {}, fxs.fn.foxslider.defaults, options );
 		var sliders			= this;
 
 		// Iterate and initialise all the fox sliders
 		sliders.each( function() {
 
-			var slider	= fx( this );
+			var slider	= fxs( this );
 
 			init( slider );
 		});
@@ -32,12 +32,12 @@
 		}
 
 		// Windows resize
-		fx( window ).resize(function() {
+		fxs( window ).resize(function() {
 
 			// Iterate and resize all the fox sliders
 			sliders.each( function() {
 	
-				var slider	= fx( this );
+				var slider	= fxs( this );
 	
 				normaliseSlides( slider );
 			});
@@ -93,7 +93,7 @@
 			// Add slide class to all the slides
 			slider.children().each( function() {
 				
-				var slide = fx( this );
+				var slide = fxs( this );
 
 				slide.addClass( 'slide' );
 			});
@@ -155,7 +155,7 @@
 			// Set slides dimensions
 			slidesSelector.each( function() {
 
-				var currentSlide	= fx( this );
+				var currentSlide	= fxs( this );
 
 				// Use settings for Slide dimensions
 				if( settings.slideWidth > 0 && settings.slideHeight > 0 ) {
@@ -264,12 +264,12 @@
 
 			leftControl.click( function() {
 
-				showPrevSlide( fx( this ).closest( ".fx-slider" ) );
+				showPrevSlide( fxs( this ).closest( ".fx-slider" ) );
 			});
 
 			rightControl.click( function() {
 
-				showNextSlide( fx( this ).closest( ".fx-slider" ) );
+				showNextSlide( fxs( this ).closest( ".fx-slider" ) );
 			});
 		}
 
@@ -313,7 +313,7 @@
 
 			slider.find( ".bullet" ).click( function() {
 
-				showSelectedSlide( fx( this ) );
+				showSelectedSlide( fxs( this ) );
 			});
 
 			// set active bullet
@@ -328,7 +328,7 @@
 
 					sliders.each( function() {
 			
-						var slider	= fx( this );
+						var slider	= fxs( this );
 						var mouseIn	= slider.attr( 'mouse-over' );
 						
 						if( settings.stopOnHover && null != mouseIn && mouseIn ) {
@@ -343,7 +343,7 @@
 
 					sliders.each( function() {
 			
-						var slider	= fx( this );
+						var slider	= fxs( this );
 						var mouseIn	= slider.attr( 'mouse-over' );
 						
 						if( settings.stopOnHover && null != mouseIn && mouseIn ) {
@@ -379,7 +379,7 @@
 
 			slidesSelector.each( function() {
 
-				fx( this ).css( { 'left': currentPosition + 'px', 'right' : '' } );
+				fxs( this ).css( { 'left': currentPosition + 'px', 'right' : '' } );
 
 				currentPosition += slideWidth;
 			});
@@ -411,7 +411,7 @@
 						duration: 500,
 						complete: function() {
 	
-							var slider = fx( this ).parent();
+							var slider = fxs( this ).parent();
 	
 							// Remove first and append to last
 							var slidesSelector	= slider.find( ".slide" );
@@ -512,7 +512,7 @@
 						duration: 500,
 						complete: function() {
 							
-							var slider = fx( this ).parent();
+							var slider = fxs( this ).parent();
 							
 							resetSlides( slider );
 						}
@@ -669,7 +669,7 @@
 	};
 
 	// Default Settings
-	fx.fn.foxslider.defaults = {
+	fxs.fn.foxslider.defaults = {
 		// Controls
 		bullets: false,
 		bulletsIndexing: false,
@@ -703,4 +703,4 @@
 		postSlideChange: null
 	};
 
-}( jQuery ) );
+})( jQuery );
