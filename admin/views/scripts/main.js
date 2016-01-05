@@ -1,10 +1,13 @@
+var fxsApp		= new cmt.api.Application();
+
 jQuery(document).ready( function() {
 
 	var appControllers				= [];
 
 	appControllers[ 'fxslider' ]	= 'FoxSliderController';
 
-	jQuery( ".fxs-form" ).processAjax({
+	jQuery( ".fxs-form" ).cmtRequestProcessor({
+		app: fxsApp,
 		controllers: appControllers
 	});
 });

@@ -12,56 +12,63 @@ use cmsgears\files\widgets\FileUploader;
 use cmsgears\core\common\utilities\CodeGenUtil;
 
 $coreProperties = $this->context->getCoreProperties();
-$this->title 	= $coreProperties->getSiteTitle() . ' | Slider Slides';
+$this->title 	= 'Slider Slides | ' . $coreProperties->getSiteTitle();
 $id				= $slider->id;
-
-// Sidebar
-$this->params['sidebar-parent'] = 'sidebar-slider';
-$this->params['sidebar-child'] 	= 'slider';
 
 Editor::widget( [ 'selector' => '.content-editor' ] );
 ?>
-<section class="wrap-content container clearfix">
-	<div class="cud-box">
-		<h2>Slider Slides</h2>
-		<form action="#" class="frm-split">
-			<label>Name</label>
-			<label><?=$slider->name?></label>
-		</form>
+<div class="box box-cud">
+	<div class="box-wrap-header">
+		<div class="header">Slider Slides</div>
+	</div>
+	<div class="box-wrap-content clearfix">
 
-		<h4>Create Slide</h4>
-		<form class="frm-split frm-slide fxs-form" id="frm-slide-create" cmt-controller="fxslider" cmt-action="updateSlide" action="<?= Url::toRoute( [ '/apix/foxslider/slide/create' ], true ) ?>" method="post">
-			<!-- name -->
-			<label>Title</label>
-			<input type="text" name="Slide[name]" placeholder="Title">
-			<div class="clear"><span class="error" cmt-error="name"></span></div>
-			<!-- desc -->
-			<label>Description</label>
-			<input type="text" name="Slide[description]" placeholder="Description">
-			<div class="clear"><span class="error" cmt-error="description"></span></div>
-			<!-- content -->
-			<label>Content</label>
-			<textarea class="editor-slide content-editor" name="Slide[content]" placeholder="Content"></textarea>
-			<div class="clear"><span class="error" cmt-error="content"></span></div>
-			<!-- url -->
-			<label>Slide Url</label>
-			<input type="text" name="Slide[url]" placeholder="Url">
-			<div class="clear"><span class="error" cmt-error="url"></span></div>
-			<input type="hidden" name="Slide[sliderId]" value="<?=$slider->id?>" />
-			<?= FileUploader::widget([ 
-				'options' => [ 'id' => 'slider-slide', 'class' => 'file-uploader' ],
-				'directory' => 'gallery', 'infoFields' => true, 'infoFieldsSeoOnly' => true,
-				'btnChooserIcon' => 'icon-action icon-action-edit' 
-			]);?>
-			<!-- submit, spinner, success -->
-			<div class="spinner"></div>
-			<div class="message"></div>
-            <input type="submit" class="" value="Create">
-		</form>
+		<div class="box-content">
+			<div class="header">Slider Details</div>
+			<div class="info">
+				<table>
+					<tr><td>Name</td><td><?=$slider->name?></td></tr>
+				</table>
+			</div>
+		</div>
 
-		<h4>All Slides</h4>
-		
-		<ul class="slider-slides clearfix">
+		<div class="box-content frm-split-40-60 clearfix">
+			<div class="header">Create Slide</div>
+			<form class="frm-split frm-slide fxs-form" id="frm-slide-create" cmt-controller="fxslider" cmt-action="updateSlide" action="<?= Url::toRoute( [ '/apix/foxslider/slide/create' ], true ) ?>" method="post">
+				<!-- name -->
+				<label>Title</label>
+				<input type="text" name="Slide[name]" placeholder="Title">
+				<div class="clear"><span class="error" cmt-error="name"></span></div>
+				<!-- desc -->
+				<label>Description</label>
+				<textarea name="Slide[description]" placeholder="Description"></textarea>
+				<div class="clear"><span class="error" cmt-error="description"></span></div>
+				<!-- content -->
+				<div class="clear"></div>
+				<div class="box-content clearfix">
+					<div class="header">Slide Content</div>
+					<textarea class="editor-slide content-editor" name="Slide[content]" placeholder="Content"></textarea>
+					<div class="clear"><span class="error" cmt-error="content"></span></div>
+				</div>
+				<!-- url -->
+				<label>Slide Url</label>
+				<input type="text" name="Slide[url]" placeholder="Url">
+				<div class="clear"><span class="error" cmt-error="url"></span></div>
+				<input type="hidden" name="Slide[sliderId]" value="<?=$slider->id?>" />
+				<?= FileUploader::widget([ 
+					'options' => [ 'id' => 'slider-slide', 'class' => 'file-uploader' ],
+					'directory' => 'gallery', 'infoFields' => true, 'infoFieldsSeoOnly' => true
+				]);?>
+				<!-- submit, spinner, success -->
+				<div class="spinner"></div>
+				<div class="message"></div>
+	            <input type="submit" class="" value="Create">
+			</form>
+		</div>
+
+		<div class="box-content frm-split-40-60 clearfix">
+			<div class="header">All Slides</div>
+			<ul class="slider-slides clearfix">
 		<?php
 			foreach ( $slides as $slide ) {
 
@@ -76,11 +83,14 @@ Editor::widget( [ 'selector' => '.content-editor' ] );
 					<div class="clear"><span class="error" cmt-error="name"></span></div>
 					<!-- desc -->
 					<label>Description</label>
-					<input type="text" name="Slide[description]" value="<?=$slide->description?>" placeholder="Description">
+					<textarea name="Slide[description]" value="<?=$slide->description?>" placeholder="Description"></textarea>
 					<div class="clear"><span class="error" cmt-error="description"></span></div>
 					<!-- content -->
-					<textarea class="editor-slide content-editor" name="Slide[content]" placeholder="Content"><?=$slide->content?></textarea>
-					<div class="clear"><span class="error" cmt-error="content"></span></div>
+					<div class="box-content clearfix">
+						<div class="header">Slide Content</div>
+						<textarea class="editor-slide content-editor" name="Slide[content]" placeholder="Content"><?=$slide->content?></textarea>
+						<div class="clear"><span class="error" cmt-error="content"></span></div>
+					</div>
 					<!-- url -->
 					<label>Slide Url</label>
 					<input type="text" name="Slide[url]" value="<?=$slide->url?>" placeholder="Url">
@@ -88,8 +98,7 @@ Editor::widget( [ 'selector' => '.content-editor' ] );
 					<input type="hidden" name="Slide[sliderId]" value="<?=$slider->id?>" />	
 					<?= FileUploader::widget([ 
 						'options' => [ 'id' => 'slider-slide-$slideId', 'class' => 'file-uploader' ],
-						'model' => $slide->image, 'directory' => 'gallery', 'infoFields' => true, 'infoFieldsSeoOnly' => true,
-						'btnChooserIcon' => 'icon-action icon-action-edit' 
+						'model' => $slide->image, 'directory' => 'gallery', 'infoFields' => true, 'infoFieldsSeoOnly' => true
 					]);?>
 					<!-- submit, spinner, success -->
 					<div class="spinner"></div>
@@ -100,8 +109,9 @@ Editor::widget( [ 'selector' => '.content-editor' ] );
 		<?php
 			}
 		?>
-		</ul>
+			</ul>
+		</div>
 	</div>
-</section>
+</div>
 
 <?= CodeGenUtil::registerJsFromFile( $this, View::POS_END, dirname( __DIR__ ) . "/scripts/main.js" ); ?> 
