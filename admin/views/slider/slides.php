@@ -7,7 +7,7 @@ use yii\web\View;
 
 // CMG Imports
 use cmsgears\core\common\widgets\Editor;
-use cmsgears\files\widgets\FileUploader;
+use cmsgears\files\widgets\ImageUploader;
 
 use cmsgears\core\common\utilities\CodeGenUtil;
 
@@ -15,7 +15,7 @@ $coreProperties = $this->context->getCoreProperties();
 $this->title 	= 'Slider Slides | ' . $coreProperties->getSiteTitle();
 $id				= $slider->id;
 
-Editor::widget( [ 'selector' => '.content-editor' ] );
+Editor::widget( [ 'selector' => '.content-editor', 'loadAssets' => true ] );
 ?>
 <div class="box box-cud">
 	<div class="box-wrap-header">
@@ -55,10 +55,10 @@ Editor::widget( [ 'selector' => '.content-editor' ] );
 				<input type="text" name="Slide[url]" placeholder="Url">
 				<div class="clear"><span class="error" cmt-error="url"></span></div>
 				<input type="hidden" name="Slide[sliderId]" value="<?=$slider->id?>" />
-				<?= FileUploader::widget([ 
-					'options' => [ 'id' => 'slider-slide', 'class' => 'file-uploader' ],
-					'directory' => 'gallery', 'infoFields' => true, 'infoFieldsSeoOnly' => true
-				]);?>
+				<?= ImageUploader::widget([ 
+						'options' => [ 'id' => 'slider-slide', 'class' => 'file-uploader' ],
+						'directory' => 'gallery', 'info' => true, 'seoInfoOnly' => true
+				]); ?>
 				<!-- submit, spinner, success -->
 				<div class="spinner"></div>
 				<div class="message"></div>
@@ -75,40 +75,38 @@ Editor::widget( [ 'selector' => '.content-editor' ] );
 				$slideId	= $slide->id;
 				$slideImage	= $slide->image;
 		?>
-			<li>
-				<form class="fxs-form frm-split" id="frm-slide-update-<?=$slideId?>" cmt-controller="fxslider" cmt-action="updateSlide" action="<?= Url::toRoute( [ "/apix/foxslider/slide/update?id=$slideId" ], true ) ?>" method="post" cmt-clear="false" >
-					<!-- name -->
-					<label>Title</label>
-					<input type="text" name="Slide[name]" value="<?=$slide->name?>" placeholder="Title">
-					<div class="clear"><span class="error" cmt-error="name"></span></div>
-					<!-- desc -->
-					<label>Description</label>
-					<textarea name="Slide[description]" value="<?=$slide->description?>" placeholder="Description"></textarea>
-					<div class="clear"><span class="error" cmt-error="description"></span></div>
-					<!-- content -->
-					<div class="box-content clearfix">
-						<div class="header">Slide Content</div>
-						<textarea class="editor-slide content-editor" name="Slide[content]" placeholder="Content"><?=$slide->content?></textarea>
-						<div class="clear"><span class="error" cmt-error="content"></span></div>
-					</div>
-					<!-- url -->
-					<label>Slide Url</label>
-					<input type="text" name="Slide[url]" value="<?=$slide->url?>" placeholder="Url">
-					<div class="clear"><span class="error" cmt-error="url"></span></div>
-					<input type="hidden" name="Slide[sliderId]" value="<?=$slider->id?>" />	
-					<?= FileUploader::widget([ 
-						'options' => [ 'id' => 'slider-slide-$slideId', 'class' => 'file-uploader' ],
-						'model' => $slide->image, 'directory' => 'gallery', 'infoFields' => true, 'infoFieldsSeoOnly' => true
-					]);?>
-					<!-- submit, spinner, success -->
-					<div class="spinner"></div>
-					<div class="message"></div>
-		            <input type="submit" class="" value="Update">
-				</form>
-			</li>
-		<?php
-			}
-		?>
+				<li>
+					<form class="fxs-form frm-split" id="frm-slide-update-<?=$slideId?>" cmt-controller="fxslider" cmt-action="updateSlide" action="<?= Url::toRoute( [ "/apix/foxslider/slide/update?id=$slideId" ], true ) ?>" method="post" cmt-clear="false" >
+						<!-- name -->
+						<label>Title</label>
+						<input type="text" name="Slide[name]" value="<?=$slide->name?>" placeholder="Title">
+						<div class="clear"><span class="error" cmt-error="name"></span></div>
+						<!-- desc -->
+						<label>Description</label>
+						<textarea name="Slide[description]" value="<?=$slide->description?>" placeholder="Description"></textarea>
+						<div class="clear"><span class="error" cmt-error="description"></span></div>
+						<!-- content -->
+						<div class="box-content clearfix">
+							<div class="header">Slide Content</div>
+							<textarea class="editor-slide content-editor" name="Slide[content]" placeholder="Content"><?=$slide->content?></textarea>
+							<div class="clear"><span class="error" cmt-error="content"></span></div>
+						</div>
+						<!-- url -->
+						<label>Slide Url</label>
+						<input type="text" name="Slide[url]" value="<?=$slide->url?>" placeholder="Url">
+						<div class="clear"><span class="error" cmt-error="url"></span></div>
+						<input type="hidden" name="Slide[sliderId]" value="<?=$slider->id?>" />
+						<?= ImageUploader::widget([ 
+								'options' => [ 'id' => 'slider-slide-$slideId', 'class' => 'file-uploader' ],
+								'model' => $slide->image, 'directory' => 'gallery', 'info' => true, 'seoInfoOnly' => true
+						]); ?>
+						<!-- submit, spinner, success -->
+						<div class="spinner"></div>
+						<div class="message"></div>
+			            <input type="submit" class="" value="Update">
+					</form>
+				</li>
+		<?php } ?>
 			</ul>
 		</div>
 	</div>

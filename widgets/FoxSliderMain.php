@@ -11,6 +11,8 @@ use yii\helpers\Html;
 // FXS Imports
 use foxslider\common\services\SliderService;
 
+use foxslider\widgets\assets\FxsAssets;
+
 class FoxSliderMain extends \cmsgears\core\common\base\Widget {
 
 	// Variables ---------------------------------------------------
@@ -82,7 +84,7 @@ class FoxSliderMain extends \cmsgears\core\common\base\Widget {
 		// Output Javascript at the end of Page
 		if( $this->loadAssets ) {
 
-        	FxsAssetBundle::register( $this->getView() );
+        	FxsAssets::register( $this->getView() );
 		}
 
 		// Additional Config
@@ -91,12 +93,12 @@ class FoxSliderMain extends \cmsgears\core\common\base\Widget {
 			$this->slideTexture	= "<div class='texture $this->slideTexture'></div>";
 		}
 
-		return $this->renderSlider();
+		return $this->renderWidget();
     }
 
 	// FoxSliderMain
 
-    public function renderSlider() {
+    public function renderWidget( $config = [] ) {
 
 		if( !isset( $this->sliderName ) ) {
 
