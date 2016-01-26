@@ -11,7 +11,7 @@ $user	= Yii::$app->user->getIdentity();
 <?php if( Yii::$app->cmgCore->hasModule( 'foxslider' ) && $user->isPermitted( 'foxslider' ) ) { ?>
 	<div id="sidebar-fxslider" class="collapsible-tab has-children <?php if( strcmp( $parent, 'sidebar-fxslider' ) == 0 ) echo 'active';?>">
 		<div class="collapsible-tab-header clearfix">
-			<div class="colf colf5 wrap-icon"><span class="cmti cmti-vc-vulpinecode"></span></div>
+			<div class="colf colf5 wrap-icon"><span class="cmti cmti-vc-foxslider"></span></div>
 			<div class="colf colf5x4">Fox Slider</div>
 		</div>
 		<div class="collapsible-tab-content clear <?php if( strcmp( $parent, 'sidebar-fxslider' ) == 0 ) echo 'expanded visible';?>">
