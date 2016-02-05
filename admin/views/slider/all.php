@@ -27,13 +27,16 @@ if( !isset( $sortOrder ) ) {
 ?>
 <div class="header-content clearfix">
 	<div class="header-actions col15x10">
-		<?= Html::a( 'Add Slider', [ 'create' ], [ 'class' => 'btn btn-medium' ] ) ?>				
+		<span class="frm-icon-element element-small">
+			<i class="cmti cmti-plus"></i>
+			<?= Html::a( 'Add', [ 'create' ], [ 'class' => 'btn' ] ) ?>
+		</span>				
 	</div>
 	<div class="header-search col15x5">
 		<input id="search-terms" class="element-large" type="text" name="search" value="<?= $searchTerms ?>">
-		<span class="frm-icon-element element-small">
+		<span class="frm-icon-element element-medium">
 			<i class="cmti cmti-search"></i>
-			<button id="btn-search" class="btn btn-small">Search</button>
+			<button id="btn-search">Search</button>
 		</span>
 	</div>
 </div>
@@ -90,7 +93,7 @@ if( !isset( $sortOrder ) ) {
 						<td>
 							<span title="Slider Slides"><?= Html::a( "", [ "slides?id=$id" ], [ 'class' => 'cmti cmti-list-small' ] )  ?></span>
 							<span title="Update Slider"><?= Html::a( "", [ "update?id=$id" ], [ 'class' => 'cmti cmti-edit' ] )  ?></span>
-							<span title="Delete Slider"><?= Html::a( "", [ "delete?id=$id" ], [ 'class' => 'cmti cmti-close-o-b' ] )  ?></span>
+							<span title="Delete Slider"><?= Html::a( "", [ "delete?id=$id" ], [ 'class' => 'cmti cmti-close-c-o' ] )  ?></span>
 						</td>
 					</tr>
 				<?php } ?>

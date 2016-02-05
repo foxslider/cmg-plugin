@@ -62,8 +62,8 @@ Editor::widget( [ 'selector' => '.content-editor', 'loadAssets' => true ] );
 				<!-- submit, spinner, success -->
 				<div class="spinner"></div>
 				<div class="message"></div>
-				<div class="align align-middle">
-	            	<input class="btn btn-medium" type="submit" value="Create">
+				<div class="align align-center">
+	            	<input class="element-medium" type="submit" value="Create">
 	            </div>
 			</form>
 		</div>
@@ -105,8 +105,8 @@ Editor::widget( [ 'selector' => '.content-editor', 'loadAssets' => true ] );
 						<!-- submit, spinner, success -->
 						<div class="spinner"></div>
 						<div class="message"></div>
-			            <div class="align align-middle">
-	            			<input class="btn btn-medium" type="submit" value="Update">
+			            <div class="align align-center">
+	            			<input class="element-medium" type="submit" value="Update">
 	            		</div>
 					</form>
 				</li>
