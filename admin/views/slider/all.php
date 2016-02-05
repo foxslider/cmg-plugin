@@ -90,7 +90,7 @@ if( !isset( $sortOrder ) ) {
 						<td><?= $slider->getScrollAutoStr() ?></td>
 						<td><?= $slider->getScrollTypeStr() ?></td>
 						<td><?= $slider->getCircularStr() ?></td>
-						<td>
+						<td class="actions">
 							<span title="Slider Slides"><?= Html::a( "", [ "slides?id=$id" ], [ 'class' => 'cmti cmti-list-small' ] )  ?></span>
 							<span title="Update Slider"><?= Html::a( "", [ "update?id=$id" ], [ 'class' => 'cmti cmti-edit' ] )  ?></span>
 							<span title="Delete Slider"><?= Html::a( "", [ "delete?id=$id" ], [ 'class' => 'cmti cmti-close-c-o' ] )  ?></span>
