@@ -1,6 +1,6 @@
-var fxsApp		= new cmt.api.Application();
-
 jQuery(document).ready( function() {
+
+	fxsApp		= new cmt.api.Application( { basePath: ajaxUrl } );
 
 	var appControllers				= [];
 
@@ -18,7 +18,7 @@ FoxSliderController	= function() {};
 
 FoxSliderController.inherits( cmt.api.controllers.BaseController );
 
-FoxSliderController.prototype.updateSlideActionPost = function( success, parentElement, message, response ) {
+FoxSliderController.prototype.updateSlideActionPost = function( success, parentElement, response ) {
 
 	if( success ) {
 
