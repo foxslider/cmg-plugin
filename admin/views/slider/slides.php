@@ -55,9 +55,9 @@ Editor::widget( [ 'selector' => '.content-editor', 'loadAssets' => true ] );
 				<input type="text" name="Slide[url]" placeholder="Url">
 				<div class="clear"><span class="error" cmt-error="url"></span></div>
 				<input type="hidden" name="Slide[sliderId]" value="<?=$slider->id?>" />
-				<?= ImageUploader::widget([ 
+				<?= ImageUploader::widget([
 						'options' => [ 'id' => 'slider-slide', 'class' => 'file-uploader' ],
-						'directory' => 'gallery', 'info' => true, 'seoInfoOnly' => true
+						'directory' => 'gallery', 'info' => true, 'infoFields' => []
 				]); ?>
 				<!-- submit, spinner, success -->
 				<div class="spinner"></div>
@@ -98,9 +98,9 @@ Editor::widget( [ 'selector' => '.content-editor', 'loadAssets' => true ] );
 						<input type="text" name="Slide[url]" value="<?=$slide->url?>" placeholder="Url">
 						<div class="clear"><span class="error" cmt-error="url"></span></div>
 						<input type="hidden" name="Slide[sliderId]" value="<?=$slider->id?>" />
-						<?= ImageUploader::widget([ 
+						<?= ImageUploader::widget([
 								'options' => [ 'id' => 'slider-slide-$slideId', 'class' => 'file-uploader' ],
-								'model' => $slide->image, 'directory' => 'gallery', 'info' => true, 'seoInfoOnly' => true
+								'model' => $slide->image, 'directory' => 'gallery', 'info' => true, 'infoFields' => []
 						]); ?>
 						<!-- submit, spinner, success -->
 						<div class="spinner"></div>
@@ -116,4 +116,4 @@ Editor::widget( [ 'selector' => '.content-editor', 'loadAssets' => true ] );
 	</div>
 </div>
 
-<?= CodeGenUtil::registerJsFromFile( $this, View::POS_END, dirname( __DIR__ ) . "/scripts/main.js" ); ?> 
+<?= CodeGenUtil::registerJsFromFile( $this, View::POS_END, dirname( __DIR__ ) . "/scripts/main.js" ); ?>
