@@ -9,16 +9,16 @@ use yii\web\NotFoundHttpException;
 // CMG Imports
 use cmsgears\core\common\config\CoreGlobal;
 
-use cmsgears\core\common\models\entities\CmgFile;
+use cmsgears\core\common\models\resources\CmgFile;
 
 use cmsgears\core\common\utilities\AjaxUtil;
 
 // FXS Imports
 use foxslider\common\config\FxsCoreGlobal;
 
-use foxslider\common\models\entities\Slide;
+use foxslider\common\models\resources\Slide;
 
-use foxslider\admin\services\SlideService;
+use foxslider\admin\services\resources\SlideService;
 
 class SlideController extends \cmsgears\core\admin\controllers\base\Controller {
 
@@ -61,7 +61,7 @@ class SlideController extends \cmsgears\core\admin\controllers\base\Controller {
 
 		if( $slide->load( Yii::$app->request->post(), 'Slide' ) && $slide->validate() ) {
 
-			$slideImage 	= new CmgFile();			
+			$slideImage 	= new CmgFile();
 
 			$slideImage->load( Yii::$app->request->post(), 'File' );
 
@@ -83,7 +83,7 @@ class SlideController extends \cmsgears\core\admin\controllers\base\Controller {
 		// Trigger Ajax Success
         return AjaxUtil::generateFailure( Yii::$app->cmgCoreMessage->getMessage( CoreGlobal::ERROR_REQUEST ), $errors );
 	}
-	
+
 	public function actionUpdate( $id ) {
 
 		// Find Model
@@ -93,8 +93,8 @@ class SlideController extends \cmsgears\core\admin\controllers\base\Controller {
 		if( isset( $slide ) ) {
 
 			if( $slide->load( Yii::$app->request->post(), 'Slide' ) && $slide->validate() ) {
-	
-				$slideImage 	= new CmgFile();			
+
+				$slideImage 	= new CmgFile();
 
 				$slideImage->load( Yii::$app->request->post(), 'File' );
 
@@ -103,7 +103,7 @@ class SlideController extends \cmsgears\core\admin\controllers\base\Controller {
 
 					// Trigger Ajax Success
 					return AjaxUtil::generateSuccess( Yii::$app->cmgCoreMessage->getMessage( CoreGlobal::MESSAGE_REQUEST ) );
-				}	
+				}
 			}
 		}
 

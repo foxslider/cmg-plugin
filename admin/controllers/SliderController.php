@@ -14,8 +14,8 @@ use foxslider\common\config\FxsCoreGlobal;
 
 use foxslider\common\models\entities\Slider;
 
-use foxslider\admin\services\SliderService;
-use foxslider\admin\services\SlideService;
+use foxslider\admin\services\entities\SliderService;
+use foxslider\admin\services\resources\SlideService;
 
 class SliderController extends \cmsgears\core\admin\controllers\base\Controller {
 
@@ -24,7 +24,7 @@ class SliderController extends \cmsgears\core\admin\controllers\base\Controller 
  	public function __construct( $id, $module, $config = [] ) {
 
         parent::__construct( $id, $module, $config );
-		
+
 		$this->sidebar 		= [ 'parent' => 'sidebar-fxslider', 'child' => 'fxslider' ];
 	}
 
@@ -97,17 +97,17 @@ class SliderController extends \cmsgears\core\admin\controllers\base\Controller 
 	}
 
 	public function actionUpdate( $id ) {
-		
-		// Find Model		
+
+		// Find Model
 		$model	= SliderService::findById( $id );
-		
+
 		// Update/Render if exist
 		if( isset( $model ) ) {
 
 			$model->setScenario( 'update' );
-	
+
 			if( $model->load( Yii::$app->request->post(), 'Slider' )  && $model->validate() ) {
-	
+
 				if( SliderService::update( $model ) ) {
 
 					return $this->redirect([ 'all' ] );
@@ -117,7 +117,7 @@ class SliderController extends \cmsgears\core\admin\controllers\base\Controller 
 	    	return $this->render( 'update', [
 	    		'model' => $model,
 	    		'scrollTypeMap' => Slider::$scrollTypeMap
-	    	]);			
+	    	]);
 		}
 
 		// Model not found
@@ -128,14 +128,14 @@ class SliderController extends \cmsgears\core\admin\controllers\base\Controller 
 
 		// Find Model
 		$model			= SliderService::findById( $id );
-		
+
 		// Delete/Render if exist
 		if( isset( $model ) ) {
 
 			if( $model->load( Yii::$app->request->post(), 'Slider' ) ) {
-	
+
 				if( SliderService::delete( $model ) ) {
-		
+
 					return $this->redirect( [ 'all' ] );
 				}
 			}
@@ -147,7 +147,7 @@ class SliderController extends \cmsgears\core\admin\controllers\base\Controller 
 		}
 
 		// Model not found
-		throw new NotFoundHttpException( Yii::$app->cmgCoreMessage->getMessage( CoreGlobal::ERROR_NOT_FOUND ) );	
+		throw new NotFoundHttpException( Yii::$app->cmgCoreMessage->getMessage( CoreGlobal::ERROR_NOT_FOUND ) );
 	}
 
 	public function actionSlides( $id ) {

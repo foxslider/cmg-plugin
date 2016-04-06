@@ -36,9 +36,9 @@ CREATE TABLE `fxs_slide` (
   `imageId` bigint(20) DEFAULT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `description` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `content` mediumtext COLLATE utf8_unicode_ci DEFAULT NULL,
   `url` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `order` smallint(6) NOT NULL DEFAULT '0',
+  `content` mediumtext COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_fxs_slide_1` (`sliderId`),
   KEY `fk_fxs_slide_2` (`imageId`)

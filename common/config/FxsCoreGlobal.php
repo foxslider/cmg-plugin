@@ -8,7 +8,7 @@ class FxsCoreGlobal {
 
 	// Permissions -----------------------------------------------------
 
-	const PERM_SLIDER			= "foxslider";
+	const PERM_SLIDER			= 'foxslider';
 }
 
 ?>

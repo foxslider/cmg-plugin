@@ -1,5 +1,5 @@
 <?php
-namespace foxslider\common\services;
+namespace foxslider\common\services\entities;
 
 // Yii Imports
 use \Yii;
@@ -7,12 +7,11 @@ use \Yii;
 // CMG Imports
 
 // FXS Imports
-use foxslider\common\models\entities\FXSTables;
-
+use foxslider\common\models\base\FXSTables;
 use foxslider\common\models\entities\Slider;
-use foxslider\common\models\entities\Slide;
+use foxslider\common\models\resources\Slide;
 
-class SliderService extends \cmsgears\core\common\services\Service {
+class SliderService extends \cmsgears\core\common\services\base\Service {
 
 	// Static Methods ----------------------------------------------
 

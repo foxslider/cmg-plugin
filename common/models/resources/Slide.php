@@ -1,5 +1,5 @@
 <?php
-namespace foxslider\common\models\entities;
+namespace foxslider\common\models\resources;
 
 // Yii Imports
 use \Yii;
@@ -7,8 +7,9 @@ use \Yii;
 // CMG Imports
 use cmsgears\core\common\config\CoreGlobal;
 
-use cmsgears\core\common\models\entities\CmgEntity;
-use cmsgears\core\common\models\entities\CmgFile;
+use cmsgears\core\common\models\resources\CmgFile;
+use foxslider\common\models\base\FxsTables;
+use foxslider\common\models\entities\Slider;
 
 /**
  * Slide Entity
@@ -22,19 +23,23 @@ use cmsgears\core\common\models\entities\CmgFile;
  * @property string $url
  * @property integer $order
  */
-class Slide extends CmgEntity {
+class Slide extends \cmsgears\core\common\models\base\CmgEntity {
+
+	// Variables ---------------------------------------------------
+
+	// Constants/Statics --
+
+	// Public -------------
+
+	// Private/Protected --
+
+	// Traits ------------------------------------------------------
+
+	// Constructor and Initialisation ------------------------------
 
 	// Instance Methods --------------------------------------------
 
-	public function getImage() {
-
-		return $this->hasOne( CmgFile::className(), [ 'id' => 'imageId' ] );
-	}
-
-	public function getSlider() {
-
-		return $this->hasOne( Slider::className(), [ 'id' => 'sliderId' ] );
-	}
+	// yii\base\Component ----------------
 
 	// yii\base\Model --------------------
 
@@ -42,10 +47,12 @@ class Slide extends CmgEntity {
 
         return [
             [ [ 'sliderId', 'name' ], 'required' ],
-            [ 'name', 'alphanumhyphenspace' ],
+            [ [ 'id', 'content' ], 'safe' ],
+            [ [ 'name', 'description', 'url' ], 'string', 'min' => 1, 'max' => Yii::$app->cmgCore->extraLargeText ],
+            [ 'name', 'alphanumpun' ],
             [ 'name', 'validateNameCreate', 'on' => [ 'create' ] ],
             [ 'name', 'validateNameUpdate', 'on' => [ 'update' ] ],
-			[ [ 'url', 'description', 'content' ], 'safe' ]
+            [ [ 'sliderId', 'imageId' ], 'number', 'integerOnly' => true, 'min' => 1 ]
         ];
     }
 
@@ -77,13 +84,25 @@ class Slide extends CmgEntity {
 
 			$existingSlide = self::findByNameSliderName( $this->name, $this->sliderId );
 
-			if( isset( $existingSlide ) && $existingSlide->id != $this->id && 
+			if( isset( $existingSlide ) && $existingSlide->id != $this->id &&
 				 strcmp( $existingSlide->name, $this->name ) == 0 && $existingSlide->sliderId == $this->sliderId ) {
 
 				$this->addError( $attribute, Yii::$app->cmgCoreMessage->getMessage( CoreGlobal::ERROR_EXIST ) );
 			}
         }
     }
+
+	// Slide -----------------------------
+
+	public function getImage() {
+
+		return $this->hasOne( CmgFile::className(), [ 'id' => 'imageId' ] );
+	}
+
+	public function getSlider() {
+
+		return $this->hasOne( Slider::className(), [ 'id' => 'sliderId' ] );
+	}
 
 	// Static Methods ----------------------------------------------
 
@@ -94,9 +113,11 @@ class Slide extends CmgEntity {
 		return FxsTables::TABLE_SLIDE;
 	}
 
-	// Slide -----------
+	// Slide -----------------------------
 
-	// Read
+	// Create -------------
+
+	// Read ---------------
 
 	public static function findById( $id ) {
 
@@ -123,10 +144,12 @@ class Slide extends CmgEntity {
 		return isset( $slide );
 	}
 
-	// Delete
+	// Update -------------
+
+	// Delete -------------
 
 	public static function deleteBySliderId( $sliderId ) {
-		
+
 		self::deleteAll( "sliderId=$sliderId" );
 	}
 }

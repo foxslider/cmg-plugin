@@ -1,5 +1,5 @@
 <?php
-namespace foxslider\admin\services;
+namespace foxslider\admin\services\resources;
 
 // Yii Imports
 use \Yii;
@@ -8,9 +8,9 @@ use yii\data\Sort;
 // CMG Imports
 
 // FXS Imports
-use foxslider\common\models\entities\Slide;
+use foxslider\common\models\resources\Slide;
 
-class SlideService extends \foxslider\common\services\SlideService {
+class SlideService extends \foxslider\common\services\resources\SlideService {
 
 	// Static Methods ----------------------------------------------
 

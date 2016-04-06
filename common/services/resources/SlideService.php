@@ -1,16 +1,18 @@
 <?php
-namespace foxslider\common\services;
+namespace foxslider\common\services\resources;
 
 // Yii Imports
 use \Yii;
 
 // CMG Imports
-use cmsgears\core\admin\services\FileService;
+use cmsgears\core\admin\services\resources\FileService;
 
 // FXS Imports
-use foxslider\common\models\entities\Slide;
+use foxslider\common\models\resources\Slide;
 
-class SlideService extends \cmsgears\core\common\services\Service {
+use foxslider\common\services\entities\SliderService;
+
+class SlideService extends \cmsgears\core\common\services\base\Service {
 
 	// Static Methods ----------------------------------------------
 

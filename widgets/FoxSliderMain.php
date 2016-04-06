@@ -9,9 +9,9 @@ use yii\base\InvalidConfigException;
 use yii\helpers\Html;
 
 // FXS Imports
-use foxslider\common\services\SliderService;
-
 use foxslider\widgets\assets\FxsAssets;
+
+use foxslider\common\services\entities\SliderService;
 
 class FoxSliderMain extends \cmsgears\core\common\base\Widget {
 
@@ -59,7 +59,7 @@ class FoxSliderMain extends \cmsgears\core\common\base\Widget {
 
 	// Slider name is required if we need to load it from slider db tables. The slider can also be formed from the image urls by overriding renderSlider method.
     public $sliderName;
-	
+
 	// Content array common for all the slides. The array elements can be included within slides.
 	public $genericContent	= [];
 
