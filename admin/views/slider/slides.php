@@ -85,7 +85,7 @@ Editor::widget( [ 'selector' => '.content-editor', 'loadAssets' => true ] );
 						<div class="clear"><span class="error" cmt-error="name"></span></div>
 						<!-- desc -->
 						<label>Description</label>
-						<textarea name="Slide[description]" value="<?=$slide->description?>" placeholder="Description"></textarea>
+						<textarea name="Slide[description]" placeholder="Description"><?=$slide->description?></textarea>
 						<div class="clear"><span class="error" cmt-error="description"></span></div>
 						<!-- content -->
 						<div class="box-content clearfix">

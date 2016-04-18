@@ -6,6 +6,7 @@ $slideContent	= $slide->content;
 $slideUrl		= $slide->url;
 $slideImageUrl	= '';
 $slideImageAlt	= '';
+$content		= "<div class='wrap-slide-content'>";
 
 if( isset( $slideImage ) ) {
 
