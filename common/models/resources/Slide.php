@@ -46,8 +46,8 @@ class Slide extends \cmsgears\core\common\models\base\CmgEntity {
 	public function rules() {
 
         return [
-            [ [ 'sliderId', 'name' ], 'required' ],
-            [ [ 'id', 'description', 'content' ], 'safe' ],
+            [ [ 'sliderId' ], 'required' ],
+            [ [ 'name', 'id', 'description', 'content' ], 'safe' ],
             [ [ 'name', 'url' ], 'string', 'min' => 1, 'max' => Yii::$app->cmgCore->extraLargeText ],
             [ 'name', 'alphanumpun' ],
             [ 'name', 'validateNameCreate', 'on' => [ 'create' ] ],
