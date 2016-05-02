@@ -84,7 +84,7 @@ class SliderService extends \cmsgears\core\common\services\base\Service {
 		$existingSlider	= self::findById( $slider->id );
 
 		// Clear all related slides
-		Slide::deleteBySliderId( $sliderId );
+		Slide::deleteBySliderId( $existingSlider->id );
 
 		// Delete Slider
 		$existingSlider->delete();
