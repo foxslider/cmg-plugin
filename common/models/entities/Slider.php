@@ -3,10 +3,20 @@ namespace foxslider\common\models\entities;
 
 // Yii Imports
 use \Yii;
+use yii\db\Expression;
+use yii\helpers\ArrayHelper;
+use yii\behaviors\SluggableBehavior;
+use yii\behaviors\TimestampBehavior;
 
 // CMG Imports
 use cmsgears\core\common\config\CoreGlobal;
 
+use cmsgears\core\common\models\traits\CreateModifyTrait;
+use cmsgears\core\common\models\traits\resources\DataTrait;
+
+use cmsgears\core\common\behaviors\AuthorBehavior;
+
+// FXS Imports
 use foxslider\common\models\base\FxsTables;
 use foxslider\common\models\resources\Slide;
 
@@ -14,7 +24,10 @@ use foxslider\common\models\resources\Slide;
  * Slider Entity
  *
  * @property integer $id
+ * @property integer $createdBy
+ * @property integer $modifiedBy
  * @property string $name
+ * @property string $slug
  * @property string $description
  * @property boolean $fullPage
  * @property integer $width
@@ -24,6 +37,9 @@ use foxslider\common\models\resources\Slide;
  * @property boolean $scrollAuto
  * @property integer $scrollType
  * @property boolean $circular
+ * @property datetime $createdAt
+ * @property datetime $modifiedAt
+ * @property string $data
  */
 class Slider extends \cmsgears\core\common\models\base\NamedCmgEntity {
 
@@ -49,11 +65,37 @@ class Slider extends \cmsgears\core\common\models\base\NamedCmgEntity {
 
 	// Traits ------------------------------------------------------
 
+	use DataTrait;
+
 	// Constructor and Initialisation ------------------------------
 
 	// Instance Methods --------------------------------------------
 
 	// yii\base\Component ----------------
+
+    /**
+     * @inheritdoc
+     */
+    public function behaviors() {
+
+        return [
+            'authorBehavior' => [
+                'class' => AuthorBehavior::className()
+            ],
+            'sluggableBehavior' => [
+                'class' => SluggableBehavior::className(),
+                'attribute' => 'name',
+                'slugAttribute' => 'slug',
+                'ensureUnique' => true
+            ],
+            'timestampBehavior' => [
+                'class' => TimestampBehavior::className(),
+                'createdAtAttribute' => 'createdAt',
+                'updatedAtAttribute' => 'modifiedAt',
+                'value' => new Expression('NOW()')
+            ]
+        ];
+    }
 
 	// yii\base\Model --------------------
 
@@ -61,12 +103,15 @@ class Slider extends \cmsgears\core\common\models\base\NamedCmgEntity {
 
         return [
             [ [ 'name', 'fullPage', 'slideWidth', 'slideHeight', 'scrollAuto', 'scrollType', 'circular' ], 'required' ],
-            [ [ 'name', 'description' ], 'string', 'min' => 1, 'max' => Yii::$app->cmgCore->extraLargeText ],
-            [ 'name', 'alphanumpun' ],
+            [ [ 'name' ], 'string', 'min' => 1, 'max' => Yii::$app->cmgCore->largeText ],
+            [ [ 'slug' ], 'string', 'min' => 1, 'max' => Yii::$app->cmgCore->extraLargeText ],
+            [ [ 'description' ], 'string', 'min' => 1, 'max' => Yii::$app->cmgCore->extraLargeText ],
             [ 'name', 'validateNameCreate', 'on' => [ 'create' ] ],
             [ 'name', 'validateNameUpdate', 'on' => [ 'update' ] ],
             [ [ 'width', 'height', 'slideWidth', 'slideHeight' ], 'number', 'integerOnly' => true, 'min' => 0 ],
-            [ [ 'fullPage', 'scrollAuto', 'circular' ], 'boolean' ]
+            [ [ 'fullPage', 'scrollAuto', 'circular' ], 'boolean' ],
+            [ [ 'createdBy', 'modifiedBy' ], 'number', 'integerOnly' => true, 'min' => 1 ],
+            [ [ 'createdAt', 'modifiedAt' ], 'date', 'format' => Yii::$app->formatter->datetimeFormat ]
         ];
     }
 
