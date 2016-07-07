@@ -40,8 +40,8 @@ class m160623_055225_foxslider_data extends \yii\db\Migration {
 
 		// Roles
 
-		$superAdminRole		= Role::findBySlug( 'super-admin' );
-		$adminRole			= Role::findBySlug( 'admin' );
+		$superAdminRole		= Role::findBySlugType( 'super-admin', CoreGlobal::TYPE_SYSTEM );
+		$adminRole			= Role::findBySlugType( 'admin', CoreGlobal::TYPE_SYSTEM );
 
 		// Permissions
 
@@ -53,7 +53,7 @@ class m160623_055225_foxslider_data extends \yii\db\Migration {
 
 		$this->batchInsert( $this->cmgPrefix . 'core_permission', $columns, $permissions );
 
-		$fxsPerm			= Permission::findBySlug( 'foxslider' );
+		$fxsPerm			= Permission::findBySlugType( 'foxslider', CoreGlobal::TYPE_SYSTEM );
 
 		// RBAC Mapping
 

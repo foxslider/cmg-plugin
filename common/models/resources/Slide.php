@@ -7,7 +7,7 @@ use \Yii;
 // CMG Imports
 use cmsgears\core\common\config\CoreGlobal;
 
-use cmsgears\core\common\models\resources\CmgFile;
+use cmsgears\core\common\models\resources\File;
 use foxslider\common\models\base\FxsTables;
 use foxslider\common\models\entities\Slider;
 
@@ -23,35 +23,47 @@ use foxslider\common\models\entities\Slider;
  * @property string $url
  * @property integer $order
  */
-class Slide extends \cmsgears\core\common\models\base\CmgEntity {
+class Slide extends \cmsgears\core\common\models\base\Entity {
 
 	// Variables ---------------------------------------------------
 
-	// Constants/Statics --
+	// Globals -------------------------------
 
-	// Public -------------
+	// Constants --------------
 
-	// Private/Protected --
+	// Public -----------------
+
+	// Protected --------------
+
+	// Variables -----------------------------
+
+	// Public -----------------
+
+	// Protected --------------
+
+	// Private ----------------
 
 	// Traits ------------------------------------------------------
 
 	// Constructor and Initialisation ------------------------------
 
-	// Instance Methods --------------------------------------------
+	// Instance methods --------------------------------------------
 
-	// yii\base\Component ----------------
+	// Yii interfaces ------------------------
 
-	// yii\base\Model --------------------
+	// Yii parent classes --------------------
+
+	// yii\base\Component -----
+
+	// yii\base\Model ---------
 
 	public function rules() {
 
         return [
             [ [ 'sliderId' ], 'required' ],
             [ [ 'name', 'id', 'description', 'content' ], 'safe' ],
-            [ [ 'name', 'url' ], 'string', 'min' => 1, 'max' => Yii::$app->cmgCore->extraLargeText ],
-            [ 'name', 'alphanumpun' ],
-            [ 'name', 'validateNameCreate', 'on' => [ 'create' ] ],
-            [ 'name', 'validateNameUpdate', 'on' => [ 'update' ] ],
+            [ [ 'name', 'url' ], 'string', 'min' => 1, 'max' => Yii::$app->core->extraLargeText ],
+            [ [ 'sliderId', 'name' ], 'unique', 'targetAttribute' => [ 'sliderId', 'name' ] ],
             [ [ 'sliderId', 'imageId' ], 'number', 'integerOnly' => true, 'min' => 1 ]
         ];
     }
@@ -65,64 +77,57 @@ class Slide extends \cmsgears\core\common\models\base\CmgEntity {
 		];
 	}
 
-	// Slide
+	// CMG interfaces ------------------------
 
-    public function validateNameCreate( $attribute, $params ) {
+	// CMG parent classes --------------------
 
-        if( !$this->hasErrors() ) {
+	// Validators ----------------------------
 
-            if( self::isExistByNameSliderId( $this->name, $this->sliderId ) ) {
-
-				$this->addError( $attribute, Yii::$app->cmgCoreMessage->getMessage( CoreGlobal::ERROR_EXIST ) );
-            }
-        }
-    }
-
-    public function validateNameUpdate( $attribute, $params ) {
-
-        if( !$this->hasErrors() ) {
-
-			$existingSlide = self::findByNameSliderName( $this->name, $this->sliderId );
-
-			if( isset( $existingSlide ) && $existingSlide->id != $this->id &&
-				 strcmp( $existingSlide->name, $this->name ) == 0 && $existingSlide->sliderId == $this->sliderId ) {
-
-				$this->addError( $attribute, Yii::$app->cmgCoreMessage->getMessage( CoreGlobal::ERROR_EXIST ) );
-			}
-        }
-    }
-
-	// Slide -----------------------------
-
-	public function getImage() {
-
-		return $this->hasOne( CmgFile::className(), [ 'id' => 'imageId' ] );
-	}
+	// Slide ---------------------------------
 
 	public function getSlider() {
 
 		return $this->hasOne( Slider::className(), [ 'id' => 'sliderId' ] );
 	}
 
+	public function getImage() {
+
+		return $this->hasOne( File::className(), [ 'id' => 'imageId' ] );
+	}
+
 	// Static Methods ----------------------------------------------
 
-	// yii\db\ActiveRecord ---------------
+	// Yii parent classes --------------------
+
+	// yii\db\ActiveRecord ----
 
 	public static function tableName() {
 
 		return FxsTables::TABLE_SLIDE;
 	}
 
-	// Slide -----------------------------
+	// CMG parent classes --------------------
 
-	// Create -------------
+	// Slide ---------------------------------
 
-	// Read ---------------
+	// Read - Query -----------
 
-	public static function findById( $id ) {
+	public static function queryWithAll( $config = [] ) {
 
-		return Slide::find()->where( 'id=:id', [ ':id' => $id ] )->one();
+		$relations				= isset( $config[ 'relations' ] ) ? $config[ 'relations' ] : [ 'slider', 'image' ];
+		$config[ 'relations' ]	= $relations;
+
+		return parent::queryWithAll( $config );
 	}
+
+	public static function queryWithImage( $config = [] ) {
+
+		$config[ 'relations' ]	= [ 'image' ];
+
+		return parent::queryWithAll( $config );
+	}
+
+	// Read - Find ------------
 
 	public static function findBySliderId( $sliderId ) {
 
@@ -144,9 +149,11 @@ class Slide extends \cmsgears\core\common\models\base\CmgEntity {
 		return isset( $slide );
 	}
 
-	// Update -------------
+	// Create -----------------
 
-	// Delete -------------
+	// Update -----------------
+
+	// Delete -----------------
 
 	public static function deleteBySliderId( $sliderId ) {
 

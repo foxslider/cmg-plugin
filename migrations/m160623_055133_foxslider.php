@@ -21,8 +21,8 @@ class m160623_055133_foxslider extends \yii\db\Migration {
 		$this->fxsPrefix	= 'fxs_';
 
 		// Get the values via config
-		$this->fk			= Yii::$app->cmgMigration->isFk();
-		$this->options		= Yii::$app->cmgMigration->getTableOptions();
+		$this->fk			= Yii::$app->migration->isFk();
+		$this->options		= Yii::$app->migration->getTableOptions();
 
 		// Default collation
 		if( $this->db->driverName === 'mysql' ) {
@@ -64,6 +64,7 @@ class m160623_055133_foxslider extends \yii\db\Migration {
 			'circular' => $this->boolean()->notNull()->defaultValue( false ),
 			'createdAt' => $this->dateTime()->notNull(),
 			'modifiedAt' => $this->dateTime(),
+			'content' => $this->text(),
 			'data' => $this->text()
         ], $this->options );
 

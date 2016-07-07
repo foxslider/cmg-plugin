@@ -5,6 +5,9 @@ use yii\helpers\Html;
 
 $coreProperties = $this->context->getCoreProperties();
 $this->title 	= 'Update Slider | ' . $coreProperties->getSiteTitle();
+
+$modelClass		= $this->context->modelService->getModelClass();
+$scrollTypeMap	= $modelClass::$scrollTypeMap;
 ?>
 <div class="box box-cud">
 	<div class="box-wrap-header">

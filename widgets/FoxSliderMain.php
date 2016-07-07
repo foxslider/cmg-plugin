@@ -11,13 +11,21 @@ use yii\helpers\Html;
 // FXS Imports
 use foxslider\widgets\assets\FxsAssets;
 
-use foxslider\common\services\entities\SliderService;
-
 class FoxSliderMain extends \cmsgears\core\common\base\Widget {
 
 	// Variables ---------------------------------------------------
 
-	// Public Variables --------------------
+	// Globals -------------------------------
+
+	// Constants --------------
+
+	// Public -----------------
+
+	// Protected --------------
+
+	// Variables -----------------------------
+
+	// Public -----------------
 
 	// FoxSlider JQuery Plugin Options
 	public $fxOptions	= [
@@ -63,18 +71,30 @@ class FoxSliderMain extends \cmsgears\core\common\base\Widget {
 	// Content array common for all the slides. The array elements can be included within slides.
 	public $genericContent	= [];
 
+	// Protected --------------
+
+	protected $sliderService;
+
+	// Private ----------------
+
+	// Traits ------------------------------------------------------
+
 	// Constructor and Initialisation ------------------------------
 
-	// yii\base\Object
+	public function init() {
 
-    public function init() {
+		parent::init();
 
-        parent::init();
-    }
+		$this->sliderService	= Yii::$app->factory->get( 'sliderService' );
+	}
 
-	// Instance Methods --------------------------------------------
+	// Instance methods --------------------------------------------
 
-	// yii\base\Widget
+	// Yii interfaces ------------------------
+
+	// Yii parent classes --------------------
+
+	// yii\base\Widget --------
 
 	/**
 	 * @inheritdoc
@@ -96,7 +116,9 @@ class FoxSliderMain extends \cmsgears\core\common\base\Widget {
 		return $this->renderWidget();
     }
 
-	// FoxSliderMain
+	// CMG interfaces ------------------------
+
+	// CMG parent classes --------------------
 
     public function renderWidget( $config = [] ) {
 
@@ -105,7 +127,7 @@ class FoxSliderMain extends \cmsgears\core\common\base\Widget {
             throw new InvalidConfigException( "The slider name option is required." );
         }
 
-		$slider	= SliderService::findByName( $this->sliderName );
+		$slider	= $this->sliderService->getByName( $this->sliderName );
 		$items 	= [];
 
 		if( !isset( $slider ) ) {
@@ -139,6 +161,9 @@ class FoxSliderMain extends \cmsgears\core\common\base\Widget {
 		// Return HTML
 		return Html::tag( 'div', implode( "\n", $items ), $this->options );
     }
+
+	// FoxSliderMain -------------------------
+
 }
 
 ?>

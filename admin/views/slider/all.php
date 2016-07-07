@@ -92,9 +92,9 @@ if( !isset( $sortOrder ) ) {
 						<td><?= $slider->getScrollTypeStr() ?></td>
 						<td><?= $slider->getCircularStr() ?></td>
 						<td class="actions">
-							<span title="Slider Slides"><?= Html::a( "", [ "slides?id=$id" ], [ 'class' => 'cmti cmti-list-small' ] )  ?></span>
-							<span title="Update Slider"><?= Html::a( "", [ "update?id=$id" ], [ 'class' => 'cmti cmti-edit' ] )  ?></span>
-							<span title="Delete Slider"><?= Html::a( "", [ "delete?id=$id" ], [ 'class' => 'cmti cmti-close-c-o' ] )  ?></span>
+							<span title="Slides"><?= Html::a( "", [ "slides?id=$id" ], [ 'class' => 'cmti cmti-list-small' ] )  ?></span>
+							<span title="Update"><?= Html::a( "", [ "update?id=$id" ], [ 'class' => 'cmti cmti-edit' ] )  ?></span>
+							<span title="Delete"><?= Html::a( "", [ "delete?id=$id" ], [ 'class' => 'cmti cmti-close-c-o' ] )  ?></span>
 						</td>
 					</tr>
 				<?php } ?>

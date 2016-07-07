@@ -3,96 +3,172 @@ namespace foxslider\common\services\resources;
 
 // Yii Imports
 use \Yii;
+use yii\data\Sort;
 
 // CMG Imports
-use cmsgears\core\admin\services\resources\FileService;
+use cmsgears\core\common\config\CoreGlobal;
+
+use cmsgears\core\common\services\interfaces\resources\IFileService;
 
 // FXS Imports
+use foxslider\common\config\FxsCoreGlobal;
+
+use foxslider\common\models\base\FxsTables;
 use foxslider\common\models\resources\Slide;
 
-use foxslider\common\services\entities\SliderService;
+use foxslider\common\services\interfaces\entities\ISliderService;
+use foxslider\common\services\interfaces\resources\ISlideService;
 
-class SlideService extends \cmsgears\core\common\services\base\Service {
+class SlideService extends \cmsgears\core\common\services\base\EntityService implements ISlideService {
 
-	// Static Methods ----------------------------------------------
+	// Variables ---------------------------------------------------
 
-	// Read ----------------
+	// Globals -------------------------------
 
-	public static function findById( $id ) {
+	// Constants --------------
 
-		return Slide::findOne( $id );
+	// Public -----------------
+
+	public static $modelClass	= '\foxslider\common\models\resources\Slide';
+
+	public static $modelTable	= FxsTables::TABLE_SLIDE;
+
+	public static $parentType	= null;
+
+	// Protected --------------
+
+	// Variables -----------------------------
+
+	// Public -----------------
+
+	// Protected --------------
+
+	protected $sliderService;
+
+	protected $fileService;
+
+	// Private ----------------
+
+	// Traits ------------------------------------------------------
+
+	// Constructor and Initialisation ------------------------------
+
+    public function __construct( ISliderService $sliderService, IFileService $fileService, $config = [] ) {
+
+		$this->sliderService	= $sliderService;
+		$this->fileService		= $fileService;
+
+        parent::__construct( $config );
+    }
+
+	// Instance methods --------------------------------------------
+
+	// Yii parent classes --------------------
+
+	// yii\base\Component -----
+
+	// CMG interfaces ------------------------
+
+	// CMG parent classes --------------------
+
+	// SlideService --------------------------
+
+	// Data Provider ------
+
+	public function getPage( $config = [] ) {
+
+	    $sort = new Sort([
+	        'attributes' => [
+	            'name' => [
+	                'asc' => [ 'name' => SORT_ASC ],
+	                'desc' => [ 'name' => SORT_DESC ],
+	                'default' => SORT_DESC,
+	                'label' => 'name',
+	            ]
+	        ]
+	    ]);
+
+		if( !isset( $config[ 'sort' ] ) ) {
+
+			$config[ 'sort' ] = $sort;
+		}
+
+		return parent::findPage( $config );
 	}
 
-	public static function findBySliderId( $sliderId ) {
+	// Read ---------------
+
+    // Read - Models ---
+
+	public function getBySliderId( $sliderId ) {
 
 		return Slide::findBySliderId( $sliderId );
 	}
 
-	// Data Provider -------
+    // Read - Lists ----
 
-	/**
-	 * @param array $config to generate query
-	 * @return ActiveDataProvider
-	 */
-	public static function getPagination( $config = [] ) {
+    // Read - Maps -----
 
-		return self::getDataProvider( new Slide(), $config );
+	// Read - Others ---
+
+	// Create -------------
+
+	public function create( $model, $config = [] ) {
+
+		$image 	= isset( $config[ 'image' ] ) ? $config[ 'image' ] : null;
+
+		$slider	= $this->sliderService->getById( $model->sliderId );
+
+		$this->fileService->saveImage( $image, [ 'model' => $model, 'attribute' => 'imageId', 'width' => $slider->slideWidth, 'height' => $slider->slideHeight ] );
+
+		return parent::create( $model, $config );
 	}
 
-	// Create -----------
+	// Update -------------
 
-	public static function create( $slide, $slideImage = null ) {
+	public function update( $model, $config = [] ) {
 
-		$slider	= SliderService::findById( $slide->sliderId );
+		$image 	= isset( $config[ 'image' ] ) ? $config[ 'image' ] : null;
 
-		// Save Slide Image to Slide Dimensions
-		if( isset( $slideImage ) ) {
+		$slider	= $this->sliderService->getById( $model->sliderId );
 
-			FileService::saveImage( $slideImage, [ 'model' => $slide, 'attribute' => 'imageId', 'width' => $slider->slideWidth, 'height' => $slider->slideHeight ] );
-		}
+		$this->fileService->saveImage( $image, [ 'model' => $model, 'attribute' => 'imageId', 'width' => $slider->slideWidth, 'height' => $slider->slideHeight ] );
 
-		// commit slide
-		$slide->save();
-
-		return $slide;
+		return parent::update( $model, [
+			'attributes' => [ 'imageId', 'name', 'description', 'content', 'url' ]
+		]);
 	}
 
-	// Update -----------
+	// Delete -------------
 
-	public static function update( $slide, $slideImage = null ) {
+	public function deleteBySliderId( $sliderId ) {
 
-		// Find User and Slider
-		$slider			= SliderService::findById( $slide->sliderId );
-
-		// Find existing Slide
-		$slideToUpdate	= self::findById( $slide->id );
-
-		// Copy Attributes
-		$slideToUpdate->copyForUpdateFrom( $slide, [ 'imageId', 'name', 'description', 'content', 'url' ] );
-
-		// Save Slide Image to Slide Dimensions
-		if( isset( $slideImage ) ) {
-
-			FileService::saveImage( $slideImage, [ 'model' => $slideToUpdate, 'attribute' => 'imageId', 'width' => $slider->slideWidth, 'height' => $slider->slideHeight ] );
-		}
-
-		$slideToUpdate->update();
-
-		return $slideToUpdate;
+		Slide::deleteBySliderId( $sliderId );
 	}
 
-	// Delete -----------
+	// Static Methods ----------------------------------------------
 
-	public static function delete( $slide ) {
+	// CMG parent classes --------------------
 
-		// Find existing Slide
-		$existingSlide	= self::findById( $slide->id );
+	// SlideService --------------------------
 
-		// Delete Slide
-		$existingSlide->delete();
+	// Data Provider ------
 
-		return true;
-	}
+	// Read ---------------
+
+    // Read - Models ---
+
+    // Read - Lists ----
+
+    // Read - Maps -----
+
+	// Read - Others ---
+
+	// Create -------------
+
+	// Update -------------
+
+	// Delete -------------
 }
 
 ?>
