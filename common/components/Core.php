@@ -27,6 +27,9 @@ class Core extends \yii\base\Component {
 
         parent::init();
 
+		// Foxslider Alias
+		Yii::setAlias( 'foxslider', dirname( dirname( dirname( __DIR__ ) ) ) );
+
 		// Register application components and objects i.e. CMG and Project
 		$this->registerComponents();
     }
