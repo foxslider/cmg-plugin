@@ -72,5 +72,3 @@ class m160623_055225_foxslider_data extends \yii\db\Migration {
         echo "m160623_055225_foxslider_data will be deleted with m160621_014408_core.\n";
     }
 }
-
-?>

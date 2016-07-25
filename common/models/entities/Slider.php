@@ -126,8 +126,7 @@ class Slider extends \cmsgears\core\common\models\base\Entity {
             [ [ 'name' ], 'string', 'min' => 1, 'max' => Yii::$app->core->largeText ],
             [ [ 'slug' ], 'string', 'min' => 1, 'max' => Yii::$app->core->xLargeText ],
             [ [ 'description' ], 'string', 'min' => 1, 'max' => Yii::$app->core->xLargeText ],
-			[ [ 'name' ], 'unique', 'targetAttribute' => [ 'name' ] ],
-			[ [ 'slug' ], 'unique', 'targetAttribute' => [ 'slug' ] ],
+			[ 'name', 'unique' ],
             [ [ 'width', 'height', 'slideWidth', 'slideHeight' ], 'number', 'integerOnly' => true, 'min' => 0 ],
             [ [ 'fullPage', 'scrollAuto', 'circular' ], 'boolean' ],
             [ [ 'createdBy', 'modifiedBy' ], 'number', 'integerOnly' => true, 'min' => 1 ],
@@ -224,5 +223,3 @@ class Slider extends \cmsgears\core\common\models\base\Entity {
 
 	// Delete -----------------
 }
-
-?>

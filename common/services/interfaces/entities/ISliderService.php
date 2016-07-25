@@ -29,5 +29,3 @@ interface ISliderService extends INameService, ISlugService {
 	// Delete -------------
 
 }
-
-?>

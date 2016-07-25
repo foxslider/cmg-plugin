@@ -13,5 +13,3 @@ class FxsTables {
 
 	// Mappers & Traits -----
 }
-
-?>

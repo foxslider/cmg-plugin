@@ -157,5 +157,3 @@ class SliderService extends \cmsgears\core\common\services\base\EntityService im
 
 	// Delete -------------
 }
-
-?>

@@ -124,5 +124,3 @@ class m160623_055133_foxslider extends \yii\db\Migration {
 		$this->dropForeignKey( 'fk_' . $this->fxsPrefix . 'slide_image', $this->fxsPrefix . 'slide' );
 	}
 }
-
-?>

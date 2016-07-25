@@ -29,5 +29,3 @@ interface ISlideService extends \cmsgears\core\common\services\interfaces\base\I
 
 	public function deleteBySliderId( $sliderId );
 }
-
-?>

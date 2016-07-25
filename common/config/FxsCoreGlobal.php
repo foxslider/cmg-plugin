@@ -10,5 +10,3 @@ class FxsCoreGlobal {
 
 	const PERM_SLIDER			= 'foxslider';
 }
-
-?>

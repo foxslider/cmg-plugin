@@ -170,5 +170,3 @@ class SlideService extends \cmsgears\core\common\services\base\EntityService imp
 
 	// Delete -------------
 }
-
-?>

@@ -85,5 +85,3 @@ class Core extends \yii\base\Component {
 		$factory->set( 'sliderService', [ 'class' => 'foxslider\common\services\entities\SliderService', 'slideService' =>  $factory->get( 'slideService' ) ] );
 	}
 }
-
-?>

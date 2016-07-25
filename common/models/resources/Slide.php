@@ -62,7 +62,7 @@ class Slide extends \cmsgears\core\common\models\base\Entity {
         return [
             [ [ 'sliderId' ], 'required' ],
             [ [ 'name', 'id', 'description', 'content' ], 'safe' ],
-            [ [ 'name', 'url' ], 'string', 'min' => 1, 'max' => Yii::$app->core->extraLargeText ],
+            [ [ 'name', 'url' ], 'string', 'min' => 1, 'max' => Yii::$app->core->xLargeText ],
             [ [ 'sliderId', 'name' ], 'unique', 'targetAttribute' => [ 'sliderId', 'name' ] ],
             [ [ 'sliderId', 'imageId' ], 'number', 'integerOnly' => true, 'min' => 1 ]
         ];
@@ -160,5 +160,3 @@ class Slide extends \cmsgears\core\common\models\base\Entity {
 		self::deleteAll( "sliderId=$sliderId" );
 	}
 }
-
-?>
