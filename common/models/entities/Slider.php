@@ -103,10 +103,11 @@ class Slider extends \cmsgears\core\common\models\base\Entity {
                 'class' => AuthorBehavior::className()
             ],
             'sluggableBehavior' => [
-                'class' => SluggableBehavior::className(),
-                'attribute' => 'name',
-                'slugAttribute' => 'slug',
-                'ensureUnique' => true
+				'class' => SluggableBehavior::className(),
+				'attribute' => 'name',
+				'slugAttribute' => 'slug',
+				'immutable' => true,
+				'ensureUnique' => true
             ],
             'timestampBehavior' => [
                 'class' => TimestampBehavior::className(),
@@ -122,11 +123,14 @@ class Slider extends \cmsgears\core\common\models\base\Entity {
 	public function rules() {
 
         return [
+            // Required, Safe
             [ [ 'name', 'fullPage', 'slideWidth', 'slideHeight', 'scrollAuto', 'scrollType', 'circular' ], 'required' ],
-            [ [ 'name' ], 'string', 'min' => 1, 'max' => Yii::$app->core->largeText ],
-            [ [ 'slug' ], 'string', 'min' => 1, 'max' => Yii::$app->core->xLargeText ],
-            [ [ 'description' ], 'string', 'min' => 1, 'max' => Yii::$app->core->xLargeText ],
-			[ 'name', 'unique' ],
+            [ [ 'id' ], 'safe' ],
+            // Text Limit
+            [ [ 'name' ], 'string', 'min' => 1, 'max' => Yii::$app->core->xLargeText ],
+            [ [ 'slug' ], 'string', 'min' => 1, 'max' => Yii::$app->core->xxLargeText ],
+            [ [ 'description' ], 'string', 'min' => 1, 'max' => Yii::$app->core->xxLargeText ],
+            // Other
             [ [ 'width', 'height', 'slideWidth', 'slideHeight' ], 'number', 'integerOnly' => true, 'min' => 0 ],
             [ [ 'fullPage', 'scrollAuto', 'circular' ], 'boolean' ],
             [ [ 'createdBy', 'modifiedBy' ], 'number', 'integerOnly' => true, 'min' => 1 ],

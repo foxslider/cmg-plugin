@@ -60,10 +60,15 @@ class Slide extends \cmsgears\core\common\models\base\Entity {
 	public function rules() {
 
         return [
+        	// Required, Safe
             [ [ 'sliderId' ], 'required' ],
-            [ [ 'name', 'id', 'description', 'content' ], 'safe' ],
-            [ [ 'name', 'url' ], 'string', 'min' => 1, 'max' => Yii::$app->core->xLargeText ],
-            [ [ 'sliderId', 'name' ], 'unique', 'targetAttribute' => [ 'sliderId', 'name' ] ],
+            [ [ 'id', 'content' ], 'safe' ],
+            // Unique
+			[ [ 'sliderId', 'name' ], 'unique', 'targetAttribute' => [ 'sliderId', 'name' ] ],
+			// Text Limit
+			[ 'name', 'string', 'min' => 1, 'max' => Yii::$app->core->xLargeText ],
+            [ [ 'description', 'url' ], 'string', 'min' => 1, 'max' => Yii::$app->core->xxLargeText ],
+            // Other
             [ [ 'sliderId', 'imageId' ], 'number', 'integerOnly' => true, 'min' => 1 ]
         ];
     }
