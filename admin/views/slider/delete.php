@@ -1,18 +1,20 @@
 <?php
+// Yii Imports
 use yii\widgets\ActiveForm;
 use yii\helpers\Html;
 
 $coreProperties = $this->context->getCoreProperties();
-$this->title 	= $coreProperties->getSiteTitle() . ' | Delete Slider';
+$this->title 	= 'Delete Slider | ' . $coreProperties->getSiteTitle();
 
-// Sidebar
-$this->params['sidebar-parent'] = 'sidebar-slider';
-$this->params['sidebar-child'] 	= 'slider';
+$modelClass		= $this->context->modelService->getModelClass();
+$scrollTypeMap	= $modelClass::$scrollTypeMap;
 ?>
-<section class="wrap-content container clearfix">
-	<div class="cud-box">
-		<h2>Delete Slider</h2>
-		<?php $form = ActiveForm::begin( ['id' => 'frm-slider-delete', 'options' => ['class' => 'frm-split' ] ] );?>
+<div class="box box-cud">
+	<div class="box-wrap-header">
+		<div class="header">Delete Slider</div>
+	</div>
+	<div class="box-wrap-content frm-split-40-60">
+		<?php $form = ActiveForm::begin( [ 'id' => 'frm-slider' ] );?>
 
     	<?= $form->field( $model, 'name' )->textInput( [ 'readonly'=>'true' ] ) ?>
     	<?= $form->field( $model, 'description' )->textarea( [ 'readonly'=>'true' ] ) ?>
@@ -25,11 +27,13 @@ $this->params['sidebar-child'] 	= 'slider';
     	<?= $form->field( $model, 'scrollType' )->dropDownList( $scrollTypeMap, [ 'disabled'=>'true' ] ) ?>
     	<?= $form->field( $model, 'circular' )->checkbox( [ 'disabled'=>'true' ] ) ?>
 
-		<div class="box-filler"></div>
+		<div class="clear filler-height"></div>
 
-		<?=Html::a( "Cancel", [ '/foxslider/slider/all' ], ['class' => 'btn' ] );?>
-		<input type="submit" value="Delete" />
+		<div class="align align-center">
+			<?=Html::a( 'Cancel', [ 'all' ], [ 'class' => 'btn btn-medium' ] );?>
+			<input class="element-medium" type="submit" value="Delete" />
+		</div>
 
 		<?php ActiveForm::end(); ?>
 	</div>
-</section>
+</div>

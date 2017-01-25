@@ -1,44 +1,44 @@
-(function( fx ) {
+(function( fxs ) {
 
 	/**
-	 * Notes: 
+	 * Notes:
 	 * ----------------------------------------------------
-	 * 1. Circular slider need filmstrip arrangement. 
+	 * 1. Circular slider need filmstrip arrangement.
 	 * 2. Non-Circular slider need stacked arrangement.
 	 * 3. Auto Scroll and Circular work together.
 	 */
 
 	// Slider
-	fx.fn.foxslider = function( options ) {
+	fxs.fn.foxslider = function( options ) {
 
 		// == Init =================================================================== //
 
 		// Configure Sliders
-		var settings 		= fx.extend( {}, fx.fn.foxslider.defaults, options );
+		var settings 		= fxs.extend( {}, fxs.fn.foxslider.defaults, options );
 		var sliders			= this;
 
 		// Iterate and initialise all the fox sliders
 		sliders.each( function() {
 
-			var slider	= fx( this );
+			var slider	= fxs( this );
 
 			init( slider );
 		});
 
 		// Autoplay
 		if( settings.autoScroll ) {
-			
+
 			startAutoScroll();
 		}
 
 		// Windows resize
-		fx( window ).resize(function() {
+		fxs( window ).resize(function() {
 
 			// Iterate and resize all the fox sliders
 			sliders.each( function() {
-	
-				var slider	= fx( this );
-	
+
+				var slider	= fxs( this );
+
 				normaliseSlides( slider );
 			});
 		});
@@ -47,7 +47,7 @@
 		return;
 
 		// == Private Functions ===================================================== //
-		
+
 		// == Bootstrap ==================================== //
 
 		// Initialise Slider
@@ -55,7 +55,7 @@
 
 			// Update Slider html
 			initSliderHtml( slider );
-			
+
 			// Set Slider and Slides based on configuration params
 			normaliseSlides( slider );
 
@@ -71,16 +71,16 @@
 
 			// Initialise Bullets
 			if( settings.bullets ) {
-	
+
 				initBullets( slider, settings.bulletClass );
 			}
-			
+
 			// Mouse Listener
 			slider.mouseenter( function() {
 
 				slider.attr( 'mouse-over', true );
 			});
-			
+
 			slider.mouseleave( function() {
 
 				slider.attr( 'mouse-over', null );
@@ -92,8 +92,8 @@
 
 			// Add slide class to all the slides
 			slider.children().each( function() {
-				
-				var slide = fx( this );
+
+				var slide = fxs( this );
 
 				slide.addClass( 'slide' );
 			});
@@ -104,10 +104,10 @@
 
 			if( settings.bullets ) {
 
-				sliderHtml	   += "<div class='bullets'></div>";				
+				sliderHtml	   += "<div class='bullets'></div>";
 			}
 
-			slider.html( sliderHtml );	
+			slider.html( sliderHtml );
 		}
 
 		// Set Slider and Slides based on configuration params and make filmstrip of all slides
@@ -121,9 +121,9 @@
 
 			// Use settings for Slider dimensions
 			if( settings.sliderWidth > 0 && settings.sliderHeight > 0 ) {
-				
+
 				slider.css( { 'width': settings.sliderWidth + "px", 'height': settings.sliderHeight + "px" } );
-				
+
 				sliderWidth		= settings.sliderWidth;
 				sliderHeight	= settings.sliderHeight;
 			}
@@ -138,7 +138,7 @@
 
 			// Use settings for Slide dimensions
 			if( settings.slideWidth > 0 ) {
-				
+
 				slideWidth 		= parseInt( settings.slideWidth );
 			}
 
@@ -155,11 +155,11 @@
 			// Set slides dimensions
 			slidesSelector.each( function() {
 
-				var currentSlide	= fx( this );
+				var currentSlide	= fxs( this );
 
 				// Use settings for Slide dimensions
 				if( settings.slideWidth > 0 && settings.slideHeight > 0 ) {
-					
+
 					currentSlide.css( { 'width': settings.slideWidth + "px", 'height': settings.slideHeight + "px" } );
 				}
 				else {
@@ -168,7 +168,7 @@
 				}
 
 				if( settings.slideArrangement == 'filmstrip' ) {
-	
+
 					currentSlide.css( 'left', currentPosition );
 				}
 
@@ -225,7 +225,7 @@
 				}
 			});
 		}
-		
+
 		// Initialise the Slider controls
 		function initControls( slider ) {
 
@@ -238,10 +238,10 @@
 
 			controls.show();
 
-			// Init Listeners				
+			// Init Listeners
 			var leftControl		= slider.find( ".control-left" );
 			var rightControl	= slider.find( ".control-right" );
-			
+
 			if( null != lControlClass ) {
 
 				leftControl.addClass( lControlClass );
@@ -264,12 +264,12 @@
 
 			leftControl.click( function() {
 
-				showPrevSlide( fx( this ).closest( ".fx-slider" ) );
+				showPrevSlide( fxs( this ).closest( ".fx-slider" ) );
 			});
 
 			rightControl.click( function() {
 
-				showNextSlide( fx( this ).closest( ".fx-slider" ) );
+				showNextSlide( fxs( this ).closest( ".fx-slider" ) );
 			});
 		}
 
@@ -282,28 +282,28 @@
 
 			// Generate Slider Bullets
 			for( var i = 0; i < slidesCount; i++ ) {
-		
+
 				var bullet = null;
-				
+
 				if( settings.bulletsIndexing ) {
-					
+
 					if( null != bulletClass ) {
-						
+
 						bullet = "<div class='bullet " + bulletClass + "' slide='" + i + "'>" + ( i + 1 ) + "</div>";
 					}
 					else {
-						
+
 						bullet = "<div class='bullet' slide='" + i + "'>" + ( i + 1 ) + "</div>";
 					}
 				}
 				else {
-					
+
 					if( null != bulletClass ) {
-						
+
 						bullet = "<div class='bullet " + bulletClass + "' slide='" + i + "'></div>";
 					}
 					else {
-						
+
 						bullet = "<div class='bullet' slide='" + i + "'></div>";
 					}
 				}
@@ -313,24 +313,24 @@
 
 			slider.find( ".bullet" ).click( function() {
 
-				showSelectedSlide( fx( this ) );
+				showSelectedSlide( fxs( this ) );
 			});
 
 			// set active bullet
 			activateBullet( slider, 0 );
 		}
-		
+
 		function startAutoScroll() {
 
 			setInterval(function() {
-				
+
 				if( settings.autoScrollType == 'left' ) {
 
 					sliders.each( function() {
-			
-						var slider	= fx( this );
+
+						var slider	= fxs( this );
 						var mouseIn	= slider.attr( 'mouse-over' );
-						
+
 						if( settings.stopOnHover && null != mouseIn && mouseIn ) {
 
 							return;
@@ -342,10 +342,10 @@
 				else if( settings.autoScrollType == 'right' ) {
 
 					sliders.each( function() {
-			
-						var slider	= fx( this );
+
+						var slider	= fxs( this );
 						var mouseIn	= slider.attr( 'mouse-over' );
-						
+
 						if( settings.stopOnHover && null != mouseIn && mouseIn ) {
 
 							return;
@@ -359,7 +359,7 @@
 		}
 
 		// == Slides Movements ============================= //
-		
+
 		// Calculate and re-position slides to form filmstrip
 		function resetSlides( slider ) {
 
@@ -373,13 +373,13 @@
 
 			// Use settings for Slide dimensions
 			if( settings.slideWidth > 0 && settings.slideHeight > 0 ) {
-				
+
 				slideWidth = parseInt( settings.slideWidth );
 			}
 
 			slidesSelector.each( function() {
 
-				fx( this ).css( { 'left': currentPosition + 'px', 'right' : '' } );
+				fxs( this ).css( { 'left': currentPosition + 'px', 'right' : '' } );
 
 				currentPosition += slideWidth;
 			});
@@ -398,49 +398,49 @@
 
 				// do pre processing
 				if( null != settings.preSlideChange ) {
-	
-					settings.preSlideChange( firstSlideIndex );				
+
+					settings.preSlideChange( firstSlideIndex );
 				}
-	
+
 				// TODO: Add animation extension and move this code to the animations extension
-	
+
 				// do animation - animate slider
 				filmstrip.animate(
 					{ left: -slideWidth },
 					{
 						duration: 500,
 						complete: function() {
-	
-							var slider = fx( this ).parent();
-	
+
+							var slider = fxs( this ).parent();
+
 							// Remove first and append to last
 							var slidesSelector	= slider.find( ".slide" );
 							var firstSlide		= slidesSelector.first();
 							firstSlide.insertAfter( slidesSelector.eq( slidesSelector.length - 1 ) );
 							firstSlide.css( "right", -slideWidth );
-	
+
 							resetSlides( slider );
-	
+
 							slidesSelector		= slider.find( ".slide" );
 							firstSlide			= slidesSelector.first();
 							var activeSlide		= firstSlide.attr( "slide" );
-	
+
 							// Activate Bullet
 							if( settings.bullets ) {
-	
+
 								activateBullet( slider, activeSlide );
 							}
 						}
 					}
 				);
-	
+
 				firstSlide		= slidesSelector.first();
 				firstSlideIndex	= firstSlide.attr( "slide" );
-	
+
 				// do post processing
 				if( null != settings.postSlideChange ) {
-					
-					settings.postSlideChange( firstSlideIndex );				
+
+					settings.postSlideChange( firstSlideIndex );
 				}
 			}
 			else if( settings.slideArrangement == 'stacked' ) {
@@ -458,7 +458,7 @@
 					slidesSelector.eq( currentIndex ).fadeIn( 'slow' );
 
 					slider.attr( "activeindex", currentIndex );
-					
+
 					// Disabled next control
 					if( currentIndex == totalSlides ) {
 
@@ -482,7 +482,7 @@
 
 		// Show Next Slide on clicking previous button
 		function showPrevSlide( slider ) {
-			
+
 			if( settings.circular && settings.slideArrangement == 'filmstrip' ) {
 
 				var slidesSelector	= slider.find( ".slide" );
@@ -490,48 +490,48 @@
 				var firstSlideIndex	= firstSlide.attr( "slide" );
 				var slideWidth		= parseInt( slidesSelector.css( "width" ) );
 				var filmstrip		= slider.find( ".slides-wrap" );
-	
+
 				// do pre processing
 				if( null != settings.preSlideChange ) {
-					
-					settings.preSlideChange( firstSlideIndex );				
+
+					settings.preSlideChange( firstSlideIndex );
 				}
-	
+
 				// Remove last and append to first
 				var lastSlide		= slidesSelector.last();
 				lastSlide.insertBefore( slidesSelector.eq(0) );
 				lastSlide.css( "left", -slideWidth );
 				var activeSlide		= lastSlide.attr( "slide" );
-	
+
 				// TODO: Add animation extension and move this code to the animations extension
-	
+
 				// do animation - animate slider
 				filmstrip.animate(
 					{ left: slideWidth },
 					{
 						duration: 500,
 						complete: function() {
-							
-							var slider = fx( this ).parent();
-							
+
+							var slider = fxs( this ).parent();
+
 							resetSlides( slider );
 						}
 					}
 				);
-	
+
 				// Activate Bullet
 				if( settings.bullets ) {
-	
+
 					activateBullet( slider, activeSlide );
 				}
-				
+
 				firstSlide		= slidesSelector.first();
 				firstSlideIndex	= firstSlide.attr( "slide" );
-	
+
 				// do post processing
 				if( null != settings.postSlideChange ) {
-					
-					settings.postSlideChange( firstSlideIndex );				
+
+					settings.postSlideChange( firstSlideIndex );
 				}
 			}
 			else if( settings.slideArrangement == 'stacked' ) {
@@ -548,7 +548,7 @@
 					slidesSelector.eq( currentIndex ).fadeIn( 'slow' );
 
 					slider.attr( "activeindex", currentIndex );
-					
+
 					// Disabled next control
 					if( currentIndex == 0 ) {
 
@@ -579,7 +579,7 @@
 
 		// Show Slide on Bullet click
 		function showSelectedSlide( bullet ) {
-			
+
 			var slider		= bullet.closest( ".fx-slider" );
 			var bulletNum	= parseInt( bullet.attr( "slide" ) );
 
@@ -589,40 +589,40 @@
 				var slidesSelector	= slider.find( ".slide" );
 				var slideWidth		= parseInt( slidesSelector.css( "width" ) );
 				var slidesCount		= slidesSelector.length;
-	
+
 				var activeSlide		= slidesSelector.first();
 				var activeSlideId	= parseInt( activeSlide.attr( "slide" ) );
-	
+
 				activateBullet( slider, bulletNum );
-	
+
 				if( bulletNum != activeSlideId ) {
-	
+
 					if( bulletNum < activeSlideId ) {
-						
+
 						var diff = activeSlideId - bulletNum;
-						
+
 						for( var i = 0; i < diff; i++ ) {
-	
+
 							// Remove last and append to first
 							var slidesSelector	= slider.find(".slide");
 							var lastSlide		= slidesSelector.last();
 							lastSlide.insertBefore( slidesSelector.eq(0) );
 						}
-						
+
 						resetSlides( slider );
 					}
 					else {
-						
+
 						var diff = bulletNum - activeSlideId;
-						
+
 						for( var i = 0; i < diff; i++ ) {
-	
+
 							// Remove first and append to last
 							var slidesSelector	= slider.find(".slide");
 							var firstSlide		= slidesSelector.first();
 							firstSlide.insertAfter( slidesSelector.eq( slidesSelector.length - 1 ) );
 						}
-	
+
 						resetSlides( slider );
 					}
 				}
@@ -640,7 +640,7 @@
 					slidesSelector.eq( bulletNum ).fadeIn( 'slow' );
 
 					slider.attr( "activeindex", bulletNum );
-					
+
 					// Disabled next control
 					if( bulletNum == totalSlides ) {
 
@@ -669,7 +669,7 @@
 	};
 
 	// Default Settings
-	fx.fn.foxslider.defaults = {
+	fxs.fn.foxslider.defaults = {
 		// Controls
 		bullets: false,
 		bulletsIndexing: false,
@@ -703,4 +703,4 @@
 		postSlideChange: null
 	};
 
-}( jQuery ) );
+})( jQuery );

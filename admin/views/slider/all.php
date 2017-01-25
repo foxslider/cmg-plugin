@@ -1,16 +1,13 @@
 <?php
-use \Yii;
-use yii\helpers\Html; 
+// Yii Imports
+use yii\helpers\Html;
 use yii\widgets\LinkPager;
 
+// CMG Imports
 use cmsgears\core\common\utilities\CodeGenUtil;
 
 $coreProperties = $this->context->getCoreProperties();
-$this->title 	= $coreProperties->getSiteTitle() . ' | All Sliders';
-
-// Sidebar
-$this->params['sidebar-parent'] = 'sidebar-slider';
-$this->params['sidebar-child'] 	= 'slider';
+$this->title 	= 'All Sliders | ' . $coreProperties->getSiteTitle();
 
 // Data
 $pagination		= $dataProvider->getPagination();
@@ -27,20 +24,33 @@ if( !isset( $sortOrder ) ) {
 	$sortOrder	= '';
 }
 ?>
-<div class="content-header clearfix">
-	<div class="header-actions"> 
-		<?= Html::a( "Add Slider", ["/foxslider/slider/create"], ['class'=>'btn'] )  ?>				
+
+<div class="header-content clearfix">
+	<div class="header-actions col15x10">
+		<span class="frm-icon-element element-small">
+			<i class="cmti cmti-plus"></i>
+			<?= Html::a( 'Add', [ 'create' ], [ 'class' => 'btn' ] ) ?>
+		</span>
 	</div>
-	<div class="header-search">
-		<input type="text" name="search" id="search-terms" value="<?php if( isset($searchTerms) ) echo $searchTerms;?>">
-		<input type="submit" name="submit-search" value="Search" onclick="return searchTable();" />
+	<div class="header-search col15x5">
+		<input id="search-terms" class="element-large" type="text" name="search" value="<?= $searchTerms ?>">
+		<span class="frm-icon-element element-medium">
+			<i class="cmti cmti-search"></i>
+			<button id="btn-search">Search</button>
+		</span>
 	</div>
 </div>
+
 <div class="data-grid">
-	<div class="grid-header">
-		<?= LinkPager::widget( [ 'pagination' => $pagination ] ); ?>
+	<div class="grid-header clearfix">
+		<div class="col12x6 info">
+			<?=CodeGenUtil::getPaginationDetail( $dataProvider ) ?>
+		</div>
+		<div class="col12x6 pagination">
+			<?= LinkPager::widget( [ 'pagination' => $pagination, 'options' => [ 'class' => 'pagination-basic' ] ] ); ?>
+		</div>
 	</div>
-	<div class="wrap-grid">
+	<div class="grid-content">
 		<table>
 			<thead>
 				<tr>
@@ -49,7 +59,7 @@ if( !isset( $sortOrder ) ) {
 							<span sort-order='name' class="icon-sort <?php if( strcmp( $sortOrder, 'name') == 0 ) echo 'icon-up-active'; else echo 'icon-up';?>"></span>
 							<span sort-order='-name' class="icon-sort <?php if( strcmp( $sortOrder, '-name') == 0 ) echo 'icon-down-active'; else echo 'icon-down';?>"></span>
 						</span>
-					</th>				
+					</th>
 					<th>Description</th>
 					<th>Full Page</th>
 					<th>Width</th>
@@ -70,7 +80,7 @@ if( !isset( $sortOrder ) ) {
 						$id = $slider->id;
 				?>
 					<tr>
-						<td><?= $slider->name ?></td>					
+						<td><?= $slider->name ?></td>
 						<td><?= $slider->description ?></td>
 						<td><?= $slider->getFullPageStr() ?></td>
 						<td><?= $slider->width ?></td>
@@ -80,18 +90,22 @@ if( !isset( $sortOrder ) ) {
 						<td><?= $slider->getScrollAutoStr() ?></td>
 						<td><?= $slider->getScrollTypeStr() ?></td>
 						<td><?= $slider->getCircularStr() ?></td>
-						<td>
-							<span class="wrap-icon-action" title="All Slides"><?= Html::a( "", ["/foxslider/slider/slides?id=$id"], ['class'=>'icon-action icon-action-edit'] )  ?></span>
-							<span class="wrap-icon-action" title="Update Slider"><?= Html::a( "", ["/foxslider/slider/update?id=$id"], ['class'=>'icon-action icon-action-edit'] )  ?></span>
-							<span class="wrap-icon-action" title="Delete Slider"><?= Html::a( "", ["/foxslider/slider/delete?id=$id"], ['class'=>'icon-action icon-action-delete'] )  ?></span>
+						<td class="actions">
+							<span title="Slides"><?= Html::a( "", [ "slides?id=$id" ], [ 'class' => 'cmti cmti-list-small' ] )  ?></span>
+							<span title="Update"><?= Html::a( "", [ "update?id=$id" ], [ 'class' => 'cmti cmti-edit' ] )  ?></span>
+							<span title="Delete"><?= Html::a( "", [ "delete?id=$id" ], [ 'class' => 'cmti cmti-close-c-o' ] )  ?></span>
 						</td>
 					</tr>
 				<?php } ?>
 			</tbody>
 		</table>
 	</div>
-	<div class="grid-footer">
-		<div class="text"> <?=CodeGenUtil::getPaginationDetail( $dataProvider ) ?> </div>
-		<?= LinkPager::widget( [ 'pagination' => $pagination ] ); ?>
+	<div class="grid-header clearfix">
+		<div class="col12x6 info">
+			<?=CodeGenUtil::getPaginationDetail( $dataProvider ) ?>
+		</div>
+		<div class="col12x6 pagination">
+			<?= LinkPager::widget( [ 'pagination' => $pagination, 'options' => [ 'class' => 'pagination-basic' ] ] ); ?>
+		</div>
 	</div>
 </div>

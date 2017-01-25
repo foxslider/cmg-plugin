@@ -9,13 +9,23 @@ use yii\base\InvalidConfigException;
 use yii\helpers\Html;
 
 // FXS Imports
-use foxslider\common\services\SliderService;
+use foxslider\widgets\assets\FxsAssets;
 
 class FoxSliderMain extends \cmsgears\core\common\base\Widget {
 
 	// Variables ---------------------------------------------------
 
-	// Public Variables --------------------
+	// Globals -------------------------------
+
+	// Constants --------------
+
+	// Public -----------------
+
+	// Protected --------------
+
+	// Variables -----------------------------
+
+	// Public -----------------
 
 	// FoxSlider JQuery Plugin Options
 	public $fxOptions	= [
@@ -57,22 +67,34 @@ class FoxSliderMain extends \cmsgears\core\common\base\Widget {
 
 	// Slider name is required if we need to load it from slider db tables. The slider can also be formed from the image urls by overriding renderSlider method.
     public $sliderName;
-	
+
 	// Content array common for all the slides. The array elements can be included within slides.
 	public $genericContent	= [];
 
+	// Protected --------------
+
+	protected $sliderService;
+
+	// Private ----------------
+
+	// Traits ------------------------------------------------------
+
 	// Constructor and Initialisation ------------------------------
 
-	// yii\base\Object
+	public function init() {
 
-    public function init() {
+		parent::init();
 
-        parent::init();
-    }
+		$this->sliderService	= Yii::$app->factory->get( 'sliderService' );
+	}
 
-	// Instance Methods --------------------------------------------
+	// Instance methods --------------------------------------------
 
-	// yii\base\Widget
+	// Yii interfaces ------------------------
+
+	// Yii parent classes --------------------
+
+	// yii\base\Widget --------
 
 	/**
 	 * @inheritdoc
@@ -82,7 +104,7 @@ class FoxSliderMain extends \cmsgears\core\common\base\Widget {
 		// Output Javascript at the end of Page
 		if( $this->loadAssets ) {
 
-        	FxsAssetBundle::register( $this->getView() );
+        	FxsAssets::register( $this->getView() );
 		}
 
 		// Additional Config
@@ -91,19 +113,21 @@ class FoxSliderMain extends \cmsgears\core\common\base\Widget {
 			$this->slideTexture	= "<div class='texture $this->slideTexture'></div>";
 		}
 
-		return $this->renderSlider();
+		return $this->renderWidget();
     }
 
-	// FoxSliderMain
+	// CMG interfaces ------------------------
 
-    public function renderSlider() {
+	// CMG parent classes --------------------
+
+    public function renderWidget( $config = [] ) {
 
 		if( !isset( $this->sliderName ) ) {
 
             throw new InvalidConfigException( "The slider name option is required." );
         }
 
-		$slider	= SliderService::findByName( $this->sliderName );
+		$slider	= $this->sliderService->getByName( $this->sliderName );
 		$items 	= [];
 
 		if( !isset( $slider ) ) {
@@ -137,6 +161,9 @@ class FoxSliderMain extends \cmsgears\core\common\base\Widget {
 		// Return HTML
 		return Html::tag( 'div', implode( "\n", $items ), $this->options );
     }
+
+	// FoxSliderMain -------------------------
+
 }
 
 ?>

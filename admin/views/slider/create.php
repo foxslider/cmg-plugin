@@ -1,18 +1,20 @@
 <?php
+// Yii Imports
 use yii\widgets\ActiveForm;
 use yii\helpers\Html;
 
 $coreProperties = $this->context->getCoreProperties();
-$this->title 	= $coreProperties->getSiteTitle() . ' | Add Slider';
+$this->title 	= 'Add Slider | ' . $coreProperties->getSiteTitle();
 
-// Sidebar
-$this->params['sidebar-parent'] = 'sidebar-slider';
-$this->params['sidebar-child'] 	= 'slider';
+$modelClass		= $this->context->modelService->getModelClass();
+$scrollTypeMap	= $modelClass::$scrollTypeMap;
 ?>
-<section class="wrap-content container clearfix">
-	<div class="cud-box">
-		<h2>Add Slider</h2>
-		<?php $form = ActiveForm::begin( ['id' => 'frm-slider-create', 'options' => ['class' => 'frm-split' ] ] );?>
+<div class="box box-cud">
+	<div class="box-wrap-header">
+		<div class="header">Add Slider</div>
+	</div>
+	<div class="box-wrap-content frm-split-40-60">
+		<?php $form = ActiveForm::begin( [ 'id' => 'frm-slider' ] );?>
 
     	<?= $form->field( $model, 'name' ) ?>
     	<?= $form->field( $model, 'description' )->textarea() ?>
@@ -24,11 +26,14 @@ $this->params['sidebar-child'] 	= 'slider';
     	<?= $form->field( $model, 'scrollAuto' )->checkbox() ?>
     	<?= $form->field( $model, 'scrollType' )->dropDownList( $scrollTypeMap ) ?>
     	<?= $form->field( $model, 'circular' )->checkbox() ?>
-		<div class="box-filler"></div>
 
-		<?=Html::a( "Cancel", [ '/foxslider/slider/all' ], ['class' => 'btn' ] );?>
-		<input type="submit" value="Create" />
+		<div class="clear filler-height"></div>
+
+		<div class="align align-center">
+			<?=Html::a( 'Cancel', [ 'all' ], [ 'class' => 'btn btn-medium' ] );?>
+			<input class="element-medium" type="submit" value="Create" />
+		</div>
 
 		<?php ActiveForm::end(); ?>
 	</div>
-</section>
+</div>

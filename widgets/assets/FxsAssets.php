@@ -1,11 +1,10 @@
 <?php
-namespace foxslider\widgets;
+namespace foxslider\widgets\assets;
 
 // Yii Imports
-use yii\web\AssetBundle;
 use yii\web\View;
 
-class FxsAssetBundle extends AssetBundle {
+class FxsAssets extends \yii\web\AssetBundle {
 
 	// Variables ---------------------------------------------------
 
@@ -33,7 +32,7 @@ class FxsAssetBundle extends AssetBundle {
 		parent::__construct();
 
 		// Path Configuration
-		$this->sourcePath	= dirname( __FILE__ ) . '/resources';
+		$this->sourcePath	= dirname( __DIR__ ) . '/resources';
 	}
 }
 
