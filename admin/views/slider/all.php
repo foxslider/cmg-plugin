@@ -77,10 +77,11 @@ if( !isset( $sortOrder ) ) {
 
 					foreach( $models as $slider ) {
 
-						$id = $slider->id;
+						$id 		= $slider->id;
+						$editUrl	= Html::a( $slider->name, [ "update?id=$id" ] );
 				?>
 					<tr>
-						<td><?= $slider->name ?></td>
+						<td><?= $editUrl ?></td>
 						<td><?= $slider->description ?></td>
 						<td><?= $slider->getFullPageStr() ?></td>
 						<td><?= $slider->width ?></td>
