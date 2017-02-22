@@ -8,7 +8,11 @@ class FxsAssets extends \yii\web\AssetBundle {
 
 	// Variables ---------------------------------------------------
 
-	// Public ----
+	// Globals -------------------------------
+
+	// Constants --------------
+
+	// Public -----------------
 
 	// Load Javascript
     public $js = [
@@ -25,15 +29,46 @@ class FxsAssets extends \yii\web\AssetBundle {
 		'yii\web\JqueryAsset'
     ];
 
+	// Protected --------------
+
+	// Variables -----------------------------
+
+	// Public -----------------
+
+	// Protected --------------
+
+	// Private ----------------
+
+	// Traits ------------------------------------------------------
+
 	// Constructor and Initialisation ------------------------------
 
-	public function __construct()  {
-		
-		parent::__construct();
+	public function init()  {
 
 		// Path Configuration
 		$this->sourcePath	= dirname( __DIR__ ) . '/resources';
-	}
-}
 
-?>
+		parent::init();
+	}
+
+	// Instance methods --------------------------------------------
+
+	// Yii interfaces ------------------------
+
+	// Yii parent classes --------------------
+
+	// CMG interfaces ------------------------
+
+	// CMG parent classes --------------------
+
+	// FxsAssets -----------------------------
+
+	// Static Methods ----------------------------------------------
+
+	// Yii parent classes --------------------
+
+	// CMG parent classes --------------------
+
+	// FxsAssets -----------------------------
+
+}
