@@ -1,18 +1,24 @@
-jQuery(document).ready( function() {
+var fxsApp	= null;
 
-	fxsApp		= new cmt.api.Application( { basePath: ajaxUrl } );
+jQuery( document ).ready( function() {
 
-	var appControllers				= [];
+	// App
+	fxsApp	= new cmt.api.Application( { basePath: ajaxUrl } );
 
-	appControllers[ 'fxslider' ]	= 'FoxSliderController';
+	// Controllers
+	var fxsControllers			= [];
+	fxsControllers[ 'slider' ]	= 'FoxSliderController';
 
-	jQuery( ".fxs-form" ).cmtRequestProcessor({
+	// Init App
+	jQuery( '[cmt-app=foxslider]' ).cmtRequestProcessor({
 		app: fxsApp,
-		controllers: appControllers
+		controllers: fxsControllers
 	});
 });
 
-// FoxSliderController --------------------------------------
+// == FoxSlider App Controllers ==============================
+
+// == FoxSlider Controller ================
 
 FoxSliderController	= function() {};
 

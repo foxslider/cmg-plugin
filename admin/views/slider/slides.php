@@ -34,7 +34,7 @@ Editor::widget( [ 'selector' => '.content-editor', 'loadAssets' => true ] );
 
 		<div class="box-content frm-split-40-60 clearfix">
 			<div class="header">Create Slide</div>
-			<form class="frm-split frm-slide fxs-form" id="frm-slide-create" cmt-controller="fxslider" cmt-action="updateSlide" action="foxslider/slide/create">
+			<form class="frm-split frm-slide fxs-form" id="frm-slide-create" cmt-app="foxslider" cmt-controller="slider" cmt-action="updateSlide" action="foxslider/slide/create">
 				<!-- name -->
 				<label>Title</label>
 				<input type="text" name="Slide[name]" placeholder="Title">
@@ -78,7 +78,7 @@ Editor::widget( [ 'selector' => '.content-editor', 'loadAssets' => true ] );
 				$slideImage	= $slide->image;
 		?>
 				<li>
-					<form class="fxs-form frm-split" id="frm-slide-update-<?=$slideId?>" cmt-controller="fxslider" cmt-action="updateSlide" action="foxslider/slide/update?id=<?= $slideId ?>" cmt-keep>
+					<form class="fxs-form frm-split" id="frm-slide-update-<?=$slideId?>" cmt-app="foxslider" cmt-controller="slider" cmt-action="updateSlide" action="foxslider/slide/update?id=<?= $slideId ?>" cmt-keep>
 						<!-- name -->
 						<label>Title</label>
 						<input type="text" name="Slide[name]" value="<?=$slide->name?>" placeholder="Title">
