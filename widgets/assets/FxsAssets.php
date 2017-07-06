@@ -26,7 +26,7 @@ class FxsAssets extends \yii\web\AssetBundle {
 
 	// Define dependent Asset Loaders
     public $depends = [
-		'yii\web\JqueryAsset'
+		'cmsgears\core\common\assets\Jquery'
     ];
 
 	// Protected --------------
@@ -72,3 +72,4 @@ class FxsAssets extends \yii\web\AssetBundle {
 	// FxsAssets -----------------------------
 
 }
+
