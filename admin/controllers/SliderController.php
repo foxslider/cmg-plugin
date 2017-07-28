@@ -35,14 +35,28 @@ class SliderController extends \cmsgears\core\admin\controllers\base\CrudControl
 
         parent::init();
 
+		// Permissions
 		$this->crudPermission 	= FxsCoreGlobal::PERM_SLIDER;
-		$this->modelService		= Yii::$app->factory->get( 'sliderService' );
+		
+		// Sidebar
 		$this->sidebar 			= [ 'parent' => 'sidebar-fxslider', 'child' => 'slider' ];
 
+		// Services
+		$this->modelService		= Yii::$app->factory->get( 'sliderService' );
 		$this->slideService		= Yii::$app->factory->get( 'slideService' );
 
+		// Return Url
 		$this->returnUrl		= Url::previous( 'fxsliders' );
 		$this->returnUrl		= isset( $this->returnUrl ) ? $this->returnUrl : Url::toRoute( [ '/foxslider/slider/all' ], true );
+		
+		// Breadcrumbs
+		$this->breadcrumbs		= [
+			'all' => [ [ 'label' => 'Sidebar' ] ],
+			'create' => [ [ 'label' => 'Sidebar', 'url' => $this->returnUrl ], [ 'label' => 'Add' ] ],
+			'update' => [ [ 'label' => 'Sidebar', 'url' => $this->returnUrl ], [ 'label' => 'Update' ] ],
+			'delete' => [ [ 'label' => 'Sidebar', 'url' => $this->returnUrl ], [ 'label' => 'Delete' ] ],
+			'items' => [ [ 'label' => 'Sidebar', 'url' => $this->returnUrl ], [ 'label' => 'Items' ] ]
+		];
 	}
 
 	// Instance methods --------------------------------------------
@@ -74,13 +88,13 @@ class SliderController extends \cmsgears\core\admin\controllers\base\CrudControl
 
 	public function actionAll() {
 
-		Url::remember( [ 'slider/all' ], 'fxsliders' );
+		Url::remember( Yii::$app->request->getUrl(), 'fxsliders' );
 
 		$dataProvider = $this->modelService->getPage();
 
-	    return $this->render( 'all', [
-	         'dataProvider' => $dataProvider
-	    ]);
+		return $this->render( 'all', [
+			 'dataProvider' => $dataProvider
+		]);
 	}
 
 	public function actionSlides( $id ) {

@@ -36,7 +36,10 @@ class SlideController extends \cmsgears\core\admin\controllers\base\Controller {
 
         parent::init();
 
+		// Permissions
 		$this->crudPermission 	= FxsCoreGlobal::PERM_SLIDER;
+		
+		// Services
 		$this->modelService		= Yii::$app->factory->get( 'slideService' );
 	}
 
