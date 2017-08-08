@@ -5,10 +5,8 @@ namespace cmsgears\cms\admin\controllers\apix;
 use Yii;
 use yii\filters\VerbFilter;
 
-// CMG Imports
-use cmsgears\core\common\config\CoreGlobal;
-
 class SliderController extends \cmsgears\core\admin\controllers\base\Controller {
+
 	// Variables ---------------------------------------------------
 
 	// Globals ----------------
@@ -27,11 +25,10 @@ class SliderController extends \cmsgears\core\admin\controllers\base\Controller 
 		parent::init();
 
 		// Permissions
-		$this->crudPermission	= CoreGlobal::PERM_GALLERY_ADMIN;
+		$this->crudPermission 	= FxsCoreGlobal::PERM_SLIDER;
 
 		// Services
 		$this->modelService		= Yii::$app->factory->get( 'blockService' );
-
 	}
 
 	// Instance methods --------------------------------------------
@@ -48,7 +45,6 @@ class SliderController extends \cmsgears\core\admin\controllers\base\Controller 
 			'rbac' => [
 				'class' => Yii::$app->core->getRbacFilterClass(),
 				'actions' => [
-				
 					'bulk' => [ 'permission' => $this->crudPermission ],
 					'delete' => [ 'permission' => $this->crudPermission ]
 				]
@@ -56,7 +52,6 @@ class SliderController extends \cmsgears\core\admin\controllers\base\Controller 
 			'verbs' => [
 				'class' => VerbFilter::className(),
 				'actions' => [
-				
 					'bulk' => [ 'post' ],
 					'delete' => [ 'post' ]
 				]
@@ -69,7 +64,6 @@ class SliderController extends \cmsgears\core\admin\controllers\base\Controller 
 	public function actions() {
 
 		return [
-			
 			'bulk' => [ 'class' => 'cmsgears\core\common\actions\grid\Bulk' ],
 			'delete' => [ 'class' => 'cmsgears\core\common\actions\grid\Delete' ]
 		];
@@ -79,7 +73,6 @@ class SliderController extends \cmsgears\core\admin\controllers\base\Controller 
 
 	// CMG parent classes --------------------
 
-	// SliderController ---------------------
+	// SliderController ----------------------
 
 }
-

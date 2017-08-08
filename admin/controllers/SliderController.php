@@ -2,8 +2,7 @@
 namespace foxslider\admin\controllers;
 
 // Yii Imports
-use \Yii;
-use yii\filters\VerbFilter;
+use Yii;
 use yii\helpers\Url;
 use yii\web\NotFoundHttpException;
 
@@ -12,8 +11,6 @@ use cmsgears\core\common\config\CoreGlobal;
 
 // FXS Imports
 use foxslider\common\config\FxsCoreGlobal;
-
-use foxslider\common\models\entities\Slider;
 
 class SliderController extends \cmsgears\core\admin\controllers\base\CrudController {
 
@@ -37,7 +34,7 @@ class SliderController extends \cmsgears\core\admin\controllers\base\CrudControl
 
 		// Permissions
 		$this->crudPermission 	= FxsCoreGlobal::PERM_SLIDER;
-		
+
 		// Sidebar
 		$this->sidebar 			= [ 'parent' => 'sidebar-fxslider', 'child' => 'slider' ];
 
@@ -48,14 +45,14 @@ class SliderController extends \cmsgears\core\admin\controllers\base\CrudControl
 		// Return Url
 		$this->returnUrl		= Url::previous( 'fxsliders' );
 		$this->returnUrl		= isset( $this->returnUrl ) ? $this->returnUrl : Url::toRoute( [ '/foxslider/slider/all' ], true );
-		
+
 		// Breadcrumbs
 		$this->breadcrumbs		= [
-			'all' => [ [ 'label' => 'Sidebar' ] ],
-			'create' => [ [ 'label' => 'Sidebar', 'url' => $this->returnUrl ], [ 'label' => 'Add' ] ],
-			'update' => [ [ 'label' => 'Sidebar', 'url' => $this->returnUrl ], [ 'label' => 'Update' ] ],
-			'delete' => [ [ 'label' => 'Sidebar', 'url' => $this->returnUrl ], [ 'label' => 'Delete' ] ],
-			'items' => [ [ 'label' => 'Sidebar', 'url' => $this->returnUrl ], [ 'label' => 'Items' ] ]
+			'all' => [ [ 'label' => 'Sliders' ] ],
+			'create' => [ [ 'label' => 'Sliders', 'url' => $this->returnUrl ], [ 'label' => 'Add' ] ],
+			'update' => [ [ 'label' => 'Sliders', 'url' => $this->returnUrl ], [ 'label' => 'Update' ] ],
+			'delete' => [ [ 'label' => 'Sliders', 'url' => $this->returnUrl ], [ 'label' => 'Delete' ] ],
+			'items' => [ [ 'label' => 'Sliders', 'url' => $this->returnUrl ], [ 'label' => 'Items' ] ]
 		];
 	}
 
@@ -71,7 +68,7 @@ class SliderController extends \cmsgears\core\admin\controllers\base\CrudControl
 
 		$behaviors = parent::behaviors();
 
-		$behaviors[ 'rbac' ][ 'actions' ][ 'slides' ] = [ 'permission' => FxsCoreGlobal::PERM_SLIDER ];
+		$behaviors[ 'rbac' ][ 'actions' ][ 'slides' ] = [ 'permission' => $this->crudPermission ];
 
 		$behaviors[ 'verbs' ][ 'actions' ][ 'slides' ] = [ 'get' ];
 
@@ -100,7 +97,7 @@ class SliderController extends \cmsgears\core\admin\controllers\base\CrudControl
 	public function actionSlides( $id ) {
 
 		// Find Model
-		$slider			= $this->modelService->getById( $id );
+		$slider	= $this->modelService->getById( $id );
 
 		// Update/Render if exist
 		if( isset( $slider ) ) {
