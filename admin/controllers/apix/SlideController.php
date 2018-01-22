@@ -2,9 +2,8 @@
 namespace foxslider\admin\controllers\apix;
 
 // Yii Imports
-use \Yii;
+use Yii;
 use yii\filters\VerbFilter;
-use yii\web\NotFoundHttpException;
 
 // CMG Imports
 use cmsgears\core\common\config\CoreGlobal;
@@ -36,7 +35,10 @@ class SlideController extends \cmsgears\core\admin\controllers\base\Controller {
 
         parent::init();
 
+		// Permissions
 		$this->crudPermission 	= FxsCoreGlobal::PERM_SLIDER;
+
+		// Services
 		$this->modelService		= Yii::$app->factory->get( 'slideService' );
 	}
 

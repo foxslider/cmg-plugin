@@ -1,39 +1,93 @@
+
+
 <?php
 // Yii Imports
 use yii\widgets\ActiveForm;
 use yii\helpers\Html;
 
-$coreProperties = $this->context->getCoreProperties();
-$this->title 	= 'Add Slider | ' . $coreProperties->getSiteTitle();
+// CMG Imports
+use cmsgears\core\common\widgets\Editor;
+use cmsgears\files\widgets\ImageUploader;
+use cmsgears\files\widgets\VideoUploader;
+use cmsgears\icons\widgets\IconChooser;
 
 $modelClass		= $this->context->modelService->getModelClass();
 $scrollTypeMap	= $modelClass::$scrollTypeMap;
+
+$coreProperties = $this->context->getCoreProperties();
+$this->title 	= 'Add Slider | ' . $coreProperties->getSiteTitle();
+$returnUrl		= $this->context->returnUrl;
 ?>
-<div class="box box-cud">
-	<div class="box-wrap-header">
-		<div class="header">Add Slider</div>
-	</div>
-	<div class="box-wrap-content frm-split-40-60">
-		<?php $form = ActiveForm::begin( [ 'id' => 'frm-slider' ] );?>
+<div class="box-crud-wrap row">
+	<div class="box-crud-wrap-main colf colf3x2">
+		<?php $form = ActiveForm::begin( [ 'id' => 'frm-block', 'options' => [ 'class' => 'form' ] ] ); ?>
+		<div class="box box-crud">
+			<div class="box-header">
+				<div class="box-header-title">Basic Details</div>
+			</div>
+			<div class="box-content-wrap frm-split-40-60">
+				<div class="box-content">
+					<div class="row">
+						<div class="col col2">
+							<?= $form->field( $model, 'name' ) ?>
+						</div>
+						
+						<div class="col col2">
+							<?= $form->field( $model, 'scrollType' )->dropDownList( $scrollTypeMap ) ?>
+						</div>
+					</div>
+					<div class="filler-height"> </div>
+					<div class="row">
+						<div class="col col2">
+							<?= $form->field( $model, 'height' ) ?>
+						</div>
+						<div class="col col2">
+							<?= $form->field( $model, 'width' ) ?>
+						</div>		
+					</div>
+					<div class="filler-height"> </div>
+					<div class="row">
+						<div class="col col2">
+							
+							<?= $form->field( $model, 'slideHeight' ) ?>
+						</div>
+						<div class="col col2">
+							<?= $form->field( $model, 'slideWidth' ) ?>
+						</div>
+					</div>
+					<div class="filler-height"> </div>
+					<div class="row">
+						<div class="col col2">
+							<?= $form->field( $model, 'description' )->textarea() ?>
+						</div>
+						<div class="col col2">
+							<?= $form->field( $model, 'scrollAuto' )->checkbox() ?>
+						</div>
+					</div>
+					<div class="filler-height"> </div>
+					<div class="row">
+						<div class="col col2">
+							<?= $form->field( $model, 'circular' )->checkbox() ?>
+						</div>
+						<div class="col col2">
+							<?= $form->field( $model, 'fullPage' )->checkbox() ?>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 
-    	<?= $form->field( $model, 'name' ) ?>
-    	<?= $form->field( $model, 'description' )->textarea() ?>
-    	<?= $form->field( $model, 'fullPage' )->checkbox() ?>
-    	<?= $form->field( $model, 'width' ) ?>
-    	<?= $form->field( $model, 'height' ) ?>
-    	<?= $form->field( $model, 'slideWidth' ) ?>
-    	<?= $form->field( $model, 'slideHeight' ) ?>
-    	<?= $form->field( $model, 'scrollAuto' )->checkbox() ?>
-    	<?= $form->field( $model, 'scrollType' )->dropDownList( $scrollTypeMap ) ?>
-    	<?= $form->field( $model, 'circular' )->checkbox() ?>
+		<div class="filler-height filler-height-medium"></div>
 
-		<div class="clear filler-height"></div>
-
-		<div class="align align-center">
-			<?=Html::a( 'Cancel', [ 'all' ], [ 'class' => 'btn btn-medium' ] );?>
+		<div class="align align-right">
+			<?= Html::a( 'Cancel', $returnUrl, [ 'class' => 'btn btn-medium' ] ); ?>
 			<input class="element-medium" type="submit" value="Create" />
 		</div>
 
+		<div class="filler-height filler-height-medium"></div>
 		<?php ActiveForm::end(); ?>
+	</div>
+	<div class="box-crud-wrap-sidebar colf colf3">
+
 	</div>
 </div>

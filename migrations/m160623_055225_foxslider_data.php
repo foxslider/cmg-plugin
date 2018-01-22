@@ -23,11 +23,11 @@ class m160623_055225_foxslider_data extends \yii\db\Migration {
 	public function init() {
 
 		// Fixed
-		$this->cmgPrefix	= 'cmg_';
+		$this->cmgPrefix	= Yii::$app->migration->cmgPrefix;
 		$this->fxsPrefix	= 'fxs_';
 
-		$this->site		= Site::findBySlug( CoreGlobal::SITE_MAIN );
-		$this->master	= User::findByUsername( 'demomaster' );
+		$this->site			= Site::findBySlug( CoreGlobal::SITE_MAIN );
+		$this->master		= User::findByUsername( Yii::$app->migration->getSiteMaster() );
 	}
 
     public function up() {

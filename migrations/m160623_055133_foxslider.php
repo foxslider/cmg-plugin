@@ -17,7 +17,7 @@ class m160623_055133_foxslider extends \yii\db\Migration {
 	public function init() {
 
 		// Fixed
-		$this->cmgPrefix	= 'cmg_';
+		$this->cmgPrefix	= Yii::$app->migration->cmgPrefix;
 		$this->fxsPrefix	= 'fxs_';
 
 		// Get the values via config
