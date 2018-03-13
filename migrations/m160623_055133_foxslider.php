@@ -1,8 +1,23 @@
 <?php
-// CMG Imports
-use cmsgears\core\common\config\CoreGlobal;
+/**
+ * This file is part of FoxSlider Module for CMSGears Framework. Please view License file distributed
+ * with the source code for license details.
+ *
+ * @link https://www.cmsgears.org/
+ * @copyright Copyright (c) 2015 VulpineCode Technologies Pvt. Ltd.
+ */
 
-class m160623_055133_foxslider extends \yii\db\Migration {
+// CMG Imports
+use cmsgears\core\common\base\Migration;
+
+
+/**
+ * The foxslider migration inserts the database tables of foxslider module. It also insert the foreign
+ * keys if FK flag of migration component is true.
+ *
+ * @since 1.0.0
+ */
+class m160623_055133_foxslider extends Migration {
 
 	// Public Variables
 
@@ -49,11 +64,14 @@ class m160623_055133_foxslider extends \yii\db\Migration {
 
         $this->createTable( $this->fxsPrefix . 'slider', [
 			'id' => $this->bigPrimaryKey( 20 ),
+			'siteId' => $this->bigInteger( 20 ),
 			'createdBy' => $this->bigInteger( 20 )->notNull(),
 			'modifiedBy' => $this->bigInteger( 20 ),
 			'name' => $this->string( Yii::$app->core->xLargeText )->notNull(),
 			'slug' => $this->string( Yii::$app->core->xxLargeText )->notNull(),
-			'description' => $this->string( Yii::$app->core->xxLargeText )->defaultValue( null ),
+			'title' => $this->string( Yii::$app->core->xxxLargeText )->defaultValue( null ),
+			'description' => $this->string( Yii::$app->core->xtraLargeText )->defaultValue( null ),
+			'status' => $this->smallInteger( 6 )->defaultValue( 0 ),
 			'fullPage' => $this->boolean()->notNull()->defaultValue( false ),
 			'width' => $this->smallInteger( 6 )->defaultValue( 0 ),
 			'height' => $this->smallInteger( 6 )->defaultValue( 0 ),
@@ -64,11 +82,15 @@ class m160623_055133_foxslider extends \yii\db\Migration {
 			'circular' => $this->boolean()->notNull()->defaultValue( false ),
 			'createdAt' => $this->dateTime()->notNull(),
 			'modifiedAt' => $this->dateTime(),
-			'content' => $this->text(),
-			'data' => $this->text()
+			'content' => $this->mediumText(),
+			'data' => $this->mediumText(),
+			'gridCache' => $this->longText(),
+			'gridCacheValid' => $this->boolean()->notNull()->defaultValue( false ),
+			'gridCachedAt' => $this->dateTime()
         ], $this->options );
 
         // Index for columns creator and modifier
+		$this->createIndex( 'idx_' . $this->fxsPrefix . 'slider_site', $this->fxsPrefix . 'slider', 'siteId' );
 		$this->createIndex( 'idx_' . $this->fxsPrefix . 'slider_creator', $this->fxsPrefix . 'slider', 'createdBy' );
 		$this->createIndex( 'idx_' . $this->fxsPrefix . 'slider_modifier', $this->fxsPrefix . 'slider', 'modifiedBy' );
 	}
@@ -80,8 +102,9 @@ class m160623_055133_foxslider extends \yii\db\Migration {
 			'sliderId' => $this->bigInteger( 20 )->notNull(),
 			'imageId' => $this->bigInteger( 20 ),
 			'name' => $this->string( Yii::$app->core->xLargeText )->notNull(),
-			'description' => $this->string( Yii::$app->core->xxLargeText )->defaultValue( null ),
-			'url' => $this->string( Yii::$app->core->xLargeText )->defaultValue( null ),
+			'title' => $this->string( Yii::$app->core->xxxLargeText )->defaultValue( null ),
+			'description' => $this->string( Yii::$app->core->xtraLargeText )->defaultValue( null ),
+			'url' => $this->string( Yii::$app->core->xxxLargeText )->defaultValue( null ),
 			'order' => $this->smallInteger( 6 )->defaultValue( 0 ),
 			'content' => $this->text()
         ], $this->options );
@@ -94,7 +117,8 @@ class m160623_055133_foxslider extends \yii\db\Migration {
 	private function generateForeignKeys() {
 
 		// Slider
-        $this->addForeignKey( 'fk_' . $this->fxsPrefix . 'slider_creator', $this->fxsPrefix . 'slider', 'createdBy', $this->cmgPrefix . 'core_user', 'id', 'RESTRICT' );
+        $this->addForeignKey( 'fk_' . $this->fxsPrefix . 'slider_site', $this->fxsPrefix . 'slider', 'siteId', $this->cmgPrefix . 'core_site', 'id', 'CASCADE' );
+		$this->addForeignKey( 'fk_' . $this->fxsPrefix . 'slider_creator', $this->fxsPrefix . 'slider', 'createdBy', $this->cmgPrefix . 'core_user', 'id', 'RESTRICT' );
 		$this->addForeignKey( 'fk_' . $this->fxsPrefix . 'slider_modifier', $this->fxsPrefix . 'slider', 'modifiedBy', $this->cmgPrefix . 'core_user', 'id', 'SET NULL' );
 
 		// Slide
@@ -116,11 +140,13 @@ class m160623_055133_foxslider extends \yii\db\Migration {
 	private function dropForeignKeys() {
 
 		// Slider
-        $this->dropForeignKey( 'fk_' . $this->fxsPrefix . 'slider_creator', $this->fxsPrefix . 'slider' );
+		$this->dropForeignKey( 'fk_' . $this->fxsPrefix . 'slider_site', $this->fxsPrefix . 'slider' );
+		$this->dropForeignKey( 'fk_' . $this->fxsPrefix . 'slider_creator', $this->fxsPrefix . 'slider' );
 		$this->dropForeignKey( 'fk_' . $this->fxsPrefix . 'slider_modifier', $this->fxsPrefix . 'slider' );
 
 		// Slide
         $this->dropForeignKey( 'fk_' . $this->fxsPrefix . 'slide_slider', $this->fxsPrefix . 'slide' );
 		$this->dropForeignKey( 'fk_' . $this->fxsPrefix . 'slide_image', $this->fxsPrefix . 'slide' );
 	}
+
 }
