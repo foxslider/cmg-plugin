@@ -63,7 +63,7 @@ class m160623_055916_foxslider_stats extends Migration {
 			[ $this->fxsPrefix . 'slide', 'rows', 0 ]
 		];
 
-		$this->batchInsert( $this->prefix . 'core_stats', $columns, $tableData );
+		$this->batchInsert( $this->cmgPrefix . 'core_stats', $columns, $tableData );
 	}
 
 	public function down() {
