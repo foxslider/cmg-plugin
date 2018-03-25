@@ -1,25 +1,30 @@
 <?php
+/**
+ * This file is part of CMSGears Framework. Please view License file distributed
+ * with the source code for license details.
+ *
+ * @link https://www.cmsgears.org/
+ * @copyright Copyright (c) 2015 VulpineCode Technologies Pvt. Ltd.
+ */
+
 namespace foxslider\common\services\resources;
 
 // Yii Imports
-use \Yii;
 use yii\data\Sort;
 
 // CMG Imports
-use cmsgears\core\common\config\CoreGlobal;
-
 use cmsgears\core\common\services\interfaces\resources\IFileService;
 
-// FXS Imports
-use foxslider\common\config\FxsCoreGlobal;
+use cmsgears\core\common\services\base\ResourceService;
 
+// FXS Imports
 use foxslider\common\models\base\FxsTables;
 use foxslider\common\models\resources\Slide;
 
 use foxslider\common\services\interfaces\entities\ISliderService;
 use foxslider\common\services\interfaces\resources\ISlideService;
 
-class SlideService extends \cmsgears\core\common\services\base\EntityService implements ISlideService {
+class SlideService extends ResourceService implements ISlideService {
 
 	// Variables ---------------------------------------------------
 
@@ -146,6 +151,14 @@ class SlideService extends \cmsgears\core\common\services\base\EntityService imp
 		Slide::deleteBySliderId( $sliderId );
 	}
 
+	// Bulk ---------------
+
+	// Notifications ------
+
+	// Cache --------------
+
+	// Additional ---------
+
 	// Static Methods ----------------------------------------------
 
 	// CMG parent classes --------------------
@@ -169,4 +182,5 @@ class SlideService extends \cmsgears\core\common\services\base\EntityService imp
 	// Update -------------
 
 	// Delete -------------
+
 }

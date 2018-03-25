@@ -1,27 +1,31 @@
 <?php
+/**
+ * This file is part of CMSGears Framework. Please view License file distributed
+ * with the source code for license details.
+ *
+ * @link https://www.cmsgears.org/
+ * @copyright Copyright (c) 2015 VulpineCode Technologies Pvt. Ltd.
+ */
+
 namespace foxslider\common\services\entities;
 
 // Yii Imports
-use \Yii;
+use Yii;
 use yii\data\Sort;
 
 // CMG Imports
-use cmsgears\core\common\config\CoreGlobal;
+use cmsgears\core\common\services\base\EntityService;
 
-use cmsgears\core\common\services\traits\NameTrait;
-use cmsgears\core\common\services\traits\SlugTrait;
+use cmsgears\core\common\services\traits\base\NameTrait;
+use cmsgears\core\common\services\traits\base\SlugTrait;
 
 // FXS Imports
-use foxslider\common\config\FxsCoreGlobal;
-
 use foxslider\common\models\base\FxsTables;
-use foxslider\common\models\entities\Slider;
-use foxslider\common\models\resources\Slide;
 
 use foxslider\common\services\interfaces\entities\ISliderService;
 use foxslider\common\services\interfaces\resources\ISlideService;
 
-class SliderService extends \cmsgears\core\common\services\base\EntityService implements ISliderService {
+class SliderService extends EntityService implements ISliderService {
 
 	// Variables ---------------------------------------------------
 
@@ -164,7 +168,7 @@ class SliderService extends \cmsgears\core\common\services\base\EntityService im
 		// Delete Slider
 		return parent::delete( $model, $config );
 	}
-	
+
 	protected function applyBulk( $model, $column, $action, $target, $config = [] ) {
 
 		switch( $column ) {
@@ -186,6 +190,13 @@ class SliderService extends \cmsgears\core\common\services\base\EntityService im
 		}
 	}
 
+	// Bulk ---------------
+
+	// Notifications ------
+
+	// Cache --------------
+
+	// Additional ---------
 
 	// Static Methods ----------------------------------------------
 
@@ -210,4 +221,5 @@ class SliderService extends \cmsgears\core\common\services\base\EntityService im
 	// Update -------------
 
 	// Delete -------------
+
 }

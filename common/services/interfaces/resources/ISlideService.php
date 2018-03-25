@@ -1,13 +1,23 @@
 <?php
+/**
+ * This file is part of CMSGears Framework. Please view License file distributed
+ * with the source code for license details.
+ *
+ * @link https://www.cmsgears.org/
+ * @copyright Copyright (c) 2015 VulpineCode Technologies Pvt. Ltd.
+ */
+
 namespace foxslider\common\services\interfaces\resources;
 
-// Yii Imports
-use \Yii;
-
 // CMG Imports
-use cmsgears\core\common\config\CoreGlobal;
+use cmsgears\core\common\services\interfaces\base\IResourceService;
 
-interface ISlideService extends \cmsgears\core\common\services\interfaces\base\IEntityService {
+/**
+ * ISlideService declares methods specific to slide model.
+ *
+ * @since 1.0.0
+ */
+interface ISlideService extends IResourceService {
 
 	// Data Provider ------
 
@@ -21,6 +31,8 @@ interface ISlideService extends \cmsgears\core\common\services\interfaces\base\I
 
     // Read - Maps -----
 
+	// Read - Others ---
+
 	// Create -------------
 
 	// Update -------------
@@ -28,4 +40,13 @@ interface ISlideService extends \cmsgears\core\common\services\interfaces\base\I
 	// Delete -------------
 
 	public function deleteBySliderId( $sliderId );
+
+	// Bulk ---------------
+
+	// Notifications ------
+
+	// Cache --------------
+
+	// Additional ---------
+
 }
