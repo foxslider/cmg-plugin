@@ -1,11 +1,30 @@
 <?php
-namespace cmsgears\cms\admin\controllers\apix;
+/**
+ * This file is part of Foxslider Module for CMSGears Framework. Please view License file distributed
+ * with the source code for license details.
+ *
+ * @link https://www.foxslider.com/
+ * @copyright Copyright (c) 2015 VulpineCode Technologies Pvt. Ltd.
+ */
+
+namespace foxslider\admin\controllers\apix;
 
 // Yii Imports
 use Yii;
 use yii\filters\VerbFilter;
 
-class SliderController extends \cmsgears\core\admin\controllers\base\Controller {
+// CMG Imports
+use cmsgears\core\admin\controllers\base\Controller;
+
+// FoxSlider Imports
+use foxslider\common\config\FxsCoreGlobal;
+
+/**
+ * SliderController provides actions specific to slider model.
+ *
+ * @since 1.0.0
+ */
+class SliderController extends Controller {
 
 	// Variables ---------------------------------------------------
 
@@ -17,18 +36,17 @@ class SliderController extends \cmsgears\core\admin\controllers\base\Controller 
 
 	// Private ----------------
 
-
 	// Constructor and Initialisation ------------------------------
 
 	public function init() {
 
 		parent::init();
 
-		// Permissions
-		$this->crudPermission 	= FxsCoreGlobal::PERM_SLIDER;
+		// Permission
+		$this->crudPermission = FxsCoreGlobal::PERM_SLIDER;
 
 		// Services
-		$this->modelService		= Yii::$app->factory->get( 'blockService' );
+		$this->modelService = Yii::$app->factory->get( 'fxSliderService' );
 	}
 
 	// Instance methods --------------------------------------------
@@ -50,7 +68,7 @@ class SliderController extends \cmsgears\core\admin\controllers\base\Controller 
 				]
 			],
 			'verbs' => [
-				'class' => VerbFilter::className(),
+				'class' => VerbFilter::class,
 				'actions' => [
 					'bulk' => [ 'post' ],
 					'delete' => [ 'post' ]

@@ -1,15 +1,7 @@
-
-
 <?php
 // Yii Imports
 use yii\widgets\ActiveForm;
 use yii\helpers\Html;
-
-// CMG Imports
-use cmsgears\core\common\widgets\Editor;
-use cmsgears\files\widgets\ImageUploader;
-use cmsgears\files\widgets\VideoUploader;
-use cmsgears\icons\widgets\IconChooser;
 
 $modelClass		= $this->context->modelService->getModelClass();
 $scrollTypeMap	= $modelClass::$scrollTypeMap;
@@ -29,48 +21,47 @@ $returnUrl		= $this->context->returnUrl;
 				<div class="box-content">
 					<div class="row">
 						<div class="col col2">
-							<?= $form->field( $model, 'name' )->textInput( [ 'readonly'=>'true' ] ) ?>
-						</div>
-						
-						<div class="col col2">
-							<?= $form->field( $model, 'scrollType' )->dropDownList( $scrollTypeMap, [ 'disabled'=>'true' ] ) ?>
-						</div>
-					</div>
-					<div class="filler-height"> </div>
-					<div class="row">
-						<div class="col col2">
-							<?= $form->field( $model, 'height' )->textInput( [ 'readonly'=>'true' ] ) ?>
+							<?= $form->field( $model, 'name' )->textInput( [ 'readonly' => 'true' ] ) ?>
 						</div>
 						<div class="col col2">
-							<?= $form->field( $model, 'width' )->textInput( [ 'readonly'=>'true' ] ) ?>
-						</div>		
-					</div>
-					<div class="filler-height"> </div>
-					<div class="row">
-						<div class="col col2">
-							
-							<?= $form->field( $model, 'slideWidth' )->textInput( [ 'readonly'=>'true' ] ) ?>
-						</div>
-						<div class="col col2">
-							<?= $form->field( $model, 'slideHeight' )->textInput( [ 'readonly'=>'true' ] ) ?>
+							<?= $form->field( $model, 'scrollType' )->dropDownList( $scrollTypeMap, [ 'class' => 'cmt-select', 'disabled' => 'true' ] ) ?>
 						</div>
 					</div>
 					<div class="filler-height"> </div>
 					<div class="row">
 						<div class="col col2">
-							<?= $form->field( $model, 'description' )->textarea( [ 'readonly'=>'true' ] ) ?>
+							<?= $form->field( $model, 'height' )->textInput( [ 'readonly' => 'true' ] ) ?>
 						</div>
 						<div class="col col2">
-							<?= $form->field( $model, 'scrollAuto' )->checkbox( [ 'disabled'=>'true' ] ) ?>
+							<?= $form->field( $model, 'width' )->textInput( [ 'readonly' => 'true' ] ) ?>
 						</div>
 					</div>
 					<div class="filler-height"> </div>
 					<div class="row">
 						<div class="col col2">
-							<?= $form->field( $model, 'circular' )->checkbox( [ 'disabled'=>'true' ] ) ?>
+
+							<?= $form->field( $model, 'slideWidth' )->textInput( [ 'readonly' => 'true' ] ) ?>
 						</div>
 						<div class="col col2">
-							<?= $form->field( $model, 'fullPage' )->checkbox( [ 'disabled'=>'true' ] ) ?>
+							<?= $form->field( $model, 'slideHeight' )->textInput( [ 'readonly' => 'true' ] ) ?>
+						</div>
+					</div>
+					<div class="filler-height"> </div>
+					<div class="row">
+						<div class="col col2">
+							<?= $form->field( $model, 'description' )->textarea( [ 'readonly' => 'true' ] ) ?>
+						</div>
+						<div class="col col2">
+							<?= Yii::$app->formDesigner->getIconCheckbox( $form, $model, 'scrollAuto', [ 'disabled' => true ], 'cmti cmti-checkbox' ) ?>
+						</div>
+					</div>
+					<div class="filler-height"> </div>
+					<div class="row">
+						<div class="col col2">
+							<?= Yii::$app->formDesigner->getIconCheckbox( $form, $model, 'circular', [ 'disabled' => true ], 'cmti cmti-checkbox' ) ?>
+						</div>
+						<div class="col col2">
+							<?= Yii::$app->formDesigner->getIconCheckbox( $form, $model, 'fullPage', [ 'disabled' => true ], 'cmti cmti-checkbox' ) ?>
 						</div>
 					</div>
 				</div>

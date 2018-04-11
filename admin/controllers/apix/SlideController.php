@@ -1,4 +1,12 @@
 <?php
+/**
+ * This file is part of Foxslider Module for CMSGears Framework. Please view License file distributed
+ * with the source code for license details.
+ *
+ * @link https://www.foxslider.com/
+ * @copyright Copyright (c) 2015 VulpineCode Technologies Pvt. Ltd.
+ */
+
 namespace foxslider\admin\controllers\apix;
 
 // Yii Imports
@@ -10,14 +18,19 @@ use cmsgears\core\common\config\CoreGlobal;
 
 use cmsgears\core\common\models\resources\File;
 
+use cmsgears\core\admin\controllers\base\Controller;
+
 use cmsgears\core\common\utilities\AjaxUtil;
 
 // FXS Imports
 use foxslider\common\config\FxsCoreGlobal;
 
-use foxslider\common\models\resources\Slide;
-
-class SlideController extends \cmsgears\core\admin\controllers\base\Controller {
+/**
+ * SlideController provides actions specific to slide model.
+ *
+ * @since 1.0.0
+ */
+class SlideController extends Controller {
 
 	// Variables ---------------------------------------------------
 
@@ -35,11 +48,11 @@ class SlideController extends \cmsgears\core\admin\controllers\base\Controller {
 
         parent::init();
 
-		// Permissions
-		$this->crudPermission 	= FxsCoreGlobal::PERM_SLIDER;
+		// Permission
+		$this->crudPermission = FxsCoreGlobal::PERM_SLIDER;
 
 		// Services
-		$this->modelService		= Yii::$app->factory->get( 'slideService' );
+		$this->modelService = Yii::$app->factory->get( 'fxSlideService' );
 	}
 
 	// Instance methods --------------------------------------------
@@ -56,15 +69,17 @@ class SlideController extends \cmsgears\core\admin\controllers\base\Controller {
             'rbac' => [
                 'class' => Yii::$app->core->getRbacFilterClass(),
                 'actions' => [
-	                'create' => [ 'permission' => $this->crudPermission ],
-	                'update' => [ 'permission' => $this->crudPermission ]
+					'create' => [ 'permission' => $this->crudPermission ],
+					'update' => [ 'permission' => $this->crudPermission ],
+					'delete' => [ 'permission' => $this->crudPermission ]
                 ]
             ],
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => VerbFilter::class,
                 'actions' => [
-	                'create' => [ 'post' ],
-	                'update' => [ 'post' ]
+					'create' => [ 'post' ],
+					'update' => [ 'post' ],
+					'delete' => [ 'post' ]
                 ]
             ]
         ];
@@ -80,38 +95,38 @@ class SlideController extends \cmsgears\core\admin\controllers\base\Controller {
 
 	public function actionCreate() {
 
-		$slide 	= new Slide();
-		$image 	= File::loadFile( $slide->image, 'File' );
+		$model 	= $this->modelService->getModelObject();
+		$image 	= File::loadFile( $model->image, 'File' );
 
-		if( $slide->load( Yii::$app->request->post(), 'Slide' ) && $slide->validate() ) {
+		if( $model->load( Yii::$app->request->post(), 'Slide' ) && $model->validate() ) {
 
-			$this->modelService->create( $slide, [ 'image' => $image ] );
+			$this->model = $this->modelService->create( $model, [ 'image' => $image ] );
 
-			$data	= $slide->getAttributes( [ 'id', 'sliderId', 'name', 'description' ] );
+			$data = $this->model->getAttributes( [ 'id', 'sliderId', 'name', 'description' ] );
 
 			// Trigger Ajax Success
 			return AjaxUtil::generateSuccess( Yii::$app->coreMessage->getMessage( CoreGlobal::MESSAGE_REQUEST ), $data );
 		}
 
 		// Generate Errors
-		$errors = AjaxUtil::generateErrorMessage( $slide );
+		$errors = AjaxUtil::generateErrorMessage( $model );
 
-		// Trigger Ajax Success
+		// Trigger Ajax Failure
         return AjaxUtil::generateFailure( Yii::$app->coreMessage->getMessage( CoreGlobal::ERROR_REQUEST ), $errors );
 	}
 
 	public function actionUpdate( $id ) {
 
 		// Find Model
-		$slide	= $this->modelService->getById( $id );
-		$image 	= File::loadFile( $slide->image, 'File' );
+		$model	= $this->modelService->getById( $id );
+		$image 	= File::loadFile( $model->image, 'File' );
 
 		// Update/Render if exist
-		if( isset( $slide ) ) {
+		if( isset( $model ) ) {
 
-			if( $slide->load( Yii::$app->request->post(), 'Slide' ) && $slide->validate() ) {
+			if( $model->load( Yii::$app->request->post(), 'Slide' ) && $model->validate() ) {
 
-				$this->modelService->update( $slide, [ 'image' => $image ] );
+				$this->model = $this->modelService->update( $model, [ 'image' => $image ] );
 
 				// Trigger Ajax Success
 				return AjaxUtil::generateSuccess( Yii::$app->coreMessage->getMessage( CoreGlobal::MESSAGE_REQUEST ) );
@@ -119,9 +134,35 @@ class SlideController extends \cmsgears\core\admin\controllers\base\Controller {
 		}
 
 		// Generate Errors
-		$errors = AjaxUtil::generateErrorMessage( $slide );
+		$errors = AjaxUtil::generateErrorMessage( $model );
 
-		// Trigger Ajax Success
+		// Trigger Ajax Failure
         return AjaxUtil::generateFailure( Yii::$app->coreMessage->getMessage( CoreGlobal::ERROR_REQUEST ), $errors );
 	}
+
+	public function actionDelete( $id, $pid ) {
+
+		// Find Model
+		$model	= $this->modelService->getById( $id );
+
+		// Delete if exist
+		if( isset( $model ) ) {
+
+			$slider	= Yii::$app->factory->get( 'fxSliderService' )->getById( $pid );
+
+			if( $model->sliderId = $slider->id ) {
+
+				$this->model = $model;
+
+				$this->modelService->delete( $model );
+
+				// Trigger Ajax Success
+				return AjaxUtil::generateSuccess( Yii::$app->coreMessage->getMessage( CoreGlobal::MESSAGE_REQUEST ) );
+			}
+		}
+
+		// Trigger Ajax Failure
+        return AjaxUtil::generateFailure( Yii::$app->coreMessage->getMessage( CoreGlobal::ERROR_REQUEST ), $errors );
+	}
+
 }

@@ -1,9 +1,9 @@
 <?php
 /**
- * This file is part of FoxSlider Module for CMSGears Framework. Please view License file distributed
+ * This file is part of Foxslider Module for CMSGears Framework. Please view License file distributed
  * with the source code for license details.
  *
- * @link https://www.cmsgears.org/
+ * @link https://www.foxslider.com/
  * @copyright Copyright (c) 2015 VulpineCode Technologies Pvt. Ltd.
  */
 
@@ -11,6 +11,7 @@ namespace foxslider\common\models\resources;
 
 // Yii Imports
 use Yii;
+use yii\helpers\ArrayHelper;
 
 // CMG Imports
 use cmsgears\core\common\config\CoreGlobal;
@@ -79,11 +80,10 @@ class Slide extends Entity {
 		// Model Rules
 		$rules = [
         	// Required, Safe
-            [ 'sliderId', 'required' ],
+            [ [ 'sliderId', 'name' ], 'required' ],
             [ [ 'id', 'content' ], 'safe' ],
             // Unique
 			[ [ 'sliderId', 'name' ], 'unique', 'targetAttribute' => [ 'sliderId', 'name' ] ],
-			// Text Limit
             // Text Limit
             [ 'name', 'string', 'min' => 1, 'max' => Yii::$app->core->xLargeText ],
 			[ [ 'title', 'url' ], 'string', 'min' => 1, 'max' => Yii::$app->core->xxxLargeText ],
@@ -128,7 +128,7 @@ class Slide extends Entity {
 	 */
 	public function getSlider() {
 
-		return $this->hasOne( Slider::className(), [ 'id' => 'sliderId' ] );
+		return $this->hasOne( Slider::class, [ 'id' => 'sliderId' ] );
 	}
 
 	/**
@@ -138,7 +138,7 @@ class Slide extends Entity {
 	 */
 	public function getImage() {
 
-		return $this->hasOne( File::className(), [ 'id' => 'imageId' ] );
+		return $this->hasOne( File::class, [ 'id' => 'imageId' ] );
 	}
 
 	// Static Methods ----------------------------------------------
@@ -229,16 +229,5 @@ class Slide extends Entity {
 	// Update -----------------
 
 	// Delete -----------------
-
-	/**
-	 * Delete all the slides associated with given slider id.
-	 *
-	 * @param integer $sliderId
-	 * @return integer Number of rows.
-	 */
-	public static function deleteBySliderId( $sliderId ) {
-
-		return self::deleteAll( "sliderId=$sliderId" );
-	}
 
 }

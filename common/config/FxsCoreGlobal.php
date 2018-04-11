@@ -1,9 +1,9 @@
 <?php
 /**
- * This file is part of FoxSlider Module for CMSGears Framework. Please view License file distributed
+ * This file is part of Foxslider Module for CMSGears Framework. Please view License file distributed
  * with the source code for license details.
  *
- * @link https://www.cmsgears.org/
+ * @link https://www.foxslider.com/
  * @copyright Copyright (c) 2015 VulpineCode Technologies Pvt. Ltd.
  */
 

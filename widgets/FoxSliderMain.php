@@ -1,17 +1,27 @@
 <?php
+/**
+ * This file is part of FoxSlider Module for CMSGears Framework. Please view License file distributed
+ * with the source code for license details.
+ *
+ * @link https://www.cmsgears.org/
+ * @copyright Copyright (c) 2015 VulpineCode Technologies Pvt. Ltd.
+ */
+
 namespace foxslider\widgets;
 
 // Yii Imports
-use \Yii;
+use Yii;
 use yii\web\View;
-use yii\base\Widget;
 use yii\base\InvalidConfigException;
 use yii\helpers\Html;
+
+// CMG Imports
+use cmsgears\core\common\base\Widget;
 
 // FXS Imports
 use foxslider\widgets\assets\FxsAssets;
 
-class FoxSliderMain extends \cmsgears\core\common\base\Widget {
+class FoxSliderMain extends Widget {
 
 	// Variables ---------------------------------------------------
 
@@ -85,7 +95,7 @@ class FoxSliderMain extends \cmsgears\core\common\base\Widget {
 
 		parent::init();
 
-		$this->sliderService	= Yii::$app->factory->get( 'sliderService' );
+		$this->sliderService = Yii::$app->factory->get( 'sliderService' );
 	}
 
 	// Instance methods --------------------------------------------
@@ -136,7 +146,7 @@ class FoxSliderMain extends \cmsgears\core\common\base\Widget {
         }
 
 		// Views Path
-		$slidePath		= $this->template . '/slide';
+		$slidePath = $this->template . '/slide';
 
 		// Generate Slides Html
 
@@ -165,5 +175,3 @@ class FoxSliderMain extends \cmsgears\core\common\base\Widget {
 	// FoxSliderMain -------------------------
 
 }
-
-?>

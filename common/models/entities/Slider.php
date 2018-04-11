@@ -1,9 +1,9 @@
 <?php
 /**
- * This file is part of FoxSlider Module for CMSGears Framework. Please view License file distributed
+ * This file is part of Foxslider Module for CMSGears Framework. Please view License file distributed
  * with the source code for license details.
  *
- * @link https://www.cmsgears.org/
+ * @link https://www.foxslider.com/
  * @copyright Copyright (c) 2015 VulpineCode Technologies Pvt. Ltd.
  */
 
@@ -19,6 +19,7 @@ use yii\behaviors\TimestampBehavior;
 // CMG Imports
 use cmsgears\core\common\config\CoreGlobal;
 
+use cmsgears\core\common\models\interfaces\base\IApproval;
 use cmsgears\core\common\models\interfaces\base\IAuthor;
 use cmsgears\core\common\models\interfaces\base\IMultiSite;
 use cmsgears\core\common\models\interfaces\base\IName;
@@ -28,6 +29,7 @@ use cmsgears\core\common\models\interfaces\resources\IGridCache;
 
 use cmsgears\core\common\models\base\Entity;
 
+use cmsgears\core\common\models\traits\base\ApprovalTrait;
 use cmsgears\core\common\models\traits\base\AuthorTrait;
 use cmsgears\core\common\models\traits\base\MultiSiteTrait;
 use cmsgears\core\common\models\traits\base\NameTrait;
@@ -71,7 +73,7 @@ use foxslider\common\models\resources\Slide;
  *
  * @since 1.0.0
  */
-class Slider extends Entity implements IAuthor, IData, IGridCache, IMultiSite, IName, ISlug {
+class Slider extends Entity implements IApproval, IAuthor, IData, IGridCache, IMultiSite, IName, ISlug {
 
 	// Variables ---------------------------------------------------
 
@@ -105,6 +107,7 @@ class Slider extends Entity implements IAuthor, IData, IGridCache, IMultiSite, I
 
 	// Traits ------------------------------------------------------
 
+	use ApprovalTrait;
 	use AuthorTrait;
 	use DataTrait;
 	use GridCacheTrait;

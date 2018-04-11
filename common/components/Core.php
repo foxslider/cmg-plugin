@@ -1,9 +1,9 @@
 <?php
 /**
- * This file is part of CMSGears Framework. Please view License file distributed
+ * This file is part of Foxslider Module for CMSGears Framework. Please view License file distributed
  * with the source code for license details.
  *
- * @link https://www.cmsgears.org/
+ * @link https://www.foxslider.com/
  * @copyright Copyright (c) 2015 VulpineCode Technologies Pvt. Ltd.
  */
 
@@ -97,7 +97,7 @@ class Core extends Component {
 
 		$factory = Yii::$app->factory->getContainer();
 
-		$factory->set( 'slideService', 'foxslider\common\services\resources\SlideService' );
+		$factory->set( 'fxSlideService', 'foxslider\common\services\resources\SlideService' );
 	}
 
 	/**
@@ -107,7 +107,7 @@ class Core extends Component {
 
 		$factory = Yii::$app->factory->getContainer();
 
-		$factory->set( 'sliderService', [ 'class' => 'foxslider\common\services\entities\SliderService', 'slideService' =>  $factory->get( 'slideService' ) ] );
+		$factory->set( 'fxSliderService', 'foxslider\common\services\entities\SliderService' );
 	}
 
 }

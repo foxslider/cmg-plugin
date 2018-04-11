@@ -1,21 +1,13 @@
-
-
 <?php
 // Yii Imports
 use yii\widgets\ActiveForm;
 use yii\helpers\Html;
 
-// CMG Imports
-use cmsgears\core\common\widgets\Editor;
-use cmsgears\files\widgets\ImageUploader;
-use cmsgears\files\widgets\VideoUploader;
-use cmsgears\icons\widgets\IconChooser;
-
 $modelClass		= $this->context->modelService->getModelClass();
 $scrollTypeMap	= $modelClass::$scrollTypeMap;
 
 $coreProperties = $this->context->getCoreProperties();
-$this->title 	= 'Add Slider | ' . $coreProperties->getSiteTitle();
+$this->title 	= 'Update Slider | ' . $coreProperties->getSiteTitle();
 $returnUrl		= $this->context->returnUrl;
 ?>
 <div class="box-crud-wrap row">
@@ -31,9 +23,9 @@ $returnUrl		= $this->context->returnUrl;
 						<div class="col col2">
 							<?= $form->field( $model, 'name' ) ?>
 						</div>
-						
+
 						<div class="col col2">
-							<?= $form->field( $model, 'scrollType' )->dropDownList( $scrollTypeMap ) ?>
+							<?= $form->field( $model, 'scrollType' )->dropDownList( $scrollTypeMap, [ 'class' => 'cmt-select' ] ) ?>
 						</div>
 					</div>
 					<div class="filler-height"> </div>
@@ -43,12 +35,12 @@ $returnUrl		= $this->context->returnUrl;
 						</div>
 						<div class="col col2">
 							<?= $form->field( $model, 'width' ) ?>
-						</div>		
+						</div>
 					</div>
 					<div class="filler-height"> </div>
 					<div class="row">
 						<div class="col col2">
-							
+
 							<?= $form->field( $model, 'slideHeight' ) ?>
 						</div>
 						<div class="col col2">
@@ -61,16 +53,16 @@ $returnUrl		= $this->context->returnUrl;
 							<?= $form->field( $model, 'description' )->textarea() ?>
 						</div>
 						<div class="col col2">
-							<?= $form->field( $model, 'scrollAuto' )->checkbox() ?>
+							<?= Yii::$app->formDesigner->getIconCheckbox( $form, $model, 'scrollAuto', null, 'cmti cmti-checkbox' ) ?>
 						</div>
 					</div>
 					<div class="filler-height"> </div>
 					<div class="row">
 						<div class="col col2">
-							<?= $form->field( $model, 'circular' )->checkbox() ?>
+							<?= Yii::$app->formDesigner->getIconCheckbox( $form, $model, 'circular', null, 'cmti cmti-checkbox' ) ?>
 						</div>
 						<div class="col col2">
-							<?= $form->field( $model, 'fullPage' )->checkbox() ?>
+							<?= Yii::$app->formDesigner->getIconCheckbox( $form, $model, 'fullPage', null, 'cmti cmti-checkbox' ) ?>
 						</div>
 					</div>
 				</div>
