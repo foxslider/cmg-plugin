@@ -408,6 +408,7 @@
 				if( null != settings.duration ) {
 					duration	= settings.duration;
 				}	
+
 				// do animation - animate slider
 				filmstrip.animate(
 					{ left: -slideWidth },
@@ -579,8 +580,8 @@
 
 			slider.find(".bullet").removeClass( "active" );
 			slider.find(".bullet[slide='" + bulletNum + "']").addClass( "active" );
-
-			// external slide titles
+			
+			// slide titles
 			jQuery('.fx-slide-titles').find('.fx-slide-title').removeClass( "active" );
 			jQuery('.fx-slide-titles').find(".fx-slide-title[slide='" + bulletNum + "']").addClass( "active" );
 		}
@@ -612,12 +613,13 @@
 						for( var i = 0; i < diff; i++ ) {
 
 							// Remove last and append to first
-							var slidesSelector	= slider.find(".slide");
-							var lastSlide		= slidesSelector.last();
-							lastSlide.insertBefore( slidesSelector.eq(0) );
+							//var slidesSelector	= slider.find(".slide");
+							//var lastSlide		= slidesSelector.last();
+							//lastSlide.insertBefore( slidesSelector.eq(0) );
+							showBackwardSlides(slider);
 						}
 
-						resetSlides( slider );
+						//resetSlides( slider );
 					}
 					else {
 
@@ -626,12 +628,13 @@
 						for( var i = 0; i < diff; i++ ) {
 
 							// Remove first and append to last
-							var slidesSelector	= slider.find(".slide");
-							var firstSlide		= slidesSelector.first();
-							firstSlide.insertAfter( slidesSelector.eq( slidesSelector.length - 1 ) );
+							//var slidesSelector	= slider.find(".slide");
+							//var firstSlide		= slidesSelector.first();
+							//firstSlide.insertAfter( slidesSelector.eq( slidesSelector.length - 1 ) );
+							showForwardSlides(slider);
 						}
 
-						resetSlides( slider );
+						//resetSlides( slider );
 					}
 				}
 			}
@@ -674,6 +677,108 @@
 				}
 			}
 		}
+		
+		function showBackwardSlides( slider ) {
+
+			if( settings.circular && settings.slideArrangement == 'filmstrip' ) {
+
+				var slidesSelector	= slider.find( ".slide" );
+				var firstSlide		= slidesSelector.first();
+				var firstSlideIndex	= firstSlide.attr( "slide" );
+				var slideWidth		= parseInt( slidesSelector.css( "width" ) );
+				var filmstrip		= slider.find( ".slides-wrap" );
+
+				// do pre processing
+				if( null != settings.preSlideChange ) {
+
+					settings.preSlideChange( firstSlideIndex );
+				}
+
+				// Remove last and append to first
+				var lastSlide		= slidesSelector.last();
+				lastSlide.insertBefore( slidesSelector.eq(0) );
+				lastSlide.css( "left", -slideWidth );
+				var activeSlide		= lastSlide.attr( "slide" );
+
+				// TODO: Add animation extension and move this code to the animations extension
+
+				// do animation - animate slider
+				filmstrip.animate(
+					{ left: slideWidth },
+					{
+						duration: 200,
+						complete: function() {
+
+							var slider = fxs( this ).parent();
+
+							resetSlides( slider );
+						}
+					}
+				);
+
+				firstSlide		= slidesSelector.first();
+				firstSlideIndex	= firstSlide.attr( "slide" );
+
+				// do post processing
+				if( null != settings.postSlideChange ) {
+
+					settings.postSlideChange( firstSlideIndex );
+				}
+			}
+		}
+		function showForwardSlides( slider ) {
+
+			if( settings.circular && settings.slideArrangement == 'filmstrip' ) {
+
+				var slidesSelector	= slider.find( ".slide" );
+				var firstSlide		= slidesSelector.first();
+				var firstSlideIndex	= firstSlide.attr( "slide" );
+				var slideWidth		= parseInt( slidesSelector.css( "width" ) );
+				var filmstrip		= slider.find( ".slides-wrap" );
+				var duration		= 1000;
+
+				// do pre processing
+				if( null != settings.preSlideChange ) {
+
+					settings.preSlideChange( firstSlideIndex );
+				}
+
+				// do animation - animate slider
+				filmstrip.animate(
+					{ left: -slideWidth },
+					{
+						duration: duration,
+						complete: function() {
+
+							var slider = fxs( this ).parent();
+
+							// Remove first and append to last
+							var slidesSelector	= slider.find( ".slide" );
+							var firstSlide		= slidesSelector.first();
+							firstSlide.insertAfter( slidesSelector.eq( slidesSelector.length - 1 ) );
+							firstSlide.css( "right", -slideWidth );
+
+							resetSlides( slider );
+
+							slidesSelector		= slider.find( ".slide" );
+							firstSlide			= slidesSelector.first();
+							var activeSlide		= firstSlide.attr( "slide" );
+
+						}
+					}
+				);
+
+				firstSlide		= slidesSelector.first();
+				firstSlideIndex	= firstSlide.attr( "slide" );
+
+				// do post processing
+				if( null != settings.postSlideChange ) {
+
+					settings.postSlideChange( firstSlideIndex );
+				}
+			}
+		}
+		
 	};
 
 	// Default Settings
