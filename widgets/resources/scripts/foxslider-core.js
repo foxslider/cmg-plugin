@@ -395,6 +395,7 @@
 				var firstSlideIndex	= firstSlide.attr( "slide" );
 				var slideWidth		= parseInt( slidesSelector.css( "width" ) );
 				var filmstrip		= slider.find( ".slides-wrap" );
+				var duration		= 500;
 
 				// do pre processing
 				if( null != settings.preSlideChange ) {
@@ -404,11 +405,14 @@
 
 				// TODO: Add animation extension and move this code to the animations extension
 
+				if( null != settings.duration ) {
+					duration	= settings.duration;
+				}	
 				// do animation - animate slider
 				filmstrip.animate(
 					{ left: -slideWidth },
 					{
-						duration: 500,
+						duration: duration,
 						complete: function() {
 
 							var slider = fxs( this ).parent();
@@ -575,6 +579,10 @@
 
 			slider.find(".bullet").removeClass( "active" );
 			slider.find(".bullet[slide='" + bulletNum + "']").addClass( "active" );
+
+			// external slide titles
+			jQuery('.fx-slide-titles').find('.fx-slide-title').removeClass( "active" );
+			jQuery('.fx-slide-titles').find(".fx-slide-title[slide='" + bulletNum + "']").addClass( "active" );
 		}
 
 		// Show Slide on Bullet click
