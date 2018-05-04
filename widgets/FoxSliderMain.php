@@ -95,7 +95,7 @@ class FoxSliderMain extends Widget {
 
 		parent::init();
 
-		$this->sliderService = Yii::$app->factory->get( 'sliderService' );
+		$this->sliderService = Yii::$app->factory->get( 'fxSliderService' );
 	}
 
 	// Instance methods --------------------------------------------
@@ -120,7 +120,7 @@ class FoxSliderMain extends Widget {
 		// Additional Config
 		if( isset( $this->slideTexture ) ) {
 
-			$this->slideTexture	= "<div class='texture $this->slideTexture'></div>";
+			$this->slideTexture	= "<div class=\"texture $this->slideTexture\"></div>";
 		}
 
 		return $this->renderWidget();
@@ -146,7 +146,7 @@ class FoxSliderMain extends Widget {
         }
 
 		// Views Path
-		$slidePath = $this->template . '/slide';
+		$slidePath = "$this->template/slide";
 
 		// Generate Slides Html
 

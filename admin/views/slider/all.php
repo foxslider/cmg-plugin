@@ -63,11 +63,11 @@ $themeTemplates		= '@themes/admin/views/templates';
 <?= Popup::widget([
 	'title' => 'Bulk Sliders', 'size' => 'medium',
 	'templateDir' => Yii::getAlias( "$themeTemplates/widget/popup/grid" ), 'template' => 'bulk',
-	'data' => [ 'model' => 'Block', 'app' => 'main', 'controller' => 'crud', 'action' => 'bulk', 'url' => "foxslider/slider/bulk" ]
+	'data' => [ 'model' => 'Block', 'app' => 'grid', 'controller' => 'crud', 'action' => 'bulk', 'url' => "foxslider/slider/bulk" ]
 ]) ?>
 
 <?= Popup::widget([
 	'title' => 'Delete Slider', 'size' => 'medium',
 	'templateDir' => Yii::getAlias( "$themeTemplates/widget/popup/grid" ), 'template' => 'delete',
-	'data' => [ 'model' => 'Block', 'app' => 'main', 'controller' => 'crud', 'action' => 'delete', 'url' => "foxslider/slider/delete?id=" ]
+	'data' => [ 'model' => 'Block', 'app' => 'grid', 'controller' => 'crud', 'action' => 'delete', 'url' => "foxslider/slider/delete?id=" ]
 ]) ?>
