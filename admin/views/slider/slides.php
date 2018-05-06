@@ -1,7 +1,4 @@
 <?php
-// Yii Imports
-use yii\web\View;
-
 // CMG Imports
 use cmsgears\files\widgets\ImageUploader;
 
@@ -52,14 +49,14 @@ $this->title	= 'Slider Slide | ' . $coreProperties->getSiteTitle();
 						</div>
 						<div class="row">
 							<div class="col col2">
-								<label >Slide Content</label>
-								<textarea class="editor-slide content-editor" name="Slide[content]" placeholder="Content"></textarea>
-								<div class="clear"><span class="error" cmt-error="content"></span></div>
-							</div>
-							<div class="col col2">
 								<label>Description</label>
 								<textarea name="Slide[description]" placeholder="Description"></textarea>
 								<div class="clear"><span class="error" cmt-error="description"></span></div>
+							</div>
+							<div class="col col2">
+								<label >Slide Content</label>
+								<textarea class="editor-slide content-editor" name="Slide[content]" placeholder="Content"></textarea>
+								<div class="clear"><span class="error" cmt-error="content"></span></div>
 							</div>
 						</div>
 					</div>
@@ -119,14 +116,14 @@ $this->title	= 'Slider Slide | ' . $coreProperties->getSiteTitle();
 									</div>
 									<div class="row">
 										<div class="col col2">
-											<label>Slide Content</label>
-											<textarea class="editor-slide content-editor" name="Slide[content]" placeholder="Content" > <?= $slide->content?></textarea>
-											<div class="clear"><span class="error" cmt-error="content"></span></div>
-										</div>
-										<div class="col col2">
 											<label>Description</label>
 											<textarea name="Slide[description]" placeholder="Description" > <?= $slide->description?></textarea>
 											<div class="clear"><span class="error" cmt-error="description"></span></div>
+										</div>
+										<div class="col col2">
+											<label>Slide Content</label>
+											<textarea class="editor-slide content-editor" name="Slide[content]" placeholder="Content" > <?= $slide->content?></textarea>
+											<div class="clear"><span class="error" cmt-error="content"></span></div>
 										</div>
 									</div>
 									<div class="filler-height"></div>
