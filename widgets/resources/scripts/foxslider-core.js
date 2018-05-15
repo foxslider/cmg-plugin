@@ -20,7 +20,7 @@
 		// Iterate and initialise all the fox sliders
 		sliders.each( function() {
 
-			var slider	= fxs( this );
+			var slider = fxs( this );
 
 			init( slider );
 		});
@@ -37,7 +37,7 @@
 			// Iterate and resize all the fox sliders
 			sliders.each( function() {
 
-				var slider	= fxs( this );
+				var slider = fxs( this );
 
 				normaliseSlides( slider );
 			});
@@ -66,7 +66,7 @@
 			}
 			else {
 
-				jQuery( ".control" ).hide();
+				slider.find( '.control' ).hide();
 			}
 
 			// Initialise Bullets
@@ -99,12 +99,12 @@
 			});
 
 			// wrap the slides
-			var sliderHtml		= "<div class='slides-wrap'>" + slider.html() + "</div>";
-			sliderHtml		   += "<div class='control control-left'></div><div class='control control-right'></div>";
+			var sliderHtml		= '<div class="slides-wrap">' + slider.html() + '</div>';
+			sliderHtml		   += '<div class="control control-left"></div><div class="control control-right"></div>';
 
 			if( settings.bullets ) {
 
-				sliderHtml	   += "<div class='bullets'></div>";
+				sliderHtml	   += '<div class="bullets"></div>';
 			}
 
 			slider.html( sliderHtml );
@@ -116,21 +116,42 @@
 			// Calculate and set Slider Width
 			var sliderWidth		= slider.width();
 			var sliderHeight	= slider.height();
-			var slidesWrapper	= slider.find( ".slides-wrap" );
-			var slidesSelector	= slider.find( ".slide" );
+			var slidesWrapper	= slider.find( '.slides-wrap' );
+			var slidesSelector	= slider.find( '.slide' );
+			var slidesCount		= slidesSelector.length;
 
-			// Use settings for Slider dimensions
-			if( settings.sliderWidth > 0 && settings.sliderHeight > 0 ) {
+			var slideWidth	= 0;
+			var slideHeight	= 0;
 
-				slider.css( { 'width': settings.sliderWidth + "px", 'height': settings.sliderHeight + "px" } );
+			// Slider dimensions
+			if( settings.sliderWidth > 0 ) {
 
-				sliderWidth		= settings.sliderWidth;
-				sliderHeight	= settings.sliderHeight;
+				slider.css( { 'width': settings.sliderWidth + 'px' } );
+
+				sliderWidth = settings.sliderWidth;
 			}
 
-			var slideWidth		= parseInt( sliderWidth );
-			var slideHeight		= parseInt( sliderHeight );
-			var slidesCount		= slidesSelector.length;
+			if( settings.sliderHeight > 0 ) {
+
+				slider.css( { 'height': settings.sliderHeight + 'px' } );
+
+				sliderHeight = settings.sliderHeight;
+			}
+			
+			// Slide dimensions
+			if( slidesCount > 0 ) {
+
+				var slide = jQuery( slidesSelector[ 0 ] );
+
+				slideWidth	= slide.width();
+				slideHeight	= slide.height();
+			}
+
+			if( settings.slideDimMax ) {
+				
+				slideWidth	= parseInt( sliderWidth );
+				slideHeight	= parseInt( sliderHeight );
+			}
 
 			// Initialise Slide Width and reposition
 			var count			= 0;
@@ -139,12 +160,12 @@
 			// Use settings for Slide dimensions
 			if( settings.slideWidth > 0 ) {
 
-				slideWidth 		= parseInt( settings.slideWidth );
+				slideWidth = parseInt( settings.slideWidth );
 			}
 
 			if( settings.slideHeight > 0 ) {
 
-				slideHeight		= parseInt( settings.slideHeight );
+				slideHeight = parseInt( settings.slideHeight );
 			}
 
 			if( settings.slideArrangement == 'filmstrip' ) {
@@ -155,17 +176,10 @@
 			// Set slides dimensions
 			slidesSelector.each( function() {
 
-				var currentSlide	= fxs( this );
+				var currentSlide = fxs( this );
 
-				// Use settings for Slide dimensions
-				if( settings.slideWidth > 0 && settings.slideHeight > 0 ) {
-
-					currentSlide.css( { 'width': settings.slideWidth + "px", 'height': settings.slideHeight + "px" } );
-				}
-				else {
-
-					currentSlide.css( { width: slideWidth } );
-				}
+				currentSlide.css( { width: slideWidth } );
+				currentSlide.css( { height: slideHeight } );
 
 				if( settings.slideArrangement == 'filmstrip' ) {
 
@@ -178,9 +192,9 @@
 
 						currentSlide.show();
 
-						slider.attr( "activeindex", count );
-						slider.find( ".control-right" ).removeClass( "disabled" );
-						slider.find( ".control-left" ).addClass( "disabled" );
+						slider.attr( 'activeindex', count );
+						slider.find( '.control-right' ).removeClass( 'disabled' );
+						slider.find( '.control-left' ).addClass( 'disabled' );
 					}
 					else {
 
@@ -188,7 +202,7 @@
 					}
 				}
 
-				currentSlide.attr( "slide", count );
+				currentSlide.attr( 'slide', count );
 
 				currentPosition += slideWidth;
 				count++;
@@ -196,7 +210,7 @@
 				// Resize background image if required
 				if( settings.resizeBkgImage && null != settings.bkgImageClass ) {
 
-					var image 	= currentSlide.children( "." + settings.bkgImageClass );
+					var image = currentSlide.children( '.' + settings.bkgImageClass );
 
 					if( null != image && image.length > 0 ) {
 
@@ -210,7 +224,7 @@
 
 							var adjust = ( image.height() - slideHeight ) / 2;
 
-							image.css( { 'margin-top': "-" + adjust + "px" } );
+							image.css( { 'margin-top': '-' + adjust + 'px' } );
 						}
 						else {
 
@@ -219,7 +233,7 @@
 
 							var adjust = ( image.width() - slideWidth ) / 2;
 
-							image.css( { 'margin-left': "-" + adjust + "px" } );
+							image.css( { 'margin-left': '-' + adjust + 'px' } );
 						}
 					}
 				}
@@ -229,8 +243,21 @@
 		// Initialise the Slider controls
 		function initControls( slider ) {
 
+			// TODO: Check slider height for vertical scrollable slider according to scroll type
+
+			// Calculate and set Slider Width
+			var sliderWidth		= slider.width();
+			var slidesWidth		= slider.find( '.slides-wrap' ).width();
+
+			if( slidesWidth < sliderWidth ) {
+				
+				slider.find( '.control' ).hide();
+
+				return;
+			}
+
 			// Show Controls
-			var controls 		= slider.find( ".controls" );
+			var controls 		= slider.find( '.controls' );
 			var lControlClass	= settings.lControlClass;
 			var rControlClass	= settings.rControlClass;
 			var lControlContent	= settings.lControlContent;
@@ -239,8 +266,8 @@
 			controls.show();
 
 			// Init Listeners
-			var leftControl		= slider.find( ".control-left" );
-			var rightControl	= slider.find( ".control-right" );
+			var leftControl		= slider.find( '.control-left' );
+			var rightControl	= slider.find( '.control-right' );
 
 			if( null != lControlClass ) {
 
@@ -264,21 +291,21 @@
 
 			leftControl.click( function() {
 
-				showPrevSlide( fxs( this ).closest( ".fx-slider" ) );
+				showPrevSlide( fxs( this ).closest( '.fx-slider' ) );
 			});
 
 			rightControl.click( function() {
 
-				showNextSlide( fxs( this ).closest( ".fx-slider" ) );
+				showNextSlide( fxs( this ).closest( '.fx-slider' ) );
 			});
 		}
 
 		// Initialise the Slider bullets
 		function initBullets( slider, bulletClass ) {
 
-			var slides			= slider.find( ".slide" );
+			var slides			= slider.find( '.slide' );
 			var slidesCount		= slides.length;
-			var bullets			= slider.find( ".bullets" );
+			var bullets			= slider.find( '.bullets' );
 
 			// Generate Slider Bullets
 			for( var i = 0; i < slidesCount; i++ ) {
@@ -289,29 +316,29 @@
 
 					if( null != bulletClass ) {
 
-						bullet = "<div class='bullet " + bulletClass + "' slide='" + i + "'>" + ( i + 1 ) + "</div>";
+						bullet = '<div class="bullet ' + bulletClass + '" slide="' + i + '">' + ( i + 1 ) + '</div>';
 					}
 					else {
 
-						bullet = "<div class='bullet' slide='" + i + "'>" + ( i + 1 ) + "</div>";
+						bullet = '<div class="bullet" slide="' + i + '">' + ( i + 1 ) + '</div>';
 					}
 				}
 				else {
 
 					if( null != bulletClass ) {
 
-						bullet = "<div class='bullet " + bulletClass + "' slide='" + i + "'></div>";
+						bullet = '<div class="bullet ' + bulletClass + '" slide="' + i + '"></div>';
 					}
 					else {
 
-						bullet = "<div class='bullet' slide='" + i + "'></div>";
+						bullet = '<div class="bullet" slide="' + i + '"></div>';
 					}
 				}
 
 				bullets.append( bullet );
 			}
 
-			slider.find( ".bullet" ).click( function() {
+			slider.find( '.bullet' ).click( function() {
 
 				showSelectedSlide( fxs( this ) );
 			});
@@ -322,7 +349,7 @@
 
 		function startAutoScroll() {
 
-			setInterval(function() {
+			setInterval( function() {
 
 				if( settings.autoScrollType == 'left' ) {
 
@@ -363,16 +390,21 @@
 		// Calculate and re-position slides to form filmstrip
 		function resetSlides( slider ) {
 
-			var slidesSelector	= slider.find( ".slide" );
-			var slideWidth		= parseInt( slider.css( "width" ) );
+			var slidesSelector	= slider.find( '.slide' );
+			var slideWidth		= slidesSelector.first().width();
 			var currentPosition	= 0;
-			var filmstrip		= slider.find( ".slides-wrap" );
+			var filmstrip		= slider.find( '.slides-wrap' );
 
 			// reset filmstrip
-			filmstrip.css( { left: 0 + "px", 'right' : '' } );
+			filmstrip.css( { left: 0 + 'px', 'right' : '' } );
 
-			// Use settings for Slide dimensions
-			if( settings.slideWidth > 0 && settings.slideHeight > 0 ) {
+			// Slide Width
+			if( settings.slideDimMax ) {
+				
+				slideWidth = slider.width();
+			}
+
+			if( settings.slideWidth > 0 ) {
 
 				slideWidth = parseInt( settings.slideWidth );
 			}
@@ -390,11 +422,11 @@
 
 			if( settings.circular && settings.slideArrangement == 'filmstrip' ) {
 
-				var slidesSelector	= slider.find( ".slide" );
+				var slidesSelector	= slider.find( '.slide' );
 				var firstSlide		= slidesSelector.first();
-				var firstSlideIndex	= firstSlide.attr( "slide" );
-				var slideWidth		= parseInt( slidesSelector.css( "width" ) );
-				var filmstrip		= slider.find( ".slides-wrap" );
+				var firstSlideIndex	= firstSlide.attr( 'slide' );
+				var slideWidth		= firstSlide.width();
+				var filmstrip		= slider.find( '.slides-wrap' );
 				var duration		= 500;
 
 				// do pre processing
@@ -406,8 +438,9 @@
 				// TODO: Add animation extension and move this code to the animations extension
 
 				if( null != settings.duration ) {
-					duration	= settings.duration;
-				}	
+
+					duration = settings.duration;
+				}
 
 				// do animation - animate slider
 				filmstrip.animate(
@@ -419,16 +452,17 @@
 							var slider = fxs( this ).parent();
 
 							// Remove first and append to last
-							var slidesSelector	= slider.find( ".slide" );
+							var slidesSelector	= slider.find( '.slide' );
 							var firstSlide		= slidesSelector.first();
+
 							firstSlide.insertAfter( slidesSelector.eq( slidesSelector.length - 1 ) );
-							firstSlide.css( "right", -slideWidth );
+							firstSlide.css( 'right', -slideWidth );
 
 							resetSlides( slider );
 
-							slidesSelector		= slider.find( ".slide" );
+							slidesSelector		= slider.find( '.slide' );
 							firstSlide			= slidesSelector.first();
-							var activeSlide		= firstSlide.attr( "slide" );
+							var activeSlide		= firstSlide.attr( 'slide' );
 
 							// Activate Bullet
 							if( settings.bullets ) {
@@ -440,7 +474,7 @@
 				);
 
 				firstSlide		= slidesSelector.first();
-				firstSlideIndex	= firstSlide.attr( "slide" );
+				firstSlideIndex	= firstSlide.attr( 'slide' );
 
 				// do post processing
 				if( null != settings.postSlideChange ) {
@@ -450,8 +484,8 @@
 			}
 			else if( settings.slideArrangement == 'stacked' ) {
 
-				var slidesSelector	= slider.find( ".slide" );
-				var currentIndex	= parseInt( slider.attr( "activeindex" ) );
+				var slidesSelector	= slider.find( '.slide' );
+				var currentIndex	= parseInt( slider.attr( 'activeindex' ) );
 				var totalSlides		= slidesSelector.length - 1;
 
 				if( currentIndex < totalSlides ) {
@@ -462,18 +496,18 @@
 
 					slidesSelector.eq( currentIndex ).fadeIn( 'slow' );
 
-					slider.attr( "activeindex", currentIndex );
+					slider.attr( 'activeindex', currentIndex );
 
 					// Disabled next control
 					if( currentIndex == totalSlides ) {
 
-						slider.find( ".control-right" ).addClass( "disabled" );
-						slider.find( ".control-left" ).removeClass( "disabled" );
+						slider.find( '.control-right' ).addClass( 'disabled' );
+						slider.find( '.control-left' ).removeClass( 'disabled' );
 					}
 					else {
 
-						slider.find( ".control-right" ).removeClass( "disabled" );
-						slider.find( ".control-left" ).removeClass( "disabled" );
+						slider.find( '.control-right' ).removeClass( 'disabled' );
+						slider.find( '.control-left' ).removeClass( 'disabled' );
 					}
 
 					// Activate Bullet
@@ -490,11 +524,11 @@
 
 			if( settings.circular && settings.slideArrangement == 'filmstrip' ) {
 
-				var slidesSelector	= slider.find( ".slide" );
+				var slidesSelector	= slider.find( '.slide' );
 				var firstSlide		= slidesSelector.first();
-				var firstSlideIndex	= firstSlide.attr( "slide" );
-				var slideWidth		= parseInt( slidesSelector.css( "width" ) );
-				var filmstrip		= slider.find( ".slides-wrap" );
+				var firstSlideIndex	= firstSlide.attr( 'slide' );
+				var slideWidth		= firstSlide.width();
+				var filmstrip		= slider.find( '.slides-wrap' );
 
 				// do pre processing
 				if( null != settings.preSlideChange ) {
@@ -505,8 +539,8 @@
 				// Remove last and append to first
 				var lastSlide		= slidesSelector.last();
 				lastSlide.insertBefore( slidesSelector.eq(0) );
-				lastSlide.css( "left", -slideWidth );
-				var activeSlide		= lastSlide.attr( "slide" );
+				lastSlide.css( 'left', -slideWidth );
+				var activeSlide		= lastSlide.attr( 'slide' );
 
 				// TODO: Add animation extension and move this code to the animations extension
 
@@ -531,7 +565,7 @@
 				}
 
 				firstSlide		= slidesSelector.first();
-				firstSlideIndex	= firstSlide.attr( "slide" );
+				firstSlideIndex	= firstSlide.attr( 'slide' );
 
 				// do post processing
 				if( null != settings.postSlideChange ) {
@@ -541,8 +575,8 @@
 			}
 			else if( settings.slideArrangement == 'stacked' ) {
 
-				var slidesSelector	= slider.find( ".slide" );
-				var currentIndex	= parseInt( slider.attr( "activeindex" ) );
+				var slidesSelector	= slider.find( '.slide' );
+				var currentIndex	= parseInt( slider.attr( 'activeindex' ) );
 
 				if( currentIndex > 0 ) {
 
@@ -552,18 +586,18 @@
 
 					slidesSelector.eq( currentIndex ).fadeIn( 'slow' );
 
-					slider.attr( "activeindex", currentIndex );
+					slider.attr( 'activeindex', currentIndex );
 
 					// Disabled next control
 					if( currentIndex == 0 ) {
 
-						slider.find( ".control-right" ).removeClass( "disabled" );
-						slider.find( ".control-left" ).addClass( "disabled" );
+						slider.find( '.control-right' ).removeClass( 'disabled' );
+						slider.find( '.control-left' ).addClass( 'disabled' );
 					}
 					else {
 
-						slider.find( ".control-right" ).removeClass( "disabled" );
-						slider.find( ".control-left" ).removeClass( "disabled" );
+						slider.find( '.control-right' ).removeClass( 'disabled' );
+						slider.find( '.control-left' ).removeClass( 'disabled' );
 					}
 
 					// Activate Bullet
@@ -578,29 +612,29 @@
 		// Change active Bullet
 		function activateBullet( slider, bulletNum ) {
 
-			slider.find(".bullet").removeClass( "active" );
-			slider.find(".bullet[slide='" + bulletNum + "']").addClass( "active" );
+			slider.find( '.bullet' ).removeClass( 'active' );
+			slider.find( '.bullet[slide="' + bulletNum + '"]').addClass( 'active' );
 			
 			// slide titles
-			jQuery('.fx-slide-titles').find('.fx-slide-title').removeClass( "active" );
-			jQuery('.fx-slide-titles').find(".fx-slide-title[slide='" + bulletNum + "']").addClass( "active" );
+			jQuery( '.fx-slide-titles' ).find( '.fx-slide-title' ).removeClass( 'active' );
+			jQuery( '.fx-slide-titles' ).find( '.fx-slide-title[slide="' + bulletNum + '"]').addClass( 'active' );
 		}
 
 		// Show Slide on Bullet click
 		function showSelectedSlide( bullet ) {
 
-			var slider		= bullet.closest( ".fx-slider" );
-			var bulletNum	= parseInt( bullet.attr( "slide" ) );
+			var slider		= bullet.closest( '.fx-slider' );
+			var bulletNum	= parseInt( bullet.attr( 'slide' ) );
 
 			if( settings.autoScroll && settings.slideArrangement == 'filmstrip' ) {
 
-				var filmstrip		= slider.find( ".slides-wrap" );
-				var slidesSelector	= slider.find( ".slide" );
-				var slideWidth		= parseInt( slidesSelector.css( "width" ) );
+				var filmstrip		= slider.find( '.slides-wrap' );
+				var slidesSelector	= slider.find( '.slide' );
+				var slideWidth		= slidesSelector.first().width();
 				var slidesCount		= slidesSelector.length;
 
 				var activeSlide		= slidesSelector.first();
-				var activeSlideId	= parseInt( activeSlide.attr( "slide" ) );
+				var activeSlideId	= parseInt( activeSlide.attr( 'slide' ) );
 
 				activateBullet( slider, bulletNum );
 
@@ -613,7 +647,7 @@
 						for( var i = 0; i < diff; i++ ) {
 
 							// Remove last and append to first
-							//var slidesSelector	= slider.find(".slide");
+							//var slidesSelector	= slider.find('.slide');
 							//var lastSlide		= slidesSelector.last();
 							//lastSlide.insertBefore( slidesSelector.eq(0) );
 							showBackwardSlides(slider);
@@ -628,7 +662,7 @@
 						for( var i = 0; i < diff; i++ ) {
 
 							// Remove first and append to last
-							//var slidesSelector	= slider.find(".slide");
+							//var slidesSelector	= slider.find('.slide');
 							//var firstSlide		= slidesSelector.first();
 							//firstSlide.insertAfter( slidesSelector.eq( slidesSelector.length - 1 ) );
 							showForwardSlides(slider);
@@ -640,8 +674,8 @@
 			}
 			else if( settings.slideArrangement == 'stacked' ) {
 
-				var slidesSelector	= slider.find( ".slide" );
-				var currentIndex	= parseInt( slider.attr( "activeindex" ) );
+				var slidesSelector	= slider.find( '.slide' );
+				var currentIndex	= parseInt( slider.attr( 'activeindex' ) );
 				var totalSlides		= slidesSelector.length - 1;
 
 				if( bulletNum <= totalSlides ) {
@@ -650,23 +684,23 @@
 
 					slidesSelector.eq( bulletNum ).fadeIn( 'slow' );
 
-					slider.attr( "activeindex", bulletNum );
+					slider.attr( 'activeindex', bulletNum );
 
 					// Disabled next control
 					if( bulletNum == totalSlides ) {
 
-						slider.find( ".control-right" ).addClass( "disabled" );
-						slider.find( ".control-left" ).removeClass( "disabled" );
+						slider.find( '.control-right' ).addClass( 'disabled' );
+						slider.find( '.control-left' ).removeClass( 'disabled' );
 					}
 					else if( bulletNum == 0 ) {
 
-						slider.find( ".control-right" ).removeClass( "disabled" );
-						slider.find( ".control-left" ).addClass( "disabled" );
+						slider.find( '.control-right' ).removeClass( 'disabled' );
+						slider.find( '.control-left' ).addClass( 'disabled' );
 					}
 					else {
 
-						slider.find( ".control-right" ).removeClass( "disabled" );
-						slider.find( ".control-left" ).removeClass( "disabled" );
+						slider.find( '.control-right' ).removeClass( 'disabled' );
+						slider.find( '.control-left' ).removeClass( 'disabled' );
 					}
 
 					// Activate Bullet
@@ -682,11 +716,11 @@
 
 			if( settings.circular && settings.slideArrangement == 'filmstrip' ) {
 
-				var slidesSelector	= slider.find( ".slide" );
+				var slidesSelector	= slider.find( '.slide' );
 				var firstSlide		= slidesSelector.first();
-				var firstSlideIndex	= firstSlide.attr( "slide" );
-				var slideWidth		= parseInt( slidesSelector.css( "width" ) );
-				var filmstrip		= slider.find( ".slides-wrap" );
+				var firstSlideIndex	= firstSlide.attr( 'slide' );
+				var slideWidth		= firstSlide.width();
+				var filmstrip		= slider.find( '.slides-wrap' );
 
 				// do pre processing
 				if( null != settings.preSlideChange ) {
@@ -697,8 +731,8 @@
 				// Remove last and append to first
 				var lastSlide		= slidesSelector.last();
 				lastSlide.insertBefore( slidesSelector.eq(0) );
-				lastSlide.css( "left", -slideWidth );
-				var activeSlide		= lastSlide.attr( "slide" );
+				lastSlide.css( 'left', -slideWidth );
+				var activeSlide		= lastSlide.attr( 'slide' );
 
 				// TODO: Add animation extension and move this code to the animations extension
 
@@ -717,7 +751,7 @@
 				);
 
 				firstSlide		= slidesSelector.first();
-				firstSlideIndex	= firstSlide.attr( "slide" );
+				firstSlideIndex	= firstSlide.attr( 'slide' );
 
 				// do post processing
 				if( null != settings.postSlideChange ) {
@@ -730,11 +764,11 @@
 
 			if( settings.circular && settings.slideArrangement == 'filmstrip' ) {
 
-				var slidesSelector	= slider.find( ".slide" );
+				var slidesSelector	= slider.find( '.slide' );
 				var firstSlide		= slidesSelector.first();
-				var firstSlideIndex	= firstSlide.attr( "slide" );
-				var slideWidth		= parseInt( slidesSelector.css( "width" ) );
-				var filmstrip		= slider.find( ".slides-wrap" );
+				var firstSlideIndex	= firstSlide.attr( 'slide' );
+				var slideWidth		= firstSlide.width();
+				var filmstrip		= slider.find( '.slides-wrap' );
 				var duration		= 1000;
 
 				// do pre processing
@@ -753,23 +787,23 @@
 							var slider = fxs( this ).parent();
 
 							// Remove first and append to last
-							var slidesSelector	= slider.find( ".slide" );
+							var slidesSelector	= slider.find( '.slide' );
 							var firstSlide		= slidesSelector.first();
 							firstSlide.insertAfter( slidesSelector.eq( slidesSelector.length - 1 ) );
-							firstSlide.css( "right", -slideWidth );
+							firstSlide.css( 'right', -slideWidth );
 
 							resetSlides( slider );
 
-							slidesSelector		= slider.find( ".slide" );
+							slidesSelector		= slider.find( '.slide' );
 							firstSlide			= slidesSelector.first();
-							var activeSlide		= firstSlide.attr( "slide" );
+							var activeSlide		= firstSlide.attr( 'slide' );
 
 						}
 					}
 				);
 
 				firstSlide		= slidesSelector.first();
-				firstSlideIndex	= firstSlide.attr( "slide" );
+				firstSlideIndex	= firstSlide.attr( 'slide' );
 
 				// do post processing
 				if( null != settings.postSlideChange ) {
@@ -802,6 +836,7 @@
 		// Custom Dimensions
 		sliderWidth: 0,
 		sliderHeight: 0,
+		slideDimMax: true, // Keep slide width and height equal to slider width and height
 		slideWidth: 0,
 		slideHeight: 0,
 		// Slide arrangement - filmstrip, stacked
