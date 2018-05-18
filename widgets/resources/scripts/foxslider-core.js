@@ -14,8 +14,8 @@
 		// == Init =================================================================== //
 
 		// Configure Sliders
-		var settings 		= fxs.extend( {}, fxs.fn.foxslider.defaults, options );
-		var sliders			= this;
+		var settings	= fxs.extend( {}, fxs.fn.foxslider.defaults, options );
+		var sliders		= this;
 
 		// Iterate and initialise all the fox sliders
 		sliders.each( function() {
@@ -60,7 +60,7 @@
 			normaliseSlides( slider );
 
 			// Initialise controls
-			if( settings.controls ) {
+			if( settings.controls && slider.find( '.slide' ).length > 1 ) {
 
 				initControls( slider );
 			}
@@ -70,7 +70,7 @@
 			}
 
 			// Initialise Bullets
-			if( settings.bullets ) {
+			if( settings.bullets && slider.find( '.slide' ).length > 1 ) {
 
 				initBullets( slider, settings.bulletClass );
 			}
