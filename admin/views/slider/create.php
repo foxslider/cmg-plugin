@@ -12,7 +12,7 @@ $returnUrl		= $this->context->returnUrl;
 ?>
 <div class="box-crud-wrap row">
 	<div class="box-crud-wrap-main colf colf3x2">
-		<?php $form = ActiveForm::begin( [ 'id' => 'frm-block', 'options' => [ 'class' => 'form' ] ] ); ?>
+		<?php $form = ActiveForm::begin( [ 'id' => 'frm-slider', 'options' => [ 'class' => 'form' ] ] ); ?>
 		<div class="box box-crud">
 			<div class="box-header">
 				<div class="box-header-title">Basic Details</div>

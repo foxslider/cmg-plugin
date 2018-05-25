@@ -37,6 +37,8 @@ class FoxSliderMain extends Widget {
 
 	// Public -----------------
 
+	public $wrap = true;
+
 	// FoxSlider JQuery Plugin Options
 	public $fxOptions	= [
 		// Controls
@@ -76,7 +78,7 @@ class FoxSliderMain extends Widget {
 	public $slideTexture	= null;
 
 	// Slider name is required if we need to load it from slider db tables. The slider can also be formed from the image urls by overriding renderSlider method.
-    public $sliderName;
+    public $slug;
 
 	// Content array common for all the slides. The array elements can be included within slides.
 	public $genericContent	= [];
@@ -132,12 +134,12 @@ class FoxSliderMain extends Widget {
 
     public function renderWidget( $config = [] ) {
 
-		if( !isset( $this->sliderName ) ) {
+		if( !isset( $this->slug ) ) {
 
-            throw new InvalidConfigException( "The slider name option is required." );
+            throw new InvalidConfigException( "The slider slug option is required." );
         }
 
-		$slider	= $this->sliderService->getByName( $this->sliderName );
+		$slider	= $this->sliderService->getBySlug( $this->slug );
 		$items 	= [];
 
 		if( !isset( $slider ) ) {
@@ -168,8 +170,14 @@ class FoxSliderMain extends Widget {
 
 		$this->getView()->registerJs( $sliderJs, View::POS_READY );
 
-		// Return HTML
-		return Html::tag( 'div', implode( "\n", $items ), $this->options );
+		$htmlContent	= implode( "\n", $items );
+
+		if( $this->wrap ) {
+
+			return Html::tag( 'div', $htmlContent, $this->options );
+		}
+
+		return $htmlContent;
     }
 
 	// FoxSliderMain -------------------------

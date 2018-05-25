@@ -12,7 +12,7 @@ $returnUrl		= $this->context->returnUrl;
 ?>
 <div class="box-crud-wrap row">
 	<div class="box-crud-wrap-main colf colf3x2">
-		<?php $form = ActiveForm::begin( [ 'id' => 'frm-block', 'options' => [ 'class' => 'form' ] ] ); ?>
+		<?php $form = ActiveForm::begin( [ 'id' => 'frm-slider', 'options' => [ 'class' => 'form' ] ] ); ?>
 		<div class="box box-crud">
 			<div class="box-header">
 				<div class="box-header-title">Basic Details</div>
@@ -20,10 +20,13 @@ $returnUrl		= $this->context->returnUrl;
 			<div class="box-content-wrap frm-split-40-60">
 				<div class="box-content">
 					<div class="row">
-						<div class="col col2">
+						<div class="col col3">
 							<?= $form->field( $model, 'name' )->textInput( [ 'readonly' => 'true' ] ) ?>
 						</div>
-						<div class="col col2">
+						<div class="col col3">
+							<?= $form->field( $model, 'slug' )->textInput( [ 'readonly' => 'true' ] ) ?>
+						</div>
+						<div class="col col3">
 							<?= $form->field( $model, 'scrollType' )->dropDownList( $scrollTypeMap, [ 'class' => 'cmt-select', 'disabled' => 'true' ] ) ?>
 						</div>
 					</div>
