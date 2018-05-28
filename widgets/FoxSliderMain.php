@@ -144,7 +144,7 @@ class FoxSliderMain extends Widget {
 
 		if( !isset( $slider ) ) {
 
-			return "<div>Slider having name set to $this->sliderName does not exist. Please create it via admin.</div>";
+			return "<div>Slider having slug set to $this->slug does not exist. Please create it via admin.</div>";
         }
 
 		// Views Path

@@ -34,18 +34,18 @@ $statusMap		= Slider::$statusMap;
 					</div>
 					<div class="row">
 						<div class="col col2">
-							<?= $form->field( $model, 'height' ) ?>
+							<?= $form->field( $model, 'width' ) ?>
 						</div>
 						<div class="col col2">
-							<?= $form->field( $model, 'width' ) ?>
+							<?= $form->field( $model, 'height' ) ?>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col col2">
-							<?= $form->field( $model, 'slideHeight' ) ?>
+							<?= $form->field( $model, 'slideWidth' ) ?>
 						</div>
 						<div class="col col2">
-							<?= $form->field( $model, 'slideWidth' ) ?>
+							<?= $form->field( $model, 'slideHeight' ) ?>
 						</div>
 					</div>
 					<div class="row">
