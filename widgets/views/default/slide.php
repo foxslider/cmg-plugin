@@ -6,6 +6,7 @@ $slideContent	= $slide->content;
 $slideUrl		= $slide->url;
 $slideImageUrl	= '';
 $slideImageAlt	= '';
+$slideTexture	= isset( $widget->slideTexture ) ? "<div class=\"$widget->slideTexture\"></div>" : null;
 $content		= "<div class=\"wrap-slide-content\">";
 
 if( isset( $slideImage ) ) {

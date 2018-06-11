@@ -119,12 +119,6 @@ class FoxSliderMain extends Widget {
         	FxsAssets::register( $this->getView() );
 		}
 
-		// Additional Config
-		if( isset( $this->slideTexture ) ) {
-
-			$this->slideTexture	= "<div class=\"texture $this->slideTexture\"></div>";
-		}
-
 		return $this->renderWidget();
     }
 
@@ -157,7 +151,7 @@ class FoxSliderMain extends Widget {
         foreach( $slides as $slide ) {
 
             $items[] = $this->render( $slidePath, [
-            				'fxOptions' => $this->fxOptions, 'slide' => $slide, 'slideTexture' => $this->slideTexture,
+            				'widget' => $this, 'fxOptions' => $this->fxOptions, 'slide' => $slide,
             				'genericContent' => $this->genericContent
             			]);
         }
