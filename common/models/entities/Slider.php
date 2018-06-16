@@ -56,8 +56,6 @@ use foxslider\common\models\resources\Slide;
  * @property string $description
  * @property integer $status
  * @property boolean $fullPage
- * @property integer $width
- * @property integer $height
  * @property integer $slideWidth
  * @property integer $slideHeight
  * @property boolean $scrollAuto
@@ -65,6 +63,7 @@ use foxslider\common\models\resources\Slide;
  * @property boolean $circular
  * @property datetime $createdAt
  * @property datetime $modifiedAt
+ * @property string $htmlOptions;
  * @property string $content
  * @property string $data
  * @property string $gridCache
@@ -161,14 +160,14 @@ class Slider extends Entity implements IApproval, IAuthor, IData, IGridCache, IM
 		$rules = [
             // Required, Safe
             [ [ 'name', 'fullPage', 'slideWidth', 'slideHeight', 'scrollAuto', 'scrollType', 'circular' ], 'required' ],
-            [ [ 'id', 'content', 'data', 'gridCache' ], 'safe' ],
+            [ [ 'id', 'htmlOptions', 'content', 'data', 'gridCache' ], 'safe' ],
             // Text Limit
             [ 'name', 'string', 'min' => 1, 'max' => Yii::$app->core->xLargeText ],
             [ 'slug', 'string', 'min' => 1, 'max' => Yii::$app->core->xxLargeText ],
 			[ 'title', 'string', 'min' => 1, 'max' => Yii::$app->core->xxxLargeText ],
             [ 'description', 'string', 'min' => 1, 'max' => Yii::$app->core->xtraLargeText ],
             // Other
-            [ [ 'status', 'width', 'height', 'slideWidth', 'slideHeight', 'scrollType' ], 'number', 'integerOnly' => true, 'min' => 0 ],
+            [ [ 'status', 'slideWidth', 'slideHeight', 'scrollType' ], 'number', 'integerOnly' => true, 'min' => 0 ],
             [ [ 'fullPage', 'scrollAuto', 'circular' ], 'boolean' ],
             [ [ 'siteId', 'createdBy', 'modifiedBy' ], 'number', 'integerOnly' => true, 'min' => 1 ],
             [ [ 'createdAt', 'modifiedAt', 'gridCachedAt' ], 'date', 'format' => Yii::$app->formatter->datetimeFormat ]
@@ -197,13 +196,12 @@ class Slider extends Entity implements IApproval, IAuthor, IData, IGridCache, IM
 			'title' => Yii::$app->coreMessage->getMessage( CoreGlobal::FIELD_TITLE ),
 			'description' => Yii::$app->coreMessage->getMessage( CoreGlobal::FIELD_DESCRIPTION ),
 			'full_page' => 'Full Page',
-			'width' => 'Width',
-			'height' => 'Height',
 			'slideWidth' => 'Slide Width',
 			'slideHeight' => 'Slide Height',
 			'scrollAuto' => 'Auto Scroll',
 			'scrollType' => 'Scroll Type',
 			'circular' => 'Circular',
+			'htmlOptions' => Yii::$app->coreMessage->getMessage( CoreGlobal::FIELD_HTML_OPTIONS ),
 			'content' => Yii::$app->coreMessage->getMessage( CoreGlobal::FIELD_CONTENT ),
 			'data' => Yii::$app->coreMessage->getMessage( CoreGlobal::FIELD_DATA ),
 			'gridCache' => Yii::$app->coreMessage->getMessage( CoreGlobal::FIELD_GRID_CACHE )

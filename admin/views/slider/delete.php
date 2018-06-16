@@ -37,14 +37,6 @@ $statusMap		= Slider::$statusMap;
 					</div>
 					<div class="row">
 						<div class="col col2">
-							<?= $form->field( $model, 'height' )->textInput( [ 'readonly' => 'true' ] ) ?>
-						</div>
-						<div class="col col2">
-							<?= $form->field( $model, 'width' )->textInput( [ 'readonly' => 'true' ] ) ?>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col col2">
 
 							<?= $form->field( $model, 'slideWidth' )->textInput( [ 'readonly' => 'true' ] ) ?>
 						</div>
@@ -71,6 +63,9 @@ $statusMap		= Slider::$statusMap;
 					<div class="row">
 						<div class="col col2">
 							<?= $form->field( $model, 'status' )->dropDownList( $statusMap, [ 'class' => 'cmt-select', 'disabled' => 'true' ] ) ?>
+						</div>
+						<div class="col col2">
+							<?= $form->field( $model, 'htmlOptions' )->textarea( [ 'readonly' => 'true' ] ) ?>
 						</div>
 					</div>
 				</div>

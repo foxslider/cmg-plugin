@@ -14,11 +14,14 @@ use Yii;
 use yii\web\View;
 use yii\base\InvalidConfigException;
 use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
 
 // CMG Imports
 use cmsgears\core\common\base\Widget;
 
 // FXS Imports
+use foxslider\common\models\entities\Slider;
+
 use foxslider\widgets\assets\FxsAssets;
 
 class FoxSliderMain extends Widget {
@@ -40,7 +43,7 @@ class FoxSliderMain extends Widget {
 	public $wrap = true;
 
 	// FoxSlider JQuery Plugin Options
-	public $fxOptions	= [
+	public $fxOptions = [
 		// Controls
 		'bullets' => false,
 		'bulletsIndexing' => true,
@@ -60,6 +63,7 @@ class FoxSliderMain extends Widget {
 		// Custom Dimensions
 		'sliderWidth' => 0,
 		'sliderHeight' => 0,
+		'slideDimMax' => true,
 		'slideWidth' => 0,
 		'slideHeight' => 0,
 		// Slide arrangement - filmstrip, stacked
@@ -75,17 +79,30 @@ class FoxSliderMain extends Widget {
 	];
 
 	// Additional Configuration
-	public $slideTexture	= null;
+	public $slideTexture = null;
 
 	// Slider name is required if we need to load it from slider db tables. The slider can also be formed from the image urls by overriding renderSlider method.
     public $slug;
 
 	// Content array common for all the slides. The array elements can be included within slides.
-	public $genericContent	= [];
+	public $genericContent = [];
+
+	/**
+	 *
+	 * @var \foxslider\common\models\entities\Slider
+	 */
+	public $model;
+
+	/**
+	 * The JSON data stored in model.
+	 *
+	 * @var Object
+	 */
+	public $modelData;
 
 	// Protected --------------
 
-	protected $sliderService;
+	protected $modelService;
 
 	// Private ----------------
 
@@ -97,7 +114,7 @@ class FoxSliderMain extends Widget {
 
 		parent::init();
 
-		$this->sliderService = Yii::$app->factory->get( 'fxSliderService' );
+		$this->modelService = Yii::$app->factory->get( 'fxSliderService' );
 	}
 
 	// Instance methods --------------------------------------------
@@ -133,47 +150,118 @@ class FoxSliderMain extends Widget {
             throw new InvalidConfigException( "The slider slug option is required." );
         }
 
-		$slider	= $this->sliderService->getBySlug( $this->slug );
+		$this->model = $this->modelService->getBySlug( $this->slug );
+
+		$model	= $this->model;
 		$items 	= [];
 
-		if( !isset( $slider ) ) {
+		if( !isset( $model ) ) {
 
 			return "<div>Slider having slug set to $this->slug does not exist. Please create it via admin.</div>";
         }
+
+		// Configure
+		$this->configureSlider();
 
 		// Views Path
 		$slidePath = "$this->template/slide";
 
 		// Generate Slides Html
 
-		$slides = $slider->slides;
+		$slides = $model->slides;
 
         foreach( $slides as $slide ) {
 
             $items[] = $this->render( $slidePath, [
-            				'widget' => $this, 'fxOptions' => $this->fxOptions, 'slide' => $slide,
-            				'genericContent' => $this->genericContent
-            			]);
+				'widget' => $this, 'fxOptions' => $this->fxOptions, 'slide' => $slide,
+				'genericContent' => $this->genericContent
+			]);
         }
 
-		// TODO: Configure from database settings
-
 		// Register JS
-		$sliderOptions	= json_encode( $this->fxOptions );
-		$sliderJs		= "jQuery( '#" . $this->options[ 'id' ] . "' ).foxslider( $sliderOptions );";
+		$modelOptions	= json_encode( $this->fxOptions );
+		$modelJs		= "jQuery( '.fx-" . $model->slug . "' ).foxslider( $modelOptions );";
 
-		$this->getView()->registerJs( $sliderJs, View::POS_READY );
+		$this->getView()->registerJs( $modelJs, View::POS_READY );
 
-		$htmlContent	= implode( "\n", $items );
+		$htmlContent = implode( "\n", $items );
 
 		if( $this->wrap ) {
 
-			return Html::tag( 'div', $htmlContent, $this->options );
+			// Apply model options - Overrides widget and template options
+			$htmlOptions = json_decode( $model->htmlOptions, true );
+
+			$options = !empty( $htmlOptions ) ? ArrayHelper::merge( $this->options, $htmlOptions ) : $this->options;
+
+			//$options[ 'id' ] = "fxs-{$model->slug}";
+
+			$classOption = isset( $options[ 'class' ] ) ? $options[ 'class' ] : null;
+			$classOption = !empty( $classOption ) ? "fx $classOption fx-{$model->slug}" : "fx fx-{$model->slug}";
+
+			$options[ 'class' ] = $classOption;
+
+			return Html::tag( 'div', $htmlContent, $options );
 		}
 
 		return $htmlContent;
     }
 
 	// FoxSliderMain -------------------------
+
+	public function configureSlider() {
+
+		$model = $this->model;
+
+		$this->fxOptions[ 'autoScroll' ] = boolval( $model->scrollAuto );
+		$this->fxOptions[ 'autoScrollType' ] = strtolower( Slider::$scrollTypeMap[ $model->scrollType ] );
+		$this->fxOptions[ 'fullPage' ] = boolval( $model->fullPage );
+		$this->fxOptions[ 'circular' ] = boolval( $model->circular );
+
+		$data = json_decode( $model->data );
+
+		$settings = $data->settings ?? null;
+
+		if( !empty( $settings ) ) {
+
+			$this->fxOptions[ 'sliderWidth' ] = !empty( $settings->sliderWidth ) ? intval( $settings->sliderWidth ) : 0;
+			$this->fxOptions[ 'sliderHeight' ] = !empty( $settings->sliderHeight ) ? intval( $settings->sliderHeight ) : 0;
+			$this->fxOptions[ 'slideDimMax' ] = boolval( $settings->slideDimMax );
+			$this->fxOptions[ 'slideWidth' ] = !empty( $settings->slideWidth ) ? intval( $settings->slideWidth ) : 0;
+			$this->fxOptions[ 'slideHeight' ] = !empty( $settings->slideHeight ) ? intval( $settings->slideHeight ) : 0;
+
+			$this->fxOptions[ 'bullets' ] = boolval( $settings->bullets );
+			$this->fxOptions[ 'bulletsIndexing' ] = boolval( $settings->bulletsIndexing );
+			$this->fxOptions[ 'bulletClass' ] = !empty( $settings->bulletClass ) ? $settings->bulletClass : null;
+
+			$this->fxOptions[ 'controls' ] = boolval( $settings->controls );
+			$this->fxOptions[ 'lControlClass' ] = !empty( $settings->lControlClass ) ? $settings->lControlClass : null;
+			$this->fxOptions[ 'rControlClass' ] = !empty( $settings->rControlClass ) ? $settings->rControlClass : null;
+			$this->fxOptions[ 'lControlContent' ] = !empty( $settings->lControlContent ) ? $settings->lControlContent : null;
+			$this->fxOptions[ 'rControlContent' ] = !empty( $settings->rControlContent ) ? $settings->rControlContent : null;
+
+			$this->fxOptions[ 'autoScrollDuration' ] = !empty( $settings->autoScrollDuration ) ? intval( $settings->autoScrollDuration ) : 5000;
+			$this->fxOptions[ 'stopOnHover' ] = boolval( $settings->stopOnHover );
+
+			$this->fxOptions[ 'slideArrangement' ] = $settings->slideArrangement;
+			$this->fxOptions[ 'resizeBkgImage' ] = boolval( $settings->resizeBkgImage );
+			$this->fxOptions[ 'bkgImageClass' ] = !empty( $settings->bkgImageClass ) ? $settings->bkgImageClass : null;
+			$this->fxOptions[ 'preSlideChange' ] = !empty( $settings->preSlideChange ) ? $settings->preSlideChange : null;
+			$this->fxOptions[ 'postSlideChange' ] = !empty( $settings->postSlideChange ) ? $settings->postSlideChange : null;
+
+			if( !empty( $settings->slideTemplate ) ) {
+
+				$this->template = $settings->slideTemplate;
+			}
+
+			if( !empty( $settings->slideTemplateDir ) ) {
+
+				$this->templateDir = $settings->slideTemplateDir;
+			}
+
+			$this->slideTexture = $settings->slideTexture;
+
+			$this->genericContent = !empty( $settings->genericContent ) ? $settings->genericContent : [];
+		}
+	}
 
 }

@@ -20,6 +20,7 @@ use cmsgears\core\common\config\CoreGlobal;
 // FXS Imports
 use foxslider\common\config\FxsCoreGlobal;
 
+use foxslider\admin\models\forms\SliderSettingsForm;
 use foxslider\common\models\entities\Slider;
 
 use cmsgears\core\admin\controllers\base\CrudController;
@@ -69,7 +70,8 @@ class SliderController extends CrudController {
 			'create' => [ [ 'label' => 'Sliders', 'url' => $this->returnUrl ], [ 'label' => 'Add' ] ],
 			'update' => [ [ 'label' => 'Sliders', 'url' => $this->returnUrl ], [ 'label' => 'Update' ] ],
 			'delete' => [ [ 'label' => 'Sliders', 'url' => $this->returnUrl ], [ 'label' => 'Delete' ] ],
-			'slides' => [ [ 'label' => 'Sliders', 'url' => $this->returnUrl ], [ 'label' => 'Slides' ] ]
+			'slides' => [ [ 'label' => 'Sliders', 'url' => $this->returnUrl ], [ 'label' => 'Slides' ] ],
+			'settings' => [ [ 'label' => 'Sliders', 'url' => $this->returnUrl ], [ 'label' => 'Settings' ] ]
 		];
 	}
 
@@ -126,6 +128,33 @@ class SliderController extends CrudController {
 	    		'slider' => $slider,
 	    		'slides' => $slides
 	    	]);
+		}
+
+		// Model not found
+		throw new NotFoundHttpException( Yii::$app->coreMessage->getMessage( CoreGlobal::ERROR_NOT_FOUND ) );
+	}
+
+	public function actionSettings( $id ) {
+
+		// Find Model
+		$model = $this->modelService->getById( $id );
+
+		// Update/Render if exist
+		if( isset( $model ) ) {
+
+			$settings = new SliderSettingsForm( $model->getDataMeta( 'settings' ) );
+
+			if( $settings->load( Yii::$app->request->post(), $settings->getClassName() ) && $settings->validate() ) {
+
+				$this->model = $this->modelService->updateDataMeta( $model, 'settings', $settings );
+
+				return $this->redirect( $this->returnUrl );
+			}
+
+			return $this->render( 'settings', [
+				'model' => $model,
+				'settings' => $settings
+			]);
 		}
 
 		// Model not found

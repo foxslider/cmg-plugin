@@ -19,6 +19,7 @@ use cmsgears\core\common\services\base\EntityService;
 use cmsgears\core\common\services\traits\base\ApprovalTrait;
 use cmsgears\core\common\services\traits\base\NameTrait;
 use cmsgears\core\common\services\traits\base\SlugTrait;
+use cmsgears\core\common\services\traits\resources\DataTrait;
 
 // FXS Imports
 use foxslider\common\services\interfaces\entities\ISliderService;
@@ -51,6 +52,7 @@ class SliderService extends EntityService implements ISliderService {
 	// Traits ------------------------------------------------------
 
 	use ApprovalTrait;
+	use DataTrait;
 	use NameTrait;
 	use SlugTrait;
 
@@ -235,7 +237,7 @@ class SliderService extends EntityService implements ISliderService {
 	public function update( $model, $config = [] ) {
 
 		$admin		= isset( $config[ 'admin' ] ) ? $config[ 'admin' ] : false;
-		$attributes	= isset( $config[ 'attributes' ] ) ? $config[ 'attributes' ] : [ 'name', 'slug', 'title', 'description', 'width', 'height', 'slideWidth', 'slideHeight', 'fullPage', 'scrollAuto', 'scrollType', 'circular' ];
+		$attributes	= isset( $config[ 'attributes' ] ) ? $config[ 'attributes' ] : [ 'name', 'slug', 'title', 'description', 'slideWidth', 'slideHeight', 'fullPage', 'scrollAuto', 'scrollType', 'circular', 'htmlOptions', 'content' ];
 
 		if( $admin ) {
 

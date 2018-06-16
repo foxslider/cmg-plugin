@@ -37,15 +37,13 @@ $themeTemplates		= '@themes/admin/views/templates';
 		'model' => [ 'fpage' => 'Full Page', 'circular' => 'Circular', 'delete' => 'Delete' ]
 	],
 	'header' => false, 'footer' => true,
-	'grid' => true, 'columns' => [ 'root' => 'colf colf15', 'factor' => [ null , 'x2', 'x2', null, null, null, null, null, null, null, null, null, null  ] ],
+	'grid' => true, 'columns' => [ 'root' => 'colf colf15', 'factor' => [ null , 'x3', 'x3', null, null, null, null, null, null, null, null, null, null  ] ],
 	'gridColumns' => [
 		'bulk' => 'Action',
 		'name' => 'Name',
 		'title' => 'Title',
 		'status' => [ 'title' => 'Status', 'generate' => function( $model ) { return $model->getStatusStr(); } ],
 		'fullPage' => [ 'title' => 'Full Page', 'generate' => function( $model ) { return $model->getFullPageStr(); } ],
-		'width' => 'Width',
-		'height' => 'Height',
 		'slideWidth' => 'Slide Width',
 		'slideHeight' => 'Slide Height',
 		'scrollAuto' => [ 'title' => 'Auto Scroll' ,'generate' => function( $model ) { return $model->getScrollAutoStr(); } ],
