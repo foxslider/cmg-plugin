@@ -237,6 +237,18 @@
 						}
 					}
 				}
+
+				if( null !== settings.onSlideClick ) {
+
+					// remove existing click event
+					currentSlide.unbind( 'click' );
+
+					// reset click event
+					currentSlide.click( function() {
+
+						settings.onSlideClick( slider, currentSlide, currentSlide.attr( 'slide' ) );
+					});
+				}
 			});
 		}
 
@@ -410,8 +422,10 @@
 			}
 
 			slidesSelector.each( function() {
+				
+				var slide = fxs( this );
 
-				fxs( this ).css( { 'left': currentPosition + 'px', 'right' : '' } );
+				slide.css( { 'left': currentPosition + 'px', 'right' : '' } );
 
 				currentPosition += slideWidth;
 			});
@@ -848,7 +862,8 @@
 		// Listener Callback for pre processing
 		preSlideChange: null,
 		// Listener Callback for post processing
-		postSlideChange: null
+		postSlideChange: null,
+		onSlideClick: null
 	};
 
 })( jQuery );
