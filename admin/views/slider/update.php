@@ -13,7 +13,7 @@ $coreProperties = $this->context->getCoreProperties();
 $this->title 	= 'Update Slider | ' . $coreProperties->getSiteTitle();
 $returnUrl		= $this->context->returnUrl;
 
-$statusMap		= Slider::$statusMap;
+$statusMap = Slider::$statusMap;
 ?>
 <div class="box-crud-wrap row">
 	<div class="box-crud-wrap-main colf colf3x2">
@@ -75,7 +75,7 @@ $statusMap		= Slider::$statusMap;
 
 		<div class="align align-right">
 			<?= Html::a( 'View All', $returnUrl, [ 'class' => 'btn btn-medium' ] ); ?>
-			<input class="element-medium" type="submit" value="Update" />
+			<input class="frm-element-medium" type="submit" value="Update" />
 		</div>
 
 		<div class="filler-height filler-height-medium"></div>

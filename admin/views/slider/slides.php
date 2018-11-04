@@ -78,7 +78,7 @@ $this->title	= 'Slider Slide | ' . $coreProperties->getSiteTitle();
 							<div class="spinner"></div>
 							<div class="message"></div>
 							<div class="align align-center">
-								<input class="element-medium" type="submit" value="Create">
+								<input class="frm-element-medium" type="submit" value="Create">
 							</div>
 						</div>
 					</div>
@@ -149,7 +149,7 @@ $this->title	= 'Slider Slide | ' . $coreProperties->getSiteTitle();
 										<div class="spinner"></div>
 										<div class="message"></div>
 										<div class="align align-center">
-											<input class="element-medium" type="submit" value="Update">
+											<input class="frm-element-medium" type="submit" value="Update">
 										</div>
 									</div>
 								</form>
@@ -159,7 +159,7 @@ $this->title	= 'Slider Slide | ' . $coreProperties->getSiteTitle();
 										<div class="valign-center cmti cmti-spinner-1 spin"></div>
 									</div>
 									<div class="frm-actions align align-center">
-										<input class="element-medium" type="submit" value="Delete" />
+										<input class="frm-element-medium" type="submit" value="Delete" />
 									</div>
 								</form>
 								<div class="filler-height"></div>
