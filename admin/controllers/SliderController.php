@@ -66,6 +66,9 @@ class SliderController extends CrudController {
 
 		// Breadcrumbs
 		$this->breadcrumbs = [
+			'base' => [
+				[ 'label' => 'Home', 'url' => Url::toRoute( '/dashboard' ) ]
+			],
 			'all' => [ [ 'label' => 'Sliders' ] ],
 			'create' => [ [ 'label' => 'Sliders', 'url' => $this->returnUrl ], [ 'label' => 'Add' ] ],
 			'update' => [ [ 'label' => 'Sliders', 'url' => $this->returnUrl ], [ 'label' => 'Update' ] ],
