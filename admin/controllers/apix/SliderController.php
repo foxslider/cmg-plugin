@@ -14,7 +14,9 @@ use Yii;
 use yii\filters\VerbFilter;
 
 // CMG Imports
-use cmsgears\core\admin\controllers\base\Controller;
+use cmsgears\core\common\config\CoreGlobal;
+
+use cmsgears\core\common\utilities\AjaxUtil;
 
 // FoxSlider Imports
 use foxslider\common\config\FxsCoreGlobal;
@@ -24,7 +26,7 @@ use foxslider\common\config\FxsCoreGlobal;
  *
  * @since 1.0.0
  */
-class SliderController extends Controller {
+class SliderController extends \cmsgears\core\admin\controllers\base\Controller {
 
 	// Variables ---------------------------------------------------
 
@@ -64,14 +66,16 @@ class SliderController extends Controller {
 				'class' => Yii::$app->core->getRbacFilterClass(),
 				'actions' => [
 					'bulk' => [ 'permission' => $this->crudPermission ],
-					'delete' => [ 'permission' => $this->crudPermission ]
+					'delete' => [ 'permission' => $this->crudPermission ],
+					'update' => [ 'permission' => $this->crudPermission ]
 				]
 			],
 			'verbs' => [
 				'class' => VerbFilter::class,
 				'actions' => [
 					'bulk' => [ 'post' ],
-					'delete' => [ 'post' ]
+					'delete' => [ 'post' ],
+					'update' => [ 'post' ]
 				]
 			]
 		];
@@ -92,5 +96,24 @@ class SliderController extends Controller {
 	// CMG parent classes --------------------
 
 	// SliderController ----------------------
+
+	public function actionUpdate( $id ) {
+
+		$model = $this->modelService->getById( $id );
+
+		if( $model->load( Yii::$app->request->post(), $model->getClassName() ) && $model->validate() ) {
+
+			$this->modelService->update( $model );
+
+			// Trigger Ajax Success
+			return AjaxUtil::generateSuccess( Yii::$app->coreMessage->getMessage( CoreGlobal::MESSAGE_REQUEST ) );
+		}
+
+		// Generate Errors
+		$errors = AjaxUtil::generateErrorMessage( $model );
+
+		// Trigger Ajax Failure
+		return AjaxUtil::generateFailure( Yii::$app->coreMessage->getMessage( CoreGlobal::ERROR_REQUEST ), $errors );
+	}
 
 }

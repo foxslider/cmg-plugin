@@ -69,6 +69,7 @@ class SlideController extends Controller {
             'rbac' => [
                 'class' => Yii::$app->core->getRbacFilterClass(),
                 'actions' => [
+					'get' => [ 'permission' => $this->crudPermission ],
 					'create' => [ 'permission' => $this->crudPermission ],
 					'update' => [ 'permission' => $this->crudPermission ],
 					'delete' => [ 'permission' => $this->crudPermission ]
@@ -77,6 +78,7 @@ class SlideController extends Controller {
             'verbs' => [
                 'class' => VerbFilter::class,
                 'actions' => [
+					'get' => [ 'post' ],
 					'create' => [ 'post' ],
 					'update' => [ 'post' ],
 					'delete' => [ 'post' ]
@@ -93,16 +95,69 @@ class SlideController extends Controller {
 
 	// SlideController -----------------------
 
-	public function actionCreate() {
+	public function actionGet( $id, $cid, $fid ) {
+
+		// Find Model
+		$model	= $this->modelService->getById( $cid );
+
+		// Update/Render if exist
+		if( isset( $model ) ) {
+
+			$file = $model->image;
+
+			$data = [
+				'mid' => $model->id, 'fid' => $file->id,
+				'name' => $file->name, 'extension' => $file->extension,
+				'title' => $file->title, 'caption' => $file->caption,
+				'altText' => $file->altText, 'link' => $file->link, 'url' => $file->getFileUrl(),
+				'description' => $file->description, 'content' => $model->content
+			];
+
+			if( $file->type == 'image' ) {
+
+				$data[ 'mediumUrl' ]	= $file->getMediumUrl();
+				$data[ 'thumbUrl' ]		= $file->getThumbUrl();
+			}
+
+			// Trigger Ajax Success
+			return AjaxUtil::generateSuccess( Yii::$app->coreMessage->getMessage( CoreGlobal::MESSAGE_REQUEST ), $data );
+		}
+
+		// Trigger Ajax Failure
+        return AjaxUtil::generateFailure( Yii::$app->coreMessage->getMessage( CoreGlobal::ERROR_NOT_FOUND ), $errors );
+	}
+
+	public function actionCreate( $id ) {
 
 		$model 	= $this->modelService->getModelObject();
-		$image 	= File::loadFile( $model->image, 'File' );
+		$image 	= new File();
 
-		if( $model->load( Yii::$app->request->post(), 'Slide' ) && $model->validate() ) {
+		$image->siteId = Yii::$app->core->siteId;
+
+		if( $model->load( Yii::$app->request->post(), 'Slide' ) && $image->load( Yii::$app->request->post(), 'File' ) &&
+			$model->validate() && $image->validate() ) {
+
+			$image->title		= $model->name;
+			$image->description = $model->description;
+			$image->link		= $model->url;
 
 			$this->model = $this->modelService->create( $model, [ 'image' => $image ] );
 
-			$data = $this->model->getAttributes( [ 'id', 'sliderId', 'name', 'description' ] );
+			$file = $this->model->image;
+
+			$data = [
+				'mid' => $this->model->id, 'fid' => $file->id,
+				'name' => $file->name, 'extension' => $file->extension,
+				'title' => $file->title, 'caption' => $file->caption,
+				'altText' => $file->altText, 'link' => $file->link, 'url' => $file->getFileUrl(),
+				'description' => $file->description, 'content' => $model->content
+			];
+
+			if( $file->type == 'image' ) {
+
+				$data[ 'mediumUrl' ]	= $file->getMediumUrl();
+				$data[ 'thumbUrl' ]		= $file->getThumbUrl();
+			}
 
 			// Trigger Ajax Success
 			return AjaxUtil::generateSuccess( Yii::$app->coreMessage->getMessage( CoreGlobal::MESSAGE_REQUEST ), $data );
@@ -115,54 +170,81 @@ class SlideController extends Controller {
         return AjaxUtil::generateFailure( Yii::$app->coreMessage->getMessage( CoreGlobal::ERROR_REQUEST ), $errors );
 	}
 
-	public function actionUpdate( $id ) {
+	public function actionUpdate( $id, $cid, $fid ) {
 
 		// Find Model
-		$model	= $this->modelService->getById( $id );
-		$image 	= File::loadFile( $model->image, 'File' );
+		$model = $this->modelService->getById( $cid );
 
 		// Update/Render if exist
 		if( isset( $model ) ) {
 
-			if( $model->load( Yii::$app->request->post(), 'Slide' ) && $model->validate() ) {
+			$image = File::loadFile( $model->image, 'File' );
+
+			if( $model->load( Yii::$app->request->post(), 'Slide' ) && $image->load( Yii::$app->request->post(), 'File' ) &&
+				$model->validate() && $image->validate() ) {
+
+				$image->title		= $model->name;
+				$image->description = $model->description;
+				$image->link		= $model->url;
 
 				$this->model = $this->modelService->update( $model, [ 'image' => $image ] );
 
+				$file = $this->model->image;
+
+				$data = [
+					'mid' => $this->model->id, 'fid' => $file->id,
+					'name' => $file->name, 'extension' => $file->extension,
+					'title' => $file->title, 'caption' => $file->caption,
+					'altText' => $file->altText, 'link' => $file->link, 'url' => $file->getFileUrl(),
+					'description' => $file->description, 'content' => $model->content
+				];
+
+				if( $file->type == 'image' ) {
+
+					$data[ 'mediumUrl' ]	= $file->getMediumUrl();
+					$data[ 'thumbUrl' ]		= $file->getThumbUrl();
+				}
+
 				// Trigger Ajax Success
-				return AjaxUtil::generateSuccess( Yii::$app->coreMessage->getMessage( CoreGlobal::MESSAGE_REQUEST ) );
+				return AjaxUtil::generateSuccess( Yii::$app->coreMessage->getMessage( CoreGlobal::MESSAGE_REQUEST ), $data );
 			}
+
+			// Generate Errors
+			$errors = AjaxUtil::generateErrorMessage( $model );
+
+			// Trigger Ajax Failure
+			return AjaxUtil::generateFailure( Yii::$app->coreMessage->getMessage( CoreGlobal::ERROR_REQUEST ), $errors );
 		}
 
-		// Generate Errors
-		$errors = AjaxUtil::generateErrorMessage( $model );
-
 		// Trigger Ajax Failure
-        return AjaxUtil::generateFailure( Yii::$app->coreMessage->getMessage( CoreGlobal::ERROR_REQUEST ), $errors );
+        return AjaxUtil::generateFailure( Yii::$app->coreMessage->getMessage( CoreGlobal::ERROR_NOT_FOUND ), $errors );
 	}
 
-	public function actionDelete( $id, $pid ) {
+	public function actionDelete( $id, $cid, $fid ) {
 
 		// Find Model
-		$model	= $this->modelService->getById( $id );
+		$model = $this->modelService->getById( $cid );
 
 		// Delete if exist
 		if( isset( $model ) ) {
 
-			$slider	= Yii::$app->factory->get( 'fxSliderService' )->getById( $pid );
+			$slider	= Yii::$app->factory->get( 'fxSliderService' )->getById( $id );
 
 			if( $model->sliderId = $slider->id ) {
 
 				$this->model = $model;
 
+				$data = [ 'mid' => $model->id ];
+
 				$this->modelService->delete( $model );
 
 				// Trigger Ajax Success
-				return AjaxUtil::generateSuccess( Yii::$app->coreMessage->getMessage( CoreGlobal::MESSAGE_REQUEST ) );
+				return AjaxUtil::generateSuccess( Yii::$app->coreMessage->getMessage( CoreGlobal::MESSAGE_REQUEST ), $data );
 			}
 		}
 
 		// Trigger Ajax Failure
-        return AjaxUtil::generateFailure( Yii::$app->coreMessage->getMessage( CoreGlobal::ERROR_REQUEST ), $errors );
+        return AjaxUtil::generateFailure( Yii::$app->coreMessage->getMessage( CoreGlobal::ERROR_NOT_FOUND ) );
 	}
 
 }

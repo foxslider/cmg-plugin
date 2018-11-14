@@ -53,6 +53,9 @@ class SliderController extends CrudController {
 		// Permissions
 		$this->crudPermission = FxsCoreGlobal::PERM_SLIDER;
 
+		// Config
+		$this->apixBase = 'foxslider';
+
 		// Sidebar
 		$this->sidebar = [ 'parent' => 'sidebar-fxslider', 'child' => 'slider' ];
 

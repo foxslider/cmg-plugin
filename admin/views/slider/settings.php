@@ -44,7 +44,7 @@ Editor::widget( [ 'selector' => '.content-editor', 'loadAssets' => true, 'fonts'
 				<div class="filler-height"></div>
 				<div class="box box-crud">
 					<div class="box-header">
-						<div class="box-header-title">Scrolling</div>
+						<div class="box-header-title">Scrolling & Controls</div>
 					</div>
 					<div class="box-content-wrap frm-split-40-60">
 						<div class="box-content">
@@ -75,6 +75,9 @@ Editor::widget( [ 'selector' => '.content-editor', 'loadAssets' => true, 'fonts'
 							<div class="row">
 								<div class="col col2">
 									<?= $form->field( $settings, 'autoScrollDuration' ) ?>
+								</div>
+								<div class="col col2">
+									<p class="note">The autoScroll, autoScrollType, fullPage, and circular settings will be used from Slider.</p>
 								</div>
 							</div>
 						</div>
