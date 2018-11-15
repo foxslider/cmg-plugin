@@ -140,11 +140,12 @@
 
 			if( slidesCount > 0 && settings.autoHeight && null != settings.bkgImageClass ) {
 
-				var image = jQuery( slidesSelector[ 0 ] ).children( '.' + settings.bkgImageClass );
+				var heightFinder = jQuery( slidesSelector[ 0 ] ).find( '.' + settings.bkgImageClass );
 
-				sliderHeight = image[ 0 ].height;
+				sliderHeight = jQuery( heightFinder[ 0 ] ).height();
 
 				slider.css( { 'height': sliderHeight + 'px' } );
+				slidesWrapper.css( { 'height': sliderHeight + 'px' } );
 			}
 
 			// Slide dimensions
@@ -450,7 +451,8 @@
 				var firstSlideIndex	= firstSlide.attr( 'slide' );
 				var slideWidth		= firstSlide.width();
 				var filmstrip		= slider.find( '.slides-wrap' );
-				var duration		= 500;
+				
+				var duration = 500;
 
 				// do pre processing
 				if( null != settings.preSlideChange ) {
@@ -870,6 +872,8 @@
 		bkgImageClass: null, // The class to identity background image for maintaining aspect ratio
 		// Auto Height - Take height from the img tag having bkgImageClass class within the slide element
 		autoHeight: false,
+		// Animation Duration
+		duration: 500,
 		// Listener Callback for pre processing
 		preSlideChange: null,
 		// Listener Callback for post processing
