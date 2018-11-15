@@ -110,6 +110,9 @@ Editor::widget( [ 'selector' => '.content-editor', 'loadAssets' => true, 'fonts'
 								<div class="col col4">
 									<?= Yii::$app->formDesigner->getIconCheckbox( $form, $settings, 'slideDimMax', null, 'cmti cmti-checkbox' ) ?>
 								</div>
+								<div class="col col4">
+									<?= Yii::$app->formDesigner->getIconCheckbox( $form, $settings, 'autoHeight', null, 'cmti cmti-checkbox' ) ?>
+								</div>
 							</div>
 						</div>
 					</div>

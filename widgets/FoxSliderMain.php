@@ -69,9 +69,11 @@ class FoxSliderMain extends Widget {
 		// Slide arrangement - filmstrip, stacked
 		'circular' => true,
 		'slideArrangement' => 'filmstrip',
-		// Resize Background Image
-		'resizeBkgImage' => false,
-		'bkgImageClass' => null,
+		// Resize Background Image - A good option to use img tag within the slide element
+		'resizeBkgImage' => false, // Flag to check whether image need resize maintaining aspect ratio
+		'bkgImageClass' => null, // The class to identity background image for maintaining aspect ratio
+		// Auto Height - Take height from the img tag having bkgImageClass class within the slide element
+		'autoHeight' => false,
 		// Listener Callback for pre processing
 		'preSlideChange' => null,
 		// Listener Callback for post processing
@@ -243,8 +245,12 @@ class FoxSliderMain extends Widget {
 			$this->fxOptions[ 'stopOnHover' ] = boolval( $settings->stopOnHover );
 
 			$this->fxOptions[ 'slideArrangement' ] = $settings->slideArrangement;
+
 			$this->fxOptions[ 'resizeBkgImage' ] = boolval( $settings->resizeBkgImage );
 			$this->fxOptions[ 'bkgImageClass' ] = !empty( $settings->bkgImageClass ) ? $settings->bkgImageClass : null;
+
+			$this->fxOptions[ 'autoHeight' ] = boolval( $settings->autoHeight );
+
 			$this->fxOptions[ 'preSlideChange' ] = !empty( $settings->preSlideChange ) ? $settings->preSlideChange : null;
 			$this->fxOptions[ 'postSlideChange' ] = !empty( $settings->postSlideChange ) ? $settings->postSlideChange : null;
 

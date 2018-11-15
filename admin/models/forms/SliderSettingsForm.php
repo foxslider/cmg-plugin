@@ -64,9 +64,14 @@ class SliderSettingsForm extends DataModel {
 	// Slide arrangement - filmstrip, stacked
 	//public $circular; // Use circular from Slider Table
 	public $slideArrangement;
+
 	// Resize Background Image
 	public $resizeBkgImage;
 	public $bkgImageClass;
+
+	// Auto Height
+	public $autoHeight;
+
 	// Listener Callback for pre processing
 	public $preSlideChange;
 	// Listener Callback for post processing
@@ -104,7 +109,7 @@ class SliderSettingsForm extends DataModel {
 
 		return [
 			[ [ 'genericContent' ], 'safe' ],
-			[ [ 'bullets', 'controls', 'bulletsIndexing', 'stopOnHover', 'resizeBkgImage', 'slideDimMax' ], 'boolean' ],
+			[ [ 'bullets', 'controls', 'bulletsIndexing', 'stopOnHover', 'resizeBkgImage', 'slideDimMax', 'autoHeight' ], 'boolean' ],
 			[ [ 'slideTemplate', 'slideTemplateDir' ], 'string', 'min' => 1, 'max' => Yii::$app->core->largeText ],
 			[ [ 'bulletClass', 'lControlClass', 'rControlClass', 'bkgImageClass', 'slideTexture' ], 'string', 'min' => 1, 'max' => Yii::$app->core->xxxLargeText ],
 			[ [ 'lControlContent', 'rControlContent', 'preSlideChange', 'postSlideChange' ], 'string', 'min' => 1, 'max' => Yii::$app->core->xtraLargeText ],
