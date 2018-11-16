@@ -71,6 +71,9 @@ Editor::widget( [ 'selector' => '.content-editor', 'loadAssets' => true, 'fonts'
 								<div class="col col4">
 									<?= Yii::$app->formDesigner->getIconCheckbox( $form, $settings, 'stopOnHover', null, 'cmti cmti-checkbox' ) ?>
 								</div>
+								<div class="col col4">
+									<?= Yii::$app->formDesigner->getIconCheckbox( $form, $settings, 'loadAssets', null, 'cmti cmti-checkbox' ) ?>
+								</div>
 							</div>
 							<div class="row">
 								<div class="col col2">

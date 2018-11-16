@@ -142,7 +142,10 @@ class SliderService extends EntityService implements ISliderService {
 					'default' => SORT_DESC,
 					'label' => 'Updated At'
 				]
-	        ]
+	        ],
+			'defaultOrder' => [
+				'id' => SORT_DESC
+			]
 	    ]);
 
 		if( !isset( $config[ 'sort' ] ) ) {

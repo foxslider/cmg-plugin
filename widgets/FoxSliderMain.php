@@ -225,6 +225,8 @@ class FoxSliderMain extends Widget {
 
 		if( !empty( $settings ) ) {
 
+			$this->loadAssets = boolval( $settings->loadAssets );
+
 			$this->fxOptions[ 'sliderWidth' ] = !empty( $settings->sliderWidth ) ? intval( $settings->sliderWidth ) : 0;
 			$this->fxOptions[ 'sliderHeight' ] = !empty( $settings->sliderHeight ) ? intval( $settings->sliderHeight ) : 0;
 			$this->fxOptions[ 'slideDimMax' ] = boolval( $settings->slideDimMax );

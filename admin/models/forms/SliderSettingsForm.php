@@ -36,6 +36,9 @@ class SliderSettingsForm extends DataModel {
 
 	// Public -----------------
 
+	// Load assets
+	public $loadAssets;
+
 	// Controls
 	public $bullets;
 	public $bulletsIndexing;
@@ -109,7 +112,7 @@ class SliderSettingsForm extends DataModel {
 
 		return [
 			[ [ 'genericContent' ], 'safe' ],
-			[ [ 'bullets', 'controls', 'bulletsIndexing', 'stopOnHover', 'resizeBkgImage', 'slideDimMax', 'autoHeight' ], 'boolean' ],
+			[ [ 'loadAssets', 'bullets', 'controls', 'bulletsIndexing', 'stopOnHover', 'resizeBkgImage', 'slideDimMax', 'autoHeight' ], 'boolean' ],
 			[ [ 'slideTemplate', 'slideTemplateDir' ], 'string', 'min' => 1, 'max' => Yii::$app->core->largeText ],
 			[ [ 'bulletClass', 'lControlClass', 'rControlClass', 'bkgImageClass', 'slideTexture' ], 'string', 'min' => 1, 'max' => Yii::$app->core->xxxLargeText ],
 			[ [ 'lControlContent', 'rControlContent', 'preSlideChange', 'postSlideChange' ], 'string', 'min' => 1, 'max' => Yii::$app->core->xtraLargeText ],
