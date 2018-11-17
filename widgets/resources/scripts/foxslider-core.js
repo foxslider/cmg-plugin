@@ -16,7 +16,9 @@
 			catch( err ) {
 
 				manager = new fxs.FoxSliderManager( options );
+
 				manager.init( options );
+
 				manager.initSliders( this );
 			}
 
@@ -178,16 +180,19 @@ fxs.FoxSliderManager.prototype.normaliseSliders = function() {
 
 fxs.FoxSliderManager.prototype.normaliseSlider = function( sliderKey ) {
 
-	this.sliders[ this.indexKey + sliderKey ].normalise();
+	if( null != this.sliders[ this.indexKey + sliderKey ] ) {
+
+		this.sliders[ this.indexKey + sliderKey ].normalise();
+	}
 };
 
 // == Slider ==============================
 
-fxs.FoxSlider = function( component, element ) {
+fxs.FoxSlider = function( manager, element ) {
 
 	// Component & Options
-	this.component	= component;
-	this.options	= component.options;
+	this.manager	= manager;
+	this.options	= manager.options;
 
 	// The Element
 	this.element = element;
