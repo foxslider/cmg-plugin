@@ -16,7 +16,7 @@
 			catch( err ) {
 
 				manager = new fxs.FoxSliderManager( options );
-
+				manager.init( options );
 				manager.initSliders( this );
 			}
 
