@@ -21,7 +21,7 @@ use foxslider\common\models\base\FxsTables;
  *
  * @since 1.0.0
  */
-class m160623_055916_foxslider_stats extends Migration {
+class m160801_055916_foxslider_stats extends Migration {
 
 	// Public Variables
 

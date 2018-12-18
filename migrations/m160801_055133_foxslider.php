@@ -17,7 +17,7 @@ use cmsgears\core\common\base\Migration;
  *
  * @since 1.0.0
  */
-class m160623_055133_foxslider extends Migration {
+class m160801_055133_foxslider extends Migration {
 
 	// Public Variables
 

@@ -24,7 +24,7 @@ use cmsgears\core\common\utilities\DateUtil;
  *
  * @since 1.0.0
  */
-class m160623_055225_foxslider_data extends Migration {
+class m160801_055225_foxslider_data extends Migration {
 
 	// Public Variables
 
@@ -86,7 +86,7 @@ class m160623_055225_foxslider_data extends Migration {
 
     public function down() {
 
-        echo "m160623_055225_foxslider_data will be deleted with m160621_014408_core.\n";
+        echo "m160801_055225_foxslider_data will be deleted with m160621_014408_core.\n";
     }
 
 }
