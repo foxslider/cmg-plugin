@@ -80,6 +80,11 @@ Editor::widget( [ 'selector' => '.content-editor', 'loadAssets' => true, 'fonts'
 									<?= $form->field( $settings, 'autoScrollDuration' ) ?>
 								</div>
 								<div class="col col2">
+									<?= $form->field( $settings, 'duration' ) ?>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col col2">
 									<p class="note">The autoScroll, autoScrollType, fullPage, and circular settings will be used from Slider.</p>
 								</div>
 							</div>
@@ -157,6 +162,11 @@ Editor::widget( [ 'selector' => '.content-editor', 'loadAssets' => true, 'fonts'
 								</div>
 								<div class="col col2">
 									<?= $form->field( $settings, 'postSlideChange' )->textarea() ?>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col col2">
+									<?= $form->field( $settings, 'onSlideClick' )->textarea() ?>
 								</div>
 							</div>
 						</div>

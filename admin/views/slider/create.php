@@ -13,10 +13,10 @@ $coreProperties = $this->context->getCoreProperties();
 $this->title 	= 'Add Slider | ' . $coreProperties->getSiteTitle();
 $returnUrl		= $this->context->returnUrl;
 
-$statusMap		= Slider::$statusMap;
+$statusMap = Slider::$statusMap;
 ?>
-<div class="box-crud-wrap row">
-	<div class="box-crud-wrap-main colf colf3x2">
+<div class="box-crud-wrap">
+	<div class="box-crud-wrap-main">
 		<?php $form = ActiveForm::begin( [ 'id' => 'frm-slider', 'options' => [ 'class' => 'form' ] ] ); ?>
 		<div class="box box-crud">
 			<div class="box-header">
@@ -74,8 +74,5 @@ $statusMap		= Slider::$statusMap;
 		</div>
 		<div class="filler-height filler-height-medium"></div>
 		<?php ActiveForm::end(); ?>
-	</div>
-	<div class="box-crud-wrap-sidebar colf colf3">
-
 	</div>
 </div>

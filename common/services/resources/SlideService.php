@@ -185,9 +185,9 @@ class SlideService extends ResourceService implements ISlideService {
 
 	public function update( $model, $config = [] ) {
 
-		$image 	= isset( $config[ 'image' ] ) ? $config[ 'image' ] : null;
+		$image = isset( $config[ 'image' ] ) ? $config[ 'image' ] : null;
 
-		$slider	= Yii::$app->factory->get( 'fxSliderService' )->getById( $model->sliderId );
+		$slider = Yii::$app->factory->get( 'fxSliderService' )->getById( $model->sliderId );
 
 		$this->fileService->saveImage( $image, [ 'model' => $model, 'attribute' => 'imageId', 'width' => $slider->slideWidth, 'height' => $slider->slideHeight ] );
 
@@ -203,6 +203,13 @@ class SlideService extends ResourceService implements ISlideService {
 		Yii::$app->factory->get( 'fileService' )->delete( $model->image );
 
 		return parent::delete( $model, $config );
+	}
+
+	public function deleteBySliderId( $sliderId ) {
+
+		$modelClass = static::$modelClass;
+
+		return $modelClass::deleteBySliderId( $sliderId );
 	}
 
 	// Bulk ---------------

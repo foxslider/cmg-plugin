@@ -166,8 +166,9 @@ class Slide extends Entity {
 	 */
 	public static function queryWithHasOne( $config = [] ) {
 
-		$relations				= isset( $config[ 'relations' ] ) ? $config[ 'relations' ] : [ 'slider', 'image' ];
-		$config[ 'relations' ]	= $relations;
+		$relations = isset( $config[ 'relations' ] ) ? $config[ 'relations' ] : [ 'slider', 'image' ];
+
+		$config[ 'relations' ] = $relations;
 
 		return parent::queryWithAll( $config );
 	}
@@ -180,7 +181,7 @@ class Slide extends Entity {
 	 */
 	public static function queryWithImage( $config = [] ) {
 
-		$config[ 'relations' ]	= [ 'image' ];
+		$config[ 'relations' ] = [ 'image' ];
 
 		return parent::queryWithAll( $config );
 	}
@@ -229,5 +230,10 @@ class Slide extends Entity {
 	// Update -----------------
 
 	// Delete -----------------
+
+	public static function deleteBySliderId( $sliderId ) {
+
+		return self::deleteAll( 'sliderId=:id', [ ':id' => $sliderId ] );
+	}
 
 }

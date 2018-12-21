@@ -52,21 +52,21 @@ class SliderSettingsForm extends DataModel {
 	// Scrolling
 	//public $autoScroll; // Use scrollAuto from Slider Table
 	//public $autoScrollType; // Use scrollType from Slider Table
-	public $autoScrollDuration;
-	public $stopOnHover;
+	public $autoScrollDuration = 5000; // 5000 ms
+	public $stopOnHover = true;
 
 	// Full Page Background - Body Background
 	//public $fullPage; // Use fullPage from Slider Table
 	// Custom Dimensions
-	public $sliderWidth;
-	public $sliderHeight;
-	public $slideDimMax;
-	public $slideWidth; // slideWidth from Slider Table is being used to crop the image
-	public $slideHeight; // slideWidth from Slider Table is being used to crop the image
+	public $sliderWidth = 0;
+	public $sliderHeight = 0;
+	public $slideDimMax = true;
+	public $slideWidth = 0; // slideWidth from Slider Table is being used to crop the image
+	public $slideHeight = 0; // slideWidth from Slider Table is being used to crop the image
 
 	// Slide arrangement - filmstrip, stacked
 	//public $circular; // Use circular from Slider Table
-	public $slideArrangement;
+	public $slideArrangement = 'filmstrip';
 
 	// Resize Background Image
 	public $resizeBkgImage;
@@ -75,10 +75,15 @@ class SliderSettingsForm extends DataModel {
 	// Auto Height
 	public $autoHeight;
 
+	// Animation Duration
+	public $duration = 500; // 500 ms
+
 	// Listener Callback for pre processing
 	public $preSlideChange;
 	// Listener Callback for post processing
 	public $postSlideChange;
+	// Listener Callback on slide click
+	public $onSlideClick;
 
 	public $slideTemplate;
 	public $slideTemplateDir;
@@ -115,8 +120,8 @@ class SliderSettingsForm extends DataModel {
 			[ [ 'loadAssets', 'bullets', 'controls', 'bulletsIndexing', 'stopOnHover', 'resizeBkgImage', 'slideDimMax', 'autoHeight' ], 'boolean' ],
 			[ [ 'slideTemplate', 'slideTemplateDir' ], 'string', 'min' => 1, 'max' => Yii::$app->core->largeText ],
 			[ [ 'bulletClass', 'lControlClass', 'rControlClass', 'bkgImageClass', 'slideTexture' ], 'string', 'min' => 1, 'max' => Yii::$app->core->xxxLargeText ],
-			[ [ 'lControlContent', 'rControlContent', 'preSlideChange', 'postSlideChange' ], 'string', 'min' => 1, 'max' => Yii::$app->core->xtraLargeText ],
-			[ [ 'sliderWidth', 'sliderHeight', 'slideWidth', 'slideHeight', 'autoScrollDuration' ], 'number', 'integerOnly' => true ],
+			[ [ 'lControlContent', 'rControlContent', 'preSlideChange', 'postSlideChange', 'onSlideClick' ], 'string', 'min' => 1, 'max' => Yii::$app->core->xtraLargeText ],
+			[ [ 'sliderWidth', 'sliderHeight', 'slideWidth', 'slideHeight', 'autoScrollDuration', 'duration' ], 'number', 'integerOnly' => true ],
 			[ [ 'slideArrangement' ], 'string', 'min' => 1, 'max' => Yii::$app->core->mediumText ]
 		];
 	}
@@ -132,7 +137,9 @@ class SliderSettingsForm extends DataModel {
 			'lControlContent' => 'Left Control Content',
 			'rControlContent' => 'Right Control Content',
 			'slideDimMax' => 'Max Slide',
-			'resizeBkgImage' => 'Resize Background'
+			'resizeBkgImage' => 'Resize Background',
+			'duration' => 'Scroll Duration',
+			'onSlideClick' => 'Slide Click Listener'
 		];
 	}
 

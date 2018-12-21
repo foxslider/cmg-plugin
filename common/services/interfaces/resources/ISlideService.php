@@ -39,6 +39,8 @@ interface ISlideService extends IResourceService {
 
 	// Delete -------------
 
+	public function deleteBySliderId( $sliderId );
+
 	// Bulk ---------------
 
 	// Notifications ------
