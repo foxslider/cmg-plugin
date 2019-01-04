@@ -14,7 +14,7 @@ $returnUrl		= $this->context->returnUrl;
 
 $slideArrangement = [ 'filmstrip' => 'Filmstrip', 'stacked' => 'Stacked' ];
 
-Editor::widget( [ 'selector' => '.content-editor', 'loadAssets' => true, 'fonts' => 'site', 'config' => [ 'controls' => 'mini' ] ] );
+Editor::widget();
 ?>
 <div class="box-crud-wrap row">
 	<div class="box-crud-wrap-main row">
