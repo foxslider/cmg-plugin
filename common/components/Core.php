@@ -1,14 +1,24 @@
 <?php
+/**
+ * This file is part of Foxslider Module for CMSGears Framework. Please view License file distributed
+ * with the source code for license details.
+ *
+ * @link https://www.foxslider.com/
+ * @copyright Copyright (c) 2015 VulpineCode Technologies Pvt. Ltd.
+ */
+
 namespace foxslider\common\components;
 
 // Yii Imports
-use \Yii;
-use yii\di\Container;
+use Yii;
+use yii\base\Component;
 
-// CMG Imports
-use cmsgears\core\common\config\CoreGlobal;
-
-class Core extends \yii\base\Component {
+/**
+ * Core component register the services provided by Core Module.
+ *
+ * @since 1.0.0
+ */
+class Core extends Component {
 
 	// Global -----------------
 
@@ -20,19 +30,19 @@ class Core extends \yii\base\Component {
 
 	// Constructor and Initialisation ------------------------------
 
-    /**
-     * Initialise the CMG Core Component.
-     */
-    public function init() {
+	/**
+	 * Initialize the services.
+	 */
+	public function init() {
 
-        parent::init();
+		parent::init();
 
 		// Foxslider Alias
 		Yii::setAlias( 'foxslider', dirname( dirname( dirname( __DIR__ ) ) ) );
 
-		// Register application components and objects i.e. CMG and Project
+		// Register components and objects
 		$this->registerComponents();
-    }
+	}
 
 	// Instance methods --------------------------------------------
 
@@ -42,10 +52,13 @@ class Core extends \yii\base\Component {
 
 	// Core ----------------------------------
 
-	// Properties
+	// Properties ----------------
 
-	// Components and Objects
+	// Components and Objects ----
 
+	/**
+	 * Register the services.
+	 */
 	public function registerComponents() {
 
 		// Register services
@@ -57,6 +70,9 @@ class Core extends \yii\base\Component {
 		$this->initEntityServices();
 	}
 
+	/**
+	 * Registers resource services.
+	 */
 	public function registerResourceServices() {
 
 		$factory = Yii::$app->factory->getContainer();
@@ -64,6 +80,9 @@ class Core extends \yii\base\Component {
 		$factory->set( 'foxslider\common\services\interfaces\resources\ISlideService', 'foxslider\common\services\resources\SlideService' );
 	}
 
+	/**
+	 * Registers entity services.
+	 */
 	public function registerEntityServices() {
 
 		$factory = Yii::$app->factory->getContainer();
@@ -71,17 +90,24 @@ class Core extends \yii\base\Component {
 		$factory->set( 'foxslider\common\services\interfaces\entities\ISliderService', 'foxslider\common\services\entities\SliderService' );
 	}
 
+	/**
+	 * Initialize resource services.
+	 */
 	public function initResourceServices() {
 
 		$factory = Yii::$app->factory->getContainer();
 
-		$factory->set( 'slideService', 'foxslider\common\services\resources\SlideService' );
+		$factory->set( 'fxSlideService', 'foxslider\common\services\resources\SlideService' );
 	}
 
+	/**
+	 * Initialize entity services.
+	 */
 	public function initEntityServices() {
 
 		$factory = Yii::$app->factory->getContainer();
 
-		$factory->set( 'sliderService', [ 'class' => 'foxslider\common\services\entities\SliderService', 'slideService' =>  $factory->get( 'slideService' ) ] );
+		$factory->set( 'fxSliderService', 'foxslider\common\services\entities\SliderService' );
 	}
+
 }

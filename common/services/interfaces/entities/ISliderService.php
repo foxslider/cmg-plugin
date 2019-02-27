@@ -1,16 +1,27 @@
 <?php
+/**
+ * This file is part of Foxslider Module for CMSGears Framework. Please view License file distributed
+ * with the source code for license details.
+ *
+ * @link https://www.foxslider.com/
+ * @copyright Copyright (c) 2015 VulpineCode Technologies Pvt. Ltd.
+ */
+
 namespace foxslider\common\services\interfaces\entities;
 
-// Yii Imports
-use \Yii;
-
 // CMG Imports
-use cmsgears\core\common\config\CoreGlobal;
+use cmsgears\core\common\services\interfaces\base\IEntityService;
+use cmsgears\core\common\services\interfaces\base\IApproval;
+use cmsgears\core\common\services\interfaces\base\IName;
+use cmsgears\core\common\services\interfaces\base\ISlug;
+use cmsgears\core\common\services\interfaces\resources\IData;
 
-use cmsgears\core\common\services\interfaces\base\INameService;
-use cmsgears\core\common\services\interfaces\base\ISlugService;
-
-interface ISliderService extends INameService, ISlugService {
+/**
+ * ISliderService declares methods specific to slider model.
+ *
+ * @since 1.0.0
+ */
+interface ISliderService extends IEntityService, IApproval, IData, IName, ISlug {
 
 	// Data Provider ------
 
@@ -22,10 +33,20 @@ interface ISliderService extends INameService, ISlugService {
 
     // Read - Maps -----
 
+	// Read - Others ---
+
 	// Create -------------
 
 	// Update -------------
 
 	// Delete -------------
+
+	// Bulk ---------------
+
+	// Notifications ------
+
+	// Cache --------------
+
+	// Additional ---------
 
 }

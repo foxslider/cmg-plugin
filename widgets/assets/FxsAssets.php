@@ -1,10 +1,19 @@
 <?php
+/**
+ * This file is part of FoxSlider Module for CMSGears Framework. Please view License file distributed
+ * with the source code for license details.
+ *
+ * @link https://www.cmsgears.org/
+ * @copyright Copyright (c) 2015 VulpineCode Technologies Pvt. Ltd.
+ */
+
 namespace foxslider\widgets\assets;
 
 // Yii Imports
+use yii\web\AssetBundle;
 use yii\web\View;
 
-class FxsAssets extends \yii\web\AssetBundle {
+class FxsAssets extends AssetBundle {
 
 	// Variables ---------------------------------------------------
 
@@ -26,7 +35,7 @@ class FxsAssets extends \yii\web\AssetBundle {
 
 	// Define dependent Asset Loaders
     public $depends = [
-		'cmsgears\core\common\assets\Jquery'
+		'cmsgears\assets\jquery\Jquery'
     ];
 
 	// Protected --------------
@@ -46,7 +55,7 @@ class FxsAssets extends \yii\web\AssetBundle {
 	public function init()  {
 
 		// Path Configuration
-		$this->sourcePath	= dirname( __DIR__ ) . '/resources';
+		$this->sourcePath = dirname( __DIR__ ) . '/resources';
 
 		parent::init();
 	}
@@ -72,4 +81,3 @@ class FxsAssets extends \yii\web\AssetBundle {
 	// FxsAssets -----------------------------
 
 }
-

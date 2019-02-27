@@ -1,10 +1,10 @@
 {
 	"name": "foxslider/cmg-plugin",
 	"description": "The foxslider module for CMSGears.",
-	"homepage": "http://www.foxslider.com", 
+	"homepage": "http://www.foxslider.com",
 	"type": "package",
 	"keywords": [ "yii2", "cmsgears", "module", "foxslider" ],
-	"license": "GPLv3",
+	"license": "GPL-3.0-or-later",
 	"support": {
 		"resources": "http://www.foxslider.com"
 	},

@@ -1,25 +1,27 @@
 <?php
+/**
+ * This file is part of Foxslider Module for CMSGears Framework. Please view License file distributed
+ * with the source code for license details.
+ *
+ * @link https://www.foxslider.com/
+ * @copyright Copyright (c) 2015 VulpineCode Technologies Pvt. Ltd.
+ */
+
 namespace foxslider\common\services\resources;
 
 // Yii Imports
-use \Yii;
+use Yii;
 use yii\data\Sort;
 
 // CMG Imports
-use cmsgears\core\common\config\CoreGlobal;
-
 use cmsgears\core\common\services\interfaces\resources\IFileService;
 
+use cmsgears\core\common\services\base\ResourceService;
+
 // FXS Imports
-use foxslider\common\config\FxsCoreGlobal;
-
-use foxslider\common\models\base\FxsTables;
-use foxslider\common\models\resources\Slide;
-
-use foxslider\common\services\interfaces\entities\ISliderService;
 use foxslider\common\services\interfaces\resources\ISlideService;
 
-class SlideService extends \cmsgears\core\common\services\base\EntityService implements ISlideService {
+class SlideService extends ResourceService implements ISlideService {
 
 	// Variables ---------------------------------------------------
 
@@ -29,11 +31,7 @@ class SlideService extends \cmsgears\core\common\services\base\EntityService imp
 
 	// Public -----------------
 
-	public static $modelClass	= '\foxslider\common\models\resources\Slide';
-
-	public static $modelTable	= FxsTables::TABLE_SLIDE;
-
-	public static $parentType	= null;
+	public static $modelClass = '\foxslider\common\models\resources\Slide';
 
 	// Protected --------------
 
@@ -43,8 +41,6 @@ class SlideService extends \cmsgears\core\common\services\base\EntityService imp
 
 	// Protected --------------
 
-	protected $sliderService;
-
 	protected $fileService;
 
 	// Private ----------------
@@ -53,10 +49,9 @@ class SlideService extends \cmsgears\core\common\services\base\EntityService imp
 
 	// Constructor and Initialisation ------------------------------
 
-    public function __construct( ISliderService $sliderService, IFileService $fileService, $config = [] ) {
+    public function __construct( IFileService $fileService, $config = [] ) {
 
-		$this->sliderService	= $sliderService;
-		$this->fileService		= $fileService;
+		$this->fileService = $fileService;
 
         parent::__construct( $config );
     }
@@ -77,14 +72,39 @@ class SlideService extends \cmsgears\core\common\services\base\EntityService imp
 
 	public function getPage( $config = [] ) {
 
+		$modelClass	= static::$modelClass;
+		$modelTable	= $this->getModelTable();
+
+		$sliderTable = Yii::$app->factory->get( 'fxSliderService' )->getModelTable();
+
+		// Sorting ----------
+
 	    $sort = new Sort([
 	        'attributes' => [
-	            'name' => [
-	                'asc' => [ 'name' => SORT_ASC ],
-	                'desc' => [ 'name' => SORT_DESC ],
-	                'default' => SORT_DESC,
-	                'label' => 'name',
-	            ]
+				'id' => [
+					'asc' => [ "$modelTable.id" => SORT_ASC ],
+					'desc' => [ "$modelTable.id" => SORT_DESC ],
+					'default' => SORT_DESC,
+					'label' => 'Id'
+				],
+				'slider' => [
+					'asc' => [ "$sliderTable.name" => SORT_ASC ],
+					'desc' => [ "$sliderTable.name" => SORT_DESC ],
+					'default' => SORT_DESC,
+					'label' => 'Slider'
+				],
+				'name' => [
+					'asc' => [ "$modelTable.name" => SORT_ASC ],
+					'desc' => [ "$modelTable.name" => SORT_DESC ],
+					'default' => SORT_DESC,
+					'label' => 'Name'
+				],
+				'title' => [
+					'asc' => [ "$modelTable.title" => SORT_ASC ],
+					'desc' => [ "$modelTable.title" => SORT_DESC ],
+					'default' => SORT_DESC,
+					'label' => 'Title'
+				]
 	        ]
 	    ]);
 
@@ -92,6 +112,41 @@ class SlideService extends \cmsgears\core\common\services\base\EntityService imp
 
 			$config[ 'sort' ] = $sort;
 		}
+
+		// Query ------------
+
+		if( !isset( $config[ 'query' ] ) ) {
+
+			$config[ 'hasOne' ] = true;
+		}
+
+		// Filters ----------
+
+		// Searching --------
+
+		$searchCol	= Yii::$app->request->getQueryParam( 'search' );
+
+		if( isset( $searchCol ) ) {
+
+			$search = [
+				'name' => "$modelTable.name",
+				'title' =>  "$modelTable.title",
+				'desc' => "$modelTable.description"
+			];
+
+			$config[ 'search-col' ] = $search[ $searchCol ];
+		}
+
+		// Reporting --------
+
+		$config[ 'report-col' ]	= [
+			'name' => "$modelTable.name",
+			'title' =>  "$modelTable.title",
+			'desc' => "$modelTable.description",
+			'order' => "$modelTable.order"
+		];
+
+		// Result -----------
 
 		return parent::findPage( $config );
 	}
@@ -102,7 +157,9 @@ class SlideService extends \cmsgears\core\common\services\base\EntityService imp
 
 	public function getBySliderId( $sliderId ) {
 
-		return Slide::findBySliderId( $sliderId );
+		$modelClass	= static::$modelClass;
+
+		return $modelClass::findBySliderId( $sliderId );
 	}
 
     // Read - Lists ----
@@ -117,7 +174,7 @@ class SlideService extends \cmsgears\core\common\services\base\EntityService imp
 
 		$image 	= isset( $config[ 'image' ] ) ? $config[ 'image' ] : null;
 
-		$slider	= $this->sliderService->getById( $model->sliderId );
+		$slider	= Yii::$app->factory->get( 'fxSliderService' )->getById( $model->sliderId );
 
 		$this->fileService->saveImage( $image, [ 'model' => $model, 'attribute' => 'imageId', 'width' => $slider->slideWidth, 'height' => $slider->slideHeight ] );
 
@@ -128,9 +185,9 @@ class SlideService extends \cmsgears\core\common\services\base\EntityService imp
 
 	public function update( $model, $config = [] ) {
 
-		$image 	= isset( $config[ 'image' ] ) ? $config[ 'image' ] : null;
+		$image = isset( $config[ 'image' ] ) ? $config[ 'image' ] : null;
 
-		$slider	= $this->sliderService->getById( $model->sliderId );
+		$slider = Yii::$app->factory->get( 'fxSliderService' )->getById( $model->sliderId );
 
 		$this->fileService->saveImage( $image, [ 'model' => $model, 'attribute' => 'imageId', 'width' => $slider->slideWidth, 'height' => $slider->slideHeight ] );
 
@@ -141,10 +198,27 @@ class SlideService extends \cmsgears\core\common\services\base\EntityService imp
 
 	// Delete -------------
 
+	public function delete( $model, $config = [] ) {
+
+		Yii::$app->factory->get( 'fileService' )->delete( $model->image );
+
+		return parent::delete( $model, $config );
+	}
+
 	public function deleteBySliderId( $sliderId ) {
 
-		Slide::deleteBySliderId( $sliderId );
+		$modelClass = static::$modelClass;
+
+		return $modelClass::deleteBySliderId( $sliderId );
 	}
+
+	// Bulk ---------------
+
+	// Notifications ------
+
+	// Cache --------------
+
+	// Additional ---------
 
 	// Static Methods ----------------------------------------------
 
@@ -169,4 +243,5 @@ class SlideService extends \cmsgears\core\common\services\base\EntityService imp
 	// Update -------------
 
 	// Delete -------------
+
 }
