@@ -18,8 +18,6 @@ use cmsgears\core\common\config\CoreGlobal;
 
 use cmsgears\core\common\models\resources\File;
 
-use cmsgears\core\admin\controllers\base\Controller;
-
 use cmsgears\core\common\utilities\AjaxUtil;
 
 // FXS Imports
@@ -30,7 +28,7 @@ use foxslider\common\config\FxsCoreGlobal;
  *
  * @since 1.0.0
  */
-class SlideController extends Controller {
+class SlideController extends \cmsgears\core\admin\controllers\base\Controller {
 
 	// Variables ---------------------------------------------------
 
@@ -108,9 +106,10 @@ class SlideController extends Controller {
 			$data = [
 				'mid' => $model->id, 'fid' => $file->id,
 				'name' => $file->name, 'extension' => $file->extension,
-				'title' => $file->title, 'caption' => $file->caption,
+				'title' => $model->name, 'stitle' => $model->title, 'ititle' => $file->title, 'caption' => $file->caption,
 				'altText' => $file->altText, 'link' => $file->link, 'url' => $file->getFileUrl(),
-				'description' => $file->description, 'content' => $model->content
+				'description' => $model->description, 'idescription' => $file->description,
+				'content' => $model->content, 'icontent' => $file->content
 			];
 
 			if( $file->type == 'image' ) {
@@ -137,10 +136,6 @@ class SlideController extends Controller {
 		if( $model->load( Yii::$app->request->post(), 'Slide' ) && $image->load( Yii::$app->request->post(), 'File' ) &&
 			$model->validate() && $image->validate() ) {
 
-			$image->title		= $model->name;
-			$image->description = $model->description;
-			$image->link		= $model->url;
-
 			$this->model = $this->modelService->create( $model, [ 'image' => $image ] );
 
 			$file = $this->model->image;
@@ -148,9 +143,10 @@ class SlideController extends Controller {
 			$data = [
 				'mid' => $this->model->id, 'fid' => $file->id,
 				'name' => $file->name, 'extension' => $file->extension,
-				'title' => $file->title, 'caption' => $file->caption,
+				'title' => $model->name, 'stitle' => $model->title, 'ititle' => $file->title, 'caption' => $file->caption,
 				'altText' => $file->altText, 'link' => $file->link, 'url' => $file->getFileUrl(),
-				'description' => $file->description, 'content' => $model->content
+				'description' => $model->description, 'idescription' => $file->description,
+				'content' => $model->content, 'icontent' => $file->content
 			];
 
 			if( $file->type == 'image' ) {
@@ -183,10 +179,6 @@ class SlideController extends Controller {
 			if( $model->load( Yii::$app->request->post(), 'Slide' ) && $image->load( Yii::$app->request->post(), 'File' ) &&
 				$model->validate() && $image->validate() ) {
 
-				$image->title		= $model->name;
-				$image->description = $model->description;
-				$image->link		= $model->url;
-
 				$this->model = $this->modelService->update( $model, [ 'image' => $image ] );
 
 				$file = $this->model->image;
@@ -194,9 +186,10 @@ class SlideController extends Controller {
 				$data = [
 					'mid' => $this->model->id, 'fid' => $file->id,
 					'name' => $file->name, 'extension' => $file->extension,
-					'title' => $file->title, 'caption' => $file->caption,
+					'title' => $model->name, 'stitle' => $model->title, 'ititle' => $file->title, 'caption' => $file->caption,
 					'altText' => $file->altText, 'link' => $file->link, 'url' => $file->getFileUrl(),
-					'description' => $file->description, 'content' => $model->content
+					'description' => $model->description, 'idescription' => $file->description,
+					'content' => $model->content, 'icontent' => $file->content
 				];
 
 				if( $file->type == 'image' ) {
