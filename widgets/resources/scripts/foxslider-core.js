@@ -1001,7 +1001,7 @@ fxs.FoxSlider.prototype.showForwardSlides = function() {
 		var firstSlideIndex	= firstSlide.attr( 'slide' );
 		var slideWidth		= firstSlide.width();
 		var filmstrip		= slider.find( '.slides-wrap' );
-		var duration		= 1000;
+		var duration		= 50;
 
 		// do pre processing
 		if( null != settings.preSlideChange ) {
