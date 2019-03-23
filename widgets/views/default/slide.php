@@ -1,30 +1,54 @@
 <?php
-$slideImage		= $slide->image;
+$slideImage = $slide->image;
+
+$slideName		= $slide->name;
 $slideTitle		= $slide->name;
+$slideUrl		= $slide->url;
 $slideDesc		= $slide->description;
 $slideContent	= $slide->content;
-$slideUrl		= $slide->url;
-$slideImageUrl	= '';
-$slideImageAlt	= '';
+
 $slideTexture	= isset( $widget->slideTexture ) ? "<div class=\"$widget->slideTexture\"></div>" : null;
 $content		= "<div class=\"wrap-slide-content\">";
 
 if( isset( $slideImage ) ) {
 
 	$slideImageUrl	= $slideImage->getFileUrl();
-	$slideImageAlt	= $slideImage->altText;
 
-	$content = "<div class=\"wrap-slide-content\" style=\"background-image:url($slideImageUrl)\">";
+	$imageTitle		= $slideImage->title;
+	$imageCaption	= $slideImage->caption;
+	$imageAlt		= $slideImage->altText;
+	$imageDesc		= $slideImage->description;
+
+	if( isset( $fxOptions[ 'lazyLoad' ] ) && isset( $fxOptions[ 'lazyLoadImage' ] ) ) {
+
+		$lazyImg	= $fxOptions[ 'lazyLoadImage' ];
+		$slideImg	= $first ? $slideImageUrl : $lazyImg;
+		$content	= "<div class=\"fxs-lazy fxs-lazy-bkg wrap-slide-content\" style=\"background-image:url($slideImg)\" data-src=\"$slideImageUrl\" data-lazy=\"0\">";
+	}
+	else {
+
+		$content = "<div class=\"wrap-slide-content\" style=\"background-image:url($slideImageUrl)\">";
+	}
 
 	if( isset( $fxOptions[ 'resizeBkgImage' ] ) && isset( $fxOptions[ 'bkgImageClass' ] ) ) {
 
-		$imgClass	= $fxOptions[ 'bkgImageClass' ];
-		$content	= "<img src=\"$slideImageUrl\" class=\"$imgClass\" alt=\"$slideImageAlt\" />
-					   <div class=\"wrap-slide-content\">";
+		if( isset( $fxOptions[ 'lazyLoad' ] ) && isset( $fxOptions[ 'lazyLoadImage' ] ) ) {
+
+			$imgClass	= $fxOptions[ 'bkgImageClass' ];
+			$lazyImg	= $fxOptions[ 'lazyLoadImage' ];
+			$slideImg	= $first ? $slideImageUrl : $lazyImg;
+			$content	= "<img src=\"$slideImg\" class=\"fxs-lazy fxs-lazy-img $imgClass\" alt=\"$imageAlt\" data-src=\"$slideImageUrl\" data-lazy=\"0\" />
+						   <div class=\"wrap-slide-content\">";
+		}
+		else {
+
+			$imgClass	= $fxOptions[ 'bkgImageClass' ];
+			$content	= "<img src=\"$slideImageUrl\" class=\"$imgClass\" alt=\"$imageAlt\" />
+						   <div class=\"wrap-slide-content\">";
+		}
 	}
 }
 ?>
-
 <?php if( isset( $slideUrl ) && strlen( $slideUrl ) > 0 ) { ?>
 	<div>
 		<a href="<?= $slideUrl ?>">

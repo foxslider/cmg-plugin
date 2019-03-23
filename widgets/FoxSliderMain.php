@@ -77,7 +77,9 @@ class FoxSliderMain extends Widget {
 		// Listener Callback for pre processing
 		'preSlideChange' => null,
 		// Listener Callback for post processing
-		'postSlideChange' => null
+		'postSlideChange' => null,
+		'lazyLoad' => false,
+		'lazyLoadImage' => null
 	];
 
 	// Additional Configuration
@@ -171,18 +173,22 @@ class FoxSliderMain extends Widget {
 		// Generate Slides Html
 
 		$slides = $model->slides;
+		$first	= true;
 
         foreach( $slides as $slide ) {
 
             $items[] = $this->render( $slidePath, [
 				'widget' => $this, 'fxOptions' => $this->fxOptions, 'slide' => $slide,
-				'genericContent' => $this->genericContent
+				'genericContent' => $this->genericContent, 'first' => $first
 			]);
+
+			$first = $first ? false : $first;
         }
 
 		// Register JS
-		$modelOptions	= json_encode( $this->fxOptions );
-		$modelJs		= "jQuery( '.fx-" . $model->slug . "' ).foxslider( $modelOptions );";
+		$modelOptions = json_encode( $this->fxOptions );
+
+		$modelJs = "jQuery( '.fx-" . $model->slug . "' ).foxslider( $modelOptions );";
 
 		$this->getView()->registerJs( $modelJs, View::POS_READY );
 
@@ -255,6 +261,10 @@ class FoxSliderMain extends Widget {
 
 			$this->fxOptions[ 'preSlideChange' ] = !empty( $settings->preSlideChange ) ? $settings->preSlideChange : null;
 			$this->fxOptions[ 'postSlideChange' ] = !empty( $settings->postSlideChange ) ? $settings->postSlideChange : null;
+
+			$this->fxOptions[ 'lazyLoad' ] = boolval( $settings->lazyLoad );
+
+			$this->fxOptions[ 'lazyLoadImage' ] = !empty( $settings->lazyLoadImage ) ? Yii::getAlias( '@images' ) . '/' . $settings->lazyLoadImage : [];
 
 			if( !empty( $settings->slideTemplate ) ) {
 

@@ -128,7 +128,10 @@ fxs.FoxSliderManager.prototype.defaults = {
 	preSlideChange: null,
 	// Listener Callback for post processing
 	postSlideChange: null,
-	onSlideClick: null
+	onSlideClick: null,
+	// Lazy Loading
+	lazyLoad: false,
+	lazyLoadImage: null
 };
 
 // == Slider Manager ======================
@@ -633,7 +636,9 @@ fxs.FoxSlider.prototype.showNextSlide = function() {
 
 		var duration = 500;
 
-		// do pre processing
+		// Pre processing
+		this.lazyLoad( slidesSelector.first().next() );
+
 		if( null != settings.preSlideChange ) {
 
 			settings.preSlideChange( firstSlideIndex );
@@ -737,7 +742,9 @@ fxs.FoxSlider.prototype.showPrevSlide = function() {
 		var slideWidth		= firstSlide.width();
 		var filmstrip		= slider.find( '.slides-wrap' );
 
-		// do pre processing
+		// Pre processing
+		this.lazyLoad( slidesSelector.first().next() );
+
 		if( null != settings.preSlideChange ) {
 
 			settings.preSlideChange( firstSlideIndex );
@@ -1034,6 +1041,30 @@ fxs.FoxSlider.prototype.showForwardSlides = function() {
 		if( null != settings.postSlideChange ) {
 
 			settings.postSlideChange( firstSlideIndex );
+		}
+	}
+};
+
+fxs.FoxSlider.prototype.lazyLoad = function( slide ) {
+
+	var settings = this.options;
+
+	if( settings.lazyLoad && null != slide ) {
+
+		var img = slide.find( '.fxs-lazy-img' );
+
+		if( img.length > 0 ) {
+
+			var loaded = new Boolean( slide.attr( 'data-lazy' ) );
+
+			if( loaded == false ) {
+
+				var src = img.attr( 'data-src' );
+
+				img.attr( 'src', src );
+
+				img.attr( 'data-lazy', '1' );
+			}
 		}
 	}
 };

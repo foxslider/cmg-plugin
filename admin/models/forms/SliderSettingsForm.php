@@ -92,6 +92,10 @@ class SliderSettingsForm extends DataModel {
 
 	public $genericContent;
 
+	// Lazy Loading
+	public $lazyLoad;
+	public $lazyLoadImage;
+
 	// Protected --------------
 
 	// Private ----------------
@@ -117,12 +121,12 @@ class SliderSettingsForm extends DataModel {
 
 		return [
 			[ [ 'genericContent' ], 'safe' ],
-			[ [ 'loadAssets', 'bullets', 'controls', 'bulletsIndexing', 'stopOnHover', 'resizeBkgImage', 'slideDimMax', 'autoHeight' ], 'boolean' ],
+			[ [ 'loadAssets', 'bullets', 'controls', 'bulletsIndexing', 'stopOnHover', 'resizeBkgImage', 'slideDimMax', 'autoHeight', 'lazyLoad' ], 'boolean' ],
 			[ [ 'slideTemplate', 'slideTemplateDir' ], 'string', 'min' => 1, 'max' => Yii::$app->core->largeText ],
 			[ [ 'bulletClass', 'lControlClass', 'rControlClass', 'bkgImageClass', 'slideTexture' ], 'string', 'min' => 1, 'max' => Yii::$app->core->xxxLargeText ],
 			[ [ 'lControlContent', 'rControlContent', 'preSlideChange', 'postSlideChange', 'onSlideClick' ], 'string', 'min' => 1, 'max' => Yii::$app->core->xtraLargeText ],
 			[ [ 'sliderWidth', 'sliderHeight', 'slideWidth', 'slideHeight', 'autoScrollDuration', 'duration' ], 'number', 'integerOnly' => true ],
-			[ [ 'slideArrangement' ], 'string', 'min' => 1, 'max' => Yii::$app->core->mediumText ]
+			[ [ 'slideArrangement', 'lazyLoadImage' ], 'string', 'min' => 1, 'max' => Yii::$app->core->mediumText ]
 		];
 	}
 

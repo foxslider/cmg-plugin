@@ -166,6 +166,15 @@ Editor::widget();
 							</div>
 							<div class="row">
 								<div class="col col2">
+									<?= Yii::$app->formDesigner->getIconCheckbox( $form, $settings, 'lazyLoad', null, 'cmti cmti-checkbox' ) ?>
+								</div>
+								<div class="col col2">
+									<?= $form->field( $settings, 'lazyLoadImage' ) ?>
+									<p class="note">Provide the path relative to the @images alias.</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col col2">
 									<?= $form->field( $settings, 'onSlideClick' )->textarea() ?>
 								</div>
 							</div>
