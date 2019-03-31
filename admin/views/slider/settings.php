@@ -165,11 +165,14 @@ Editor::widget();
 								</div>
 							</div>
 							<div class="row">
-								<div class="col col2">
+								<div class="col col4">
 									<?= Yii::$app->formDesigner->getIconCheckbox( $form, $settings, 'lazyLoad', null, 'cmti cmti-checkbox' ) ?>
 								</div>
+								<div class="col col4">
+									<?= Yii::$app->formDesigner->getIconCheckbox( $form, $settings, 'lazySmall', null, 'cmti cmti-checkbox' ) ?>
+								</div>
 								<div class="col col2">
-									<?= $form->field( $settings, 'lazyLoadImage' ) ?>
+									<?= $form->field( $settings, 'lazyImageUrl' ) ?>
 									<p class="note">Provide the path relative to the @images alias.</p>
 								</div>
 							</div>

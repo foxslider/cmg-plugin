@@ -12,43 +12,50 @@ $content		= "<div class=\"wrap-slide-content\">";
 
 if( isset( $slideImage ) ) {
 
-	$slideImageUrl	= $slideImage->getFileUrl();
+	$smallUrl	= $slideImage->getSmallUrl();
+	$mediumUrl	= $slideImage->getMediumUrl();
+	$imageUrl	= $slideImage->getFileUrl();
 
 	$imageTitle		= $slideImage->title;
 	$imageCaption	= $slideImage->caption;
 	$imageAlt		= $slideImage->altText;
 	$imageDesc		= $slideImage->description;
 
-	if( isset( $fxOptions[ 'lazyLoad' ] ) && isset( $fxOptions[ 'lazyLoadImage' ] ) ) {
+	$lazyImg = !empty( $widget->lazyImageUrl ) ? $widget->lazyImageUrl : ( $widget->lazySmall ? $slideImage->getSmallPlaceholderUrl() : $slideImage->getPlaceholderUrl() );
 
-		$lazyImg	= $fxOptions[ 'lazyLoadImage' ];
-		$slideImg	= $first ? $slideImageUrl : $lazyImg;
-		$content	= "<div class=\"fxs-lazy fxs-lazy-bkg wrap-slide-content\" style=\"background-image:url($slideImg)\" data-src=\"$slideImageUrl\" data-lazy=\"0\">";
+	if( isset( $widget->lazyLoad ) ) {
+
+		$srcset = "$imageUrl, $mediumUrl, $smallUrl";
+		$sizes	= "1025, 481";
+
+		$content = "<div class=\"fxs-lazy fxs-lazy-bkg wrap-slide-content\" style=\"background-image:url($lazyImg)\" data-lazy=\"0\" data-src=\"$smallUrl\" data-srcset=\"$srcset\" data-sizes=\"$sizes\">";
 	}
 	else {
 
-		$content = "<div class=\"wrap-slide-content\" style=\"background-image:url($slideImageUrl)\">";
+		$content = "<div class=\"wrap-slide-content\" style=\"background-image:url($imageUrl)\">";
 	}
 
-	if( isset( $fxOptions[ 'resizeBkgImage' ] ) && isset( $fxOptions[ 'bkgImageClass' ] ) ) {
+	if( $fxOptions[ 'resizeBkgImage' ] ) {
 
-		if( isset( $fxOptions[ 'lazyLoad' ] ) && isset( $fxOptions[ 'lazyLoadImage' ] ) ) {
+		$srcset = "$smallUrl 1x, $mediumUrl 1.5x, $imageUrl 2x";
+		$sizes	= "(min-width: 1025px) 2x, (min-width: 481px) 1.5x, 1x";
 
-			$imgClass	= $fxOptions[ 'bkgImageClass' ];
-			$lazyImg	= $fxOptions[ 'lazyLoadImage' ];
-			$slideImg	= $first ? $slideImageUrl : $lazyImg;
-			$content	= "<img src=\"$slideImg\" class=\"fxs-lazy fxs-lazy-img $imgClass\" alt=\"$imageAlt\" data-src=\"$slideImageUrl\" data-lazy=\"0\" />
-						   <div class=\"wrap-slide-content\">";
+		$imgClass = $fxOptions[ 'bkgImageClass' ];
+
+		if( isset( $widget->lazyLoad ) ) {
+
+			$content = "<img src=\"$lazyImg\" class=\"fxs-lazy fxs-lazy-img $imgClass\" alt=\"$imageAlt\" data-lazy=\"0\" data-src=\"$smallUrl\" data-srcset=\"$srcset\" data-sizes=\"$sizes\" />
+						<div class=\"wrap-slide-content\">";
 		}
 		else {
 
-			$imgClass	= $fxOptions[ 'bkgImageClass' ];
-			$content	= "<img src=\"$slideImageUrl\" class=\"$imgClass\" alt=\"$imageAlt\" />
-						   <div class=\"wrap-slide-content\">";
+			$content = "<img src=\"$smallUrl\" class=\"$imgClass\" alt=\"$imageAlt\" srcset=\"$srcset\" sizes=\"$sizes\" />
+						<div class=\"wrap-slide-content\">";
 		}
 	}
 }
 ?>
+
 <?php if( isset( $slideUrl ) && strlen( $slideUrl ) > 0 ) { ?>
 	<div>
 		<a href="<?= $slideUrl ?>">

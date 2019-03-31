@@ -16,15 +16,12 @@ use yii\base\InvalidConfigException;
 use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
 
-// CMG Imports
-use cmsgears\core\common\base\Widget;
-
 // FXS Imports
 use foxslider\common\models\entities\Slider;
 
 use foxslider\widgets\assets\FxsAssets;
 
-class FoxSliderMain extends Widget {
+class FoxSliderMain extends \cmsgears\core\common\base\Widget {
 
 	// Variables ---------------------------------------------------
 
@@ -78,8 +75,7 @@ class FoxSliderMain extends Widget {
 		'preSlideChange' => null,
 		// Listener Callback for post processing
 		'postSlideChange' => null,
-		'lazyLoad' => false,
-		'lazyLoadImage' => null
+		'lazyLoad' => false
 	];
 
 	// Additional Configuration
@@ -103,6 +99,27 @@ class FoxSliderMain extends Widget {
 	 * @var Object
 	 */
 	public $modelData;
+
+	/**
+	 * Check whether lazy loading is required.
+	 *
+	 * @var string
+	 */
+	public $lazyLoad;
+
+	/**
+	 * Check to lazy load small image.
+	 *
+	 * @var string
+	 */
+	public $lazySmall = false;
+
+	/**
+	 * The default URL used for lazy loading.
+	 *
+	 * @var string
+	 */
+	public $lazyImageUrl;
 
 	// Protected --------------
 
@@ -173,16 +190,13 @@ class FoxSliderMain extends Widget {
 		// Generate Slides Html
 
 		$slides = $model->slides;
-		$first	= true;
 
         foreach( $slides as $slide ) {
 
             $items[] = $this->render( $slidePath, [
 				'widget' => $this, 'fxOptions' => $this->fxOptions, 'slide' => $slide,
-				'genericContent' => $this->genericContent, 'first' => $first
+				'genericContent' => $this->genericContent
 			]);
-
-			$first = $first ? false : $first;
         }
 
 		// Register JS
@@ -255,7 +269,7 @@ class FoxSliderMain extends Widget {
 			$this->fxOptions[ 'slideArrangement' ] = $settings->slideArrangement;
 
 			$this->fxOptions[ 'resizeBkgImage' ] = boolval( $settings->resizeBkgImage );
-			$this->fxOptions[ 'bkgImageClass' ] = !empty( $settings->bkgImageClass ) ? $settings->bkgImageClass : null;
+			$this->fxOptions[ 'bkgImageClass' ] = !empty( $settings->bkgImageClass ) ? $settings->bkgImageClass : 'fxs-bkg-img';
 
 			$this->fxOptions[ 'autoHeight' ] = boolval( $settings->autoHeight );
 
@@ -263,8 +277,6 @@ class FoxSliderMain extends Widget {
 			$this->fxOptions[ 'postSlideChange' ] = !empty( $settings->postSlideChange ) ? $settings->postSlideChange : null;
 
 			$this->fxOptions[ 'lazyLoad' ] = boolval( $settings->lazyLoad );
-
-			$this->fxOptions[ 'lazyLoadImage' ] = !empty( $settings->lazyLoadImage ) ? Yii::getAlias( '@images' ) . '/' . $settings->lazyLoadImage : [];
 
 			if( !empty( $settings->slideTemplate ) ) {
 
@@ -279,6 +291,10 @@ class FoxSliderMain extends Widget {
 			$this->slideTexture = $settings->slideTexture;
 
 			$this->genericContent = !empty( $settings->genericContent ) ? $settings->genericContent : [];
+
+			$this->lazyLoad		= boolval( $settings->lazyLoad );
+			$this->lazySmall	= boolval( $settings->lazySmall );
+			$this->lazyImageUrl	= !empty( $settings->lazyImageUrl ) ? Yii::getAlias( '@images' ) . '/' . $settings->lazyImageUrl : null;
 		}
 	}
 
