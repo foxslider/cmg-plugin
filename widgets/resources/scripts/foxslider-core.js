@@ -389,30 +389,24 @@ fxs.FoxSlider.prototype.normalise = function() {
 
 			if( null != image && image.length > 0 ) {
 
+				image.addClass( 'width width-100' );
+
 				var slideAspectRatio	= slideWidth / slideHeight;
-				var imageAspectRatio	= image[0].width / image[0].height;
+				var imageAspectRatio	= image[ 0 ].width / image[ 0 ].height;
 
 				if ( slideAspectRatio > imageAspectRatio ) {
 
-					image.removeClass( 'width width-100 height height-100' );
-					image.addClass( 'width width-100' );
-
 					var adjust = ( image.height() - slideHeight ) / 2;
 
-					image.css( { 'margin-top': '-' + adjust + 'px' } );
+					// TODO: check it once more before enabling. It must work fine with sliders dependent on images.
+					//image.css( { 'margin-top': '-' + adjust + 'px' } );
 				}
 				else if ( slideAspectRatio < imageAspectRatio ) {
 
-					image.removeClass( 'width width-100 height height-100' );
-					image.addClass( 'width width-100' );
-
 					var adjust = ( image.width() - slideWidth ) / 2;
 
-					image.css( { 'margin-left': '-' + adjust + 'px' } );
-				}
-				else {
-
-					image.addClass( 'width width-100 height height-100' );
+					// TODO: check it once more before enabling. It must work fine with sliders dependent on images.
+					//image.css( { 'margin-left': '-' + adjust + 'px' } );
 				}
 			}
 		}
