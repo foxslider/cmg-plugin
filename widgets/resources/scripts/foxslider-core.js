@@ -1099,9 +1099,9 @@ fxs.FoxSlider.prototype.lazyLoadImg = function( slide ) {
 		var srcset	= slide.attr( 'data-srcset' );
 		var sizes	= slide.attr( 'data-sizes' );
 
-		slide.attr( 'src', src );
-		slide.attr( 'srcset', srcset );
-		slide.attr( 'sizes', sizes );
+		typeof src !== 'undefined' ? slide.attr( 'src', src ) : null;
+		typeof srcset !== 'undefined' ? slide.attr( 'srcset', srcset ) : null;
+		typeof sizes !== 'undefined' ? slide.attr( 'sizes', sizes ) : null;
 
 		slide.attr( 'data-lazy', '1' );
 	}
@@ -1113,19 +1113,19 @@ fxs.FoxSlider.prototype.lazyLoadBkg = function( slide ) {
 
 	if( loaded == 0 ) {
 
-		var width	= window.innerWidth;
+		var width	= jQuery( window ).width();
 		var srcset	= slide.attr( 'data-srcset' ).split( ',' );
 		var sizes	= slide.attr( 'data-sizes' ).split( ',' );
 
-		if( width > parseInt( sizes[ 0 ] ) ) {
+		if( typeof sizes[ 0 ] !== 'undefined' && width >= parseInt( sizes[ 0 ] ) ) {
 
-			slide.css( 'backgroundImage', "url('" + srcset[ 0 ] + "')" ); 
+			slide.css( 'backgroundImage', "url('" + srcset[ 0 ] + "')" );
 		}
-		else if( width > parseInt( sizes[ 1 ] ) ) {
+		else if( typeof sizes[ 1 ] !== 'undefined' && width >= parseInt( sizes[ 1 ] ) ) {
 
 			slide.css( 'backgroundImage', "url('" + srcset[ 1 ] + "')" );
 		}
-		else {
+		else if( typeof sizes[ 2 ] !== 'undefined' ) {
 
 			slide.css( 'backgroundImage', "url('" + srcset[ 2 ] + "')" ); 
 		}

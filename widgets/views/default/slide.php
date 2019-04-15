@@ -12,9 +12,7 @@ $content		= "<div class=\"wrap-slide-content\">";
 
 if( isset( $slideImage ) ) {
 
-	$smallUrl	= $slideImage->getSmallUrl();
-	$mediumUrl	= $slideImage->getMediumUrl();
-	$imageUrl	= $slideImage->getFileUrl();
+	$imageUrl = $slideImage->getFileUrl();
 
 	$imageTitle		= $slideImage->title;
 	$imageCaption	= $slideImage->caption;
@@ -25,10 +23,10 @@ if( isset( $slideImage ) ) {
 
 	if( isset( $widget->lazyLoad ) ) {
 
-		$srcset = "$imageUrl, $mediumUrl, $smallUrl";
-		$sizes	= "1025, 481";
+		$srcset = $slideImage->generateSrcset( true );
+		$sizes	= $slideImage->srcset;
 
-		$content = "<div class=\"fxs-lazy fxs-lazy-bkg wrap-slide-content\" style=\"background-image:url($lazyImg)\" data-lazy=\"0\" data-src=\"$smallUrl\" data-srcset=\"$srcset\" data-sizes=\"$sizes\">";
+		$content = "<div class=\"fxs-lazy fxs-lazy-bkg wrap-slide-content\" style=\"background-image:url($lazyImg)\" data-lazy=\"0\" data-src=\"$imageUrl\" data-srcset=\"$srcset\" data-sizes=\"$sizes\">";
 	}
 	else {
 
@@ -37,19 +35,19 @@ if( isset( $slideImage ) ) {
 
 	if( $fxOptions[ 'resizeBkgImage' ] ) {
 
-		$srcset = "$smallUrl 1x, $mediumUrl 1.5x, $imageUrl 2x";
-		$sizes	= "(min-width: 1025px) 2x, (min-width: 481px) 1.5x, 1x";
+		$srcset = $slideImage->generateSrcset();
+		$sizes	= $slideImage->sizes;
 
 		$imgClass = $fxOptions[ 'bkgImageClass' ];
 
 		if( isset( $widget->lazyLoad ) ) {
 
-			$content = "<img src=\"$lazyImg\" class=\"fxs-lazy fxs-lazy-img $imgClass\" alt=\"$imageAlt\" data-lazy=\"0\" data-src=\"$smallUrl\" data-srcset=\"$srcset\" data-sizes=\"$sizes\" />
+			$content = "<img src=\"$lazyImg\" class=\"fxs-lazy fxs-lazy-img $imgClass\" alt=\"$imageAlt\" data-lazy=\"0\" data-src=\"$imageUrl\" data-srcset=\"$srcset\" data-sizes=\"$sizes\" />
 						<div class=\"wrap-slide-content\">";
 		}
 		else {
 
-			$content = "<img src=\"$smallUrl\" class=\"$imgClass\" alt=\"$imageAlt\" srcset=\"$srcset\" sizes=\"$sizes\" />
+			$content = "<img src=\"$imageUrl\" class=\"$imgClass\" alt=\"$imageAlt\" srcset=\"$srcset\" sizes=\"$sizes\" />
 						<div class=\"wrap-slide-content\">";
 		}
 	}
