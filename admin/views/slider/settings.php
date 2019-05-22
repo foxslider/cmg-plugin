@@ -136,6 +136,9 @@ Editor::widget();
 								<div class="col col4">
 									<?= Yii::$app->formDesigner->getIconCheckbox( $form, $settings, 'resizeBkgImage', null, 'cmti cmti-checkbox' ) ?>
 								</div>
+								<div class="col col4">
+									<?= Yii::$app->formDesigner->getIconCheckbox( $form, $settings, 'responsiveImage', null, 'cmti cmti-checkbox' ) ?>
+								</div>
 								<div class="col col2">
 									<?= TextureChooser::widget( [ 'model' => $settings, 'attribute' => 'slideTexture', 'options' => [ 'class' => 'icon-picker-wrap' ] ] ) ?>
 								</div>

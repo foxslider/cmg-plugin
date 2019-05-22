@@ -21,12 +21,19 @@ if( isset( $slideImage ) ) {
 
 	$lazyImg = !empty( $widget->lazyImageUrl ) ? $widget->lazyImageUrl : ( $widget->lazySmall ? $slideImage->getSmallPlaceholderUrl() : $slideImage->getPlaceholderUrl() );
 
-	if( isset( $widget->lazyLoad ) ) {
+	if( isset( $widget->lazyLoad ) && $widget->lazyLoad ) {
 
 		$srcset = $slideImage->generateSrcset( true );
 		$sizes	= $slideImage->srcset;
 
 		$content = "<div class=\"fxs-lazy fxs-lazy-bkg wrap-slide-content\" style=\"background-image:url($lazyImg)\" data-lazy=\"0\" data-src=\"$imageUrl\" data-srcset=\"$srcset\" data-sizes=\"$sizes\">";
+	}
+	else if( isset( $widget->responsiveImage ) && $widget->responsiveImage ) {
+
+		$srcset = $slideImage->generateSrcset( true );
+		$sizes	= $slideImage->srcset;
+
+		$content = "<div class=\"fxs-lazy fxs-lazy-bkg wrap-slide-content\" style=\"background-image:url($imageUrl)\" data-lazy=\"0\" data-src=\"$imageUrl\" data-srcset=\"$srcset\" data-sizes=\"$sizes\">";
 	}
 	else {
 
@@ -40,9 +47,14 @@ if( isset( $slideImage ) ) {
 
 		$imgClass = $fxOptions[ 'bkgImageClass' ];
 
-		if( isset( $widget->lazyLoad ) ) {
+		if( isset( $widget->lazyLoad ) && $widget->lazyLoad ) {
 
 			$content = "<img src=\"$lazyImg\" class=\"fxs-lazy fxs-lazy-img $imgClass\" alt=\"$imageAlt\" data-lazy=\"0\" data-src=\"$imageUrl\" data-srcset=\"$srcset\" data-sizes=\"$sizes\" />
+						<div class=\"wrap-slide-content\">";
+		}
+		else if( isset( $widget->responsiveImage ) && $widget->responsiveImage ) {
+
+			$content = "<img src=\"$imageUrl\" class=\"fxs-lazy fxs-lazy-img $imgClass\" alt=\"$imageAlt\" data-lazy=\"0\" data-src=\"$imageUrl\" data-srcset=\"$srcset\" data-sizes=\"$sizes\" />
 						<div class=\"wrap-slide-content\">";
 		}
 		else {

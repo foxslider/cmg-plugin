@@ -101,11 +101,18 @@ class FoxSliderMain extends \cmsgears\core\common\base\Widget {
 	public $modelData;
 
 	/**
+	 * Check whether responsive images required.
+	 *
+	 * @var string
+	 */
+	public $responsiveImage = false;
+
+	/**
 	 * Check whether lazy loading is required.
 	 *
 	 * @var string
 	 */
-	public $lazyLoad;
+	public $lazyLoad = false;
 
 	/**
 	 * Check to lazy load small image.
@@ -292,6 +299,7 @@ class FoxSliderMain extends \cmsgears\core\common\base\Widget {
 
 			$this->genericContent = !empty( $settings->genericContent ) ? $settings->genericContent : [];
 
+			$this->responsiveImage = boolval( $settings->responsiveImage );
 			$this->lazyLoad		= boolval( $settings->lazyLoad );
 			$this->lazySmall	= boolval( $settings->lazySmall );
 			$this->lazyImageUrl	= !empty( $settings->lazyImageUrl ) ? Yii::getAlias( '@images' ) . '/' . $settings->lazyImageUrl : null;
