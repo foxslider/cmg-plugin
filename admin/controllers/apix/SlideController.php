@@ -105,7 +105,7 @@ class SlideController extends \cmsgears\core\admin\controllers\base\Controller {
 
 			$data = [
 				'mid' => $model->id, 'fid' => $file->id,
-				'name' => $file->name, 'extension' => $file->extension,
+				'name' => $file->name, 'extension' => $file->extension, 'order' => $model->order,
 				'title' => $model->name, 'stitle' => $model->title, 'ititle' => $file->title, 'caption' => $file->caption,
 				'altText' => $file->altText, 'link' => $file->link, 'url' => $file->getFileUrl(),
 				'description' => $model->description, 'idescription' => $file->description,
@@ -142,7 +142,7 @@ class SlideController extends \cmsgears\core\admin\controllers\base\Controller {
 
 			$data = [
 				'mid' => $this->model->id, 'fid' => $file->id,
-				'name' => $file->name, 'extension' => $file->extension,
+				'name' => $file->name, 'extension' => $file->extension, 'order' => $model->order,
 				'title' => $model->name, 'stitle' => $model->title, 'ititle' => $file->title, 'caption' => $file->caption,
 				'altText' => $file->altText, 'link' => $file->link, 'url' => $file->getFileUrl(),
 				'description' => $model->description, 'idescription' => $file->description,
@@ -185,7 +185,7 @@ class SlideController extends \cmsgears\core\admin\controllers\base\Controller {
 
 				$data = [
 					'mid' => $this->model->id, 'fid' => $file->id,
-					'name' => $file->name, 'extension' => $file->extension,
+					'name' => $file->name, 'extension' => $file->extension, 'order' => $model->order,
 					'title' => $model->name, 'stitle' => $model->title, 'ititle' => $file->title, 'caption' => $file->caption,
 					'altText' => $file->altText, 'link' => $file->link, 'url' => $file->getFileUrl(),
 					'description' => $model->description, 'idescription' => $file->description,

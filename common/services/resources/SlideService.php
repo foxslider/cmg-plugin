@@ -192,7 +192,7 @@ class SlideService extends ResourceService implements ISlideService {
 		$this->fileService->saveImage( $image, [ 'model' => $model, 'attribute' => 'imageId', 'width' => $slider->slideWidth, 'height' => $slider->slideHeight ] );
 
 		return parent::update( $model, [
-			'attributes' => [ 'imageId', 'name', 'title', 'description', 'content', 'url' ]
+			'attributes' => [ 'imageId', 'name', 'title', 'description', 'content', 'url', 'order' ]
 		]);
 	}
 

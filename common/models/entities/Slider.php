@@ -223,7 +223,8 @@ class Slider extends Entity implements IApproval, IAuthor, IData, IGridCache, IM
 	 */
 	public function getSlides() {
 
-    	return $this->hasMany( Slide::className(), [ 'sliderId' => 'id' ] );
+    	return $this->hasMany( Slide::className(), [ 'sliderId' => 'id' ] )
+				->orderBy( 'order DESC' );
 	}
 
 	/**
