@@ -9,18 +9,15 @@
 
 namespace foxslider\common\models\base;
 
-// CMG Imports
-use cmsgears\core\common\models\base\DbTables;
-
-class FxsTables extends DbTables {
+class FxsTables extends \cmsgears\core\common\models\base\DbTables {
 
 	// Entities -------------
 
-	const TABLE_SLIDER		= 'fxs_slider';
+	const TABLE_SLIDER = 'fxs_slider';
 
 	// Resources ------------
 
-	const TABLE_SLIDE		= 'fxs_slide';
+	const TABLE_SLIDE = 'fxs_slide';
 
 	// Mappers --------------
 

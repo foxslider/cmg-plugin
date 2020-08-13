@@ -12,6 +12,7 @@ namespace foxslider\common\services\interfaces\entities;
 // CMG Imports
 use cmsgears\core\common\services\interfaces\base\IEntityService;
 use cmsgears\core\common\services\interfaces\base\IApproval;
+use cmsgears\core\common\services\interfaces\base\IMultiSite;
 use cmsgears\core\common\services\interfaces\base\IName;
 use cmsgears\core\common\services\interfaces\base\ISlug;
 use cmsgears\core\common\services\interfaces\resources\IData;
@@ -21,7 +22,7 @@ use cmsgears\core\common\services\interfaces\resources\IData;
  *
  * @since 1.0.0
  */
-interface ISliderService extends IEntityService, IApproval, IData, IName, ISlug {
+interface ISliderService extends IEntityService, IApproval, IData, IMultiSite, IName, ISlug {
 
 	// Data Provider ------
 

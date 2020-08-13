@@ -8,8 +8,6 @@
  */
 
 // CMG Imports
-use cmsgears\core\common\base\Migration;
-
 use cmsgears\core\common\models\resources\Stats;
 
 // FXS Imports
@@ -21,7 +19,7 @@ use foxslider\common\models\base\FxsTables;
  *
  * @since 1.0.0
  */
-class m160801_055916_foxslider_stats extends Migration {
+class m160801_055916_foxslider_stats extends \cmsgears\core\common\base\Migration {
 
 	// Public Variables
 
@@ -35,11 +33,11 @@ class m160801_055916_foxslider_stats extends Migration {
 	public function init() {
 
 		// Table prefix
-		$this->cmgPrefix	= Yii::$app->migration->cmgPrefix;
-		$this->fxsPrefix	= 'fxs_';
+		$this->cmgPrefix = Yii::$app->migration->cmgPrefix;
+		$this->fxsPrefix = 'fxs_';
 
 		// Get the values via config
-		$this->options		= Yii::$app->migration->getTableOptions();
+		$this->options = Yii::$app->migration->getTableOptions();
 
 		// Default collation
 		if( $this->db->driverName === 'mysql' ) {
@@ -56,9 +54,9 @@ class m160801_055916_foxslider_stats extends Migration {
 
 	private function insertTables() {
 
-		$columns 	= [ 'tableName', 'type', 'count' ];
+		$columns  = [ 'tableName', 'type', 'count' ];
 
-		$tableData	= [
+		$tableData = [
 			[ $this->fxsPrefix . 'slider', 'rows', 0 ],
 			[ $this->fxsPrefix . 'slide', 'rows', 0 ]
 		];

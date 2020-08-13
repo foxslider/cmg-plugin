@@ -7,17 +7,13 @@
  * @copyright Copyright (c) 2015 VulpineCode Technologies Pvt. Ltd.
  */
 
-// CMG Imports
-use cmsgears\core\common\base\Migration;
-
-
 /**
  * The foxslider migration inserts the database tables of foxslider module. It also insert the foreign
  * keys if FK flag of migration component is true.
  *
  * @since 1.0.0
  */
-class m160801_055133_foxslider extends Migration {
+class m160801_055133_foxslider extends \cmsgears\core\common\base\Migration {
 
 	// Public Variables
 
@@ -32,12 +28,12 @@ class m160801_055133_foxslider extends Migration {
 	public function init() {
 
 		// Fixed
-		$this->cmgPrefix	= Yii::$app->migration->cmgPrefix;
-		$this->fxsPrefix	= 'fxs_';
+		$this->cmgPrefix = Yii::$app->migration->cmgPrefix;
+		$this->fxsPrefix = 'fxs_';
 
 		// Get the values via config
-		$this->fk			= Yii::$app->migration->isFk();
-		$this->options		= Yii::$app->migration->getTableOptions();
+		$this->fk		= Yii::$app->migration->isFk();
+		$this->options	= Yii::$app->migration->getTableOptions();
 
 		// Default collation
 		if( $this->db->driverName === 'mysql' ) {

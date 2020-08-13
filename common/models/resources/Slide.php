@@ -16,7 +16,6 @@ use yii\helpers\ArrayHelper;
 // CMG Imports
 use cmsgears\core\common\config\CoreGlobal;
 
-use cmsgears\core\common\models\base\Entity;
 use cmsgears\core\common\models\resources\File;
 
 // FXS Imports
@@ -38,7 +37,7 @@ use foxslider\common\models\entities\Slider;
  *
  * @since 1.0.0
  */
-class Slide extends Entity {
+class Slide extends \cmsgears\core\common\models\base\Resource {
 
 	// Variables ---------------------------------------------------
 

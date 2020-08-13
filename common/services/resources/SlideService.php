@@ -16,12 +16,10 @@ use yii\data\Sort;
 // CMG Imports
 use cmsgears\core\common\services\interfaces\resources\IFileService;
 
-use cmsgears\core\common\services\base\ResourceService;
-
 // FXS Imports
 use foxslider\common\services\interfaces\resources\ISlideService;
 
-class SlideService extends ResourceService implements ISlideService {
+class SlideService extends \cmsgears\core\common\services\base\ResourceService implements ISlideService {
 
 	// Variables ---------------------------------------------------
 
@@ -72,6 +70,11 @@ class SlideService extends ResourceService implements ISlideService {
 
 	public function getPage( $config = [] ) {
 
+		$searchParam	= $config[ 'search-param' ] ?? 'keywords';
+		$searchColParam	= $config[ 'search-col-param' ] ?? 'search';
+
+		$defaultSort = isset( $config[ 'defaultSort' ] ) ? $config[ 'defaultSort' ] : [ 'id' => SORT_DESC ];
+
 		$modelClass	= static::$modelClass;
 		$modelTable	= $this->getModelTable();
 
@@ -105,7 +108,8 @@ class SlideService extends ResourceService implements ISlideService {
 					'default' => SORT_DESC,
 					'label' => 'Title'
 				]
-	        ]
+	        ],
+			'defaultOrder' => $defaultSort
 	    ]);
 
 		if( !isset( $config[ 'sort' ] ) ) {
@@ -124,17 +128,23 @@ class SlideService extends ResourceService implements ISlideService {
 
 		// Searching --------
 
-		$searchCol	= Yii::$app->request->getQueryParam( 'search' );
+		$searchCol		= Yii::$app->request->getQueryParam( $searchColParam );
+		$keywordsCol	= Yii::$app->request->getQueryParam( $searchParam );
+
+		$search = [
+			'name' => "$modelTable.name",
+			'title' =>  "$modelTable.title",
+			'desc' => "$modelTable.description",
+			'content' => "$modelTable.content"
+		];
 
 		if( isset( $searchCol ) ) {
 
-			$search = [
-				'name' => "$modelTable.name",
-				'title' =>  "$modelTable.title",
-				'desc' => "$modelTable.description"
-			];
-
 			$config[ 'search-col' ] = $search[ $searchCol ];
+		}
+		else if( isset( $keywordsCol ) ) {
+
+			$config[ 'search-col' ] = $search;
 		}
 
 		// Reporting --------
@@ -143,6 +153,7 @@ class SlideService extends ResourceService implements ISlideService {
 			'name' => "$modelTable.name",
 			'title' =>  "$modelTable.title",
 			'desc' => "$modelTable.description",
+			'content' => "$modelTable.content",
 			'order' => "$modelTable.order"
 		];
 
@@ -172,11 +183,14 @@ class SlideService extends ResourceService implements ISlideService {
 
 	public function create( $model, $config = [] ) {
 
-		$image 	= isset( $config[ 'image' ] ) ? $config[ 'image' ] : null;
+		$image = isset( $config[ 'image' ] ) ? $config[ 'image' ] : null;
 
-		$slider	= Yii::$app->factory->get( 'fxSliderService' )->getById( $model->sliderId );
+		$slider = Yii::$app->factory->get( 'fxSliderService' )->getById( $model->sliderId );
 
-		$this->fileService->saveImage( $image, [ 'model' => $model, 'attribute' => 'imageId', 'width' => $slider->slideWidth, 'height' => $slider->slideHeight ] );
+		$this->fileService->saveImage( $image, [
+			'model' => $model, 'attribute' => 'imageId',
+			'width' => $slider->slideWidth, 'height' => $slider->slideHeight
+		]);
 
 		return parent::create( $model, $config );
 	}
@@ -189,7 +203,10 @@ class SlideService extends ResourceService implements ISlideService {
 
 		$slider = Yii::$app->factory->get( 'fxSliderService' )->getById( $model->sliderId );
 
-		$this->fileService->saveImage( $image, [ 'model' => $model, 'attribute' => 'imageId', 'width' => $slider->slideWidth, 'height' => $slider->slideHeight ] );
+		$this->fileService->saveImage( $image, [
+			'model' => $model, 'attribute' => 'imageId',
+			'width' => $slider->slideWidth, 'height' => $slider->slideHeight
+		]);
 
 		return parent::update( $model, [
 			'attributes' => [ 'imageId', 'name', 'title', 'description', 'content', 'url', 'order' ]

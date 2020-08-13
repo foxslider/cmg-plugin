@@ -28,7 +28,7 @@ use foxslider\common\config\FxsCoreGlobal;
  *
  * @since 1.0.0
  */
-class SlideController extends \cmsgears\core\admin\controllers\base\Controller {
+class SlideController extends \cmsgears\core\admin\controllers\apix\base\Controller {
 
 	// Variables ---------------------------------------------------
 

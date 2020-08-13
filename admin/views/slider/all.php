@@ -14,15 +14,21 @@ $themeTemplates		= '@themes/admin/views/templates';
 <?= DataGrid::widget([
 	'dataProvider' => $dataProvider, 'add' => true, 'addUrl' => 'create', 'data' => [ ],
 	'title' => 'Blocks', 'options' => [ 'class' => 'grid-data grid-data-admin' ],
-	'searchColumns' => [ 'name' => 'Name', 'title' => 'Title', 'desc' => 'Description' ],
+	'searchColumns' => [
+		'name' => 'Name', 'title' => 'Title', 'desc' => 'Description'
+	],
 	'sortColumns' => [
 		'name' => 'Name', 'title' => 'Title', 'status' => 'Status',
 		'fpage' => 'Full Page', 'circular' => 'Circular',
 		'cdate' => 'Created At', 'udate' => 'Updated At'
 	],
 	'filters' => [
-		'status' => [ 'new' => 'New', 'active' => 'Active', 'blocked' => 'Blocked' ],
-		'model' => [ 'fpage' => 'Full Page', 'circular' => 'Circular' ]
+		'status' => [
+			'new' => 'New', 'active' => 'Active', 'blocked' => 'Blocked'
+		],
+		'model' => [
+			'fpage' => 'Full Page', 'circular' => 'Circular'
+		]
 	],
 	'reportColumns' => [
 		'name' => [ 'title' => 'Name', 'type' => 'text' ],
@@ -33,8 +39,16 @@ $themeTemplates		= '@themes/admin/views/templates';
 		'circular' => [ 'title' => 'Circular', 'type' => 'flag' ]
 	],
 	'bulkPopup' => 'popup-grid-bulk', 'bulkActions' => [
-		'status' => [ 'confirmed' => 'Confirm', 'rejected' => 'Reject', 'active' => 'Activate', 'frozen' => 'Freeze', 'blocked' => 'Block' ],
-		'model' => [ 'fpage' => 'Full Page', 'circular' => 'Circular', 'delete' => 'Delete' ]
+		'status' => [
+			'accept' => 'Accept', 'confirm' => 'Confirm',
+			'approve' => 'Approve', 'reject' => 'Reject',
+			'activate' => 'Activate', 'freeze' => 'Freeze',
+			'block' => 'Block', 'terminate' => 'Terminate'
+		],
+		'model' => [
+			'fpage' => 'Full Page', 'circular' => 'Circular',
+			'delete' => 'Delete'
+		]
 	],
 	'header' => false, 'footer' => true,
 	'grid' => true, 'columns' => [ 'root' => 'colf colf15', 'factor' => [ null , 'x3', 'x3', null, null, null, null, null, null, null, null, null, null  ] ],
@@ -53,19 +67,19 @@ $themeTemplates		= '@themes/admin/views/templates';
 	],
 	'gridCards' => [ 'root' => 'col col12', 'factor' => 'x3' ],
 	'templateDir' => "$themeTemplates/widget/grid",
-	//'dataView' => "$moduleTemplates/grid/data/gallery",
-	//'cardView' => "$moduleTemplates/grid/cards/gallery",
+	//'dataView' => "$moduleTemplates/grid/data/slider",
+	//'cardView' => "$moduleTemplates/grid/cards/slider",
 	'actionView' => "$moduleTemplates/grid/actions/slider"
-]) ?>
+])?>
 
 <?= Popup::widget([
 	'title' => 'Bulk Sliders', 'size' => 'medium',
 	'templateDir' => Yii::getAlias( "$themeTemplates/widget/popup/grid" ), 'template' => 'bulk',
 	'data' => [ 'model' => 'Block', 'app' => 'grid', 'controller' => 'crud', 'action' => 'bulk', 'url' => "foxslider/slider/bulk" ]
-]) ?>
+])?>
 
 <?= Popup::widget([
 	'title' => 'Delete Slider', 'size' => 'medium',
 	'templateDir' => Yii::getAlias( "$themeTemplates/widget/popup/grid" ), 'template' => 'delete',
 	'data' => [ 'model' => 'Block', 'app' => 'grid', 'controller' => 'crud', 'action' => 'delete', 'url' => "foxslider/slider/delete?id=" ]
-]) ?>
+])?>

@@ -10,10 +10,9 @@
 namespace foxslider\widgets\assets;
 
 // Yii Imports
-use yii\web\AssetBundle;
 use yii\web\View;
 
-class FxsAssets extends AssetBundle {
+class FxsAssets extends \yii\web\AssetBundle {
 
 	// Variables ---------------------------------------------------
 

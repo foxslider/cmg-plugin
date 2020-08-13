@@ -27,8 +27,6 @@ use cmsgears\core\common\models\interfaces\base\ISlug;
 use cmsgears\core\common\models\interfaces\resources\IData;
 use cmsgears\core\common\models\interfaces\resources\IGridCache;
 
-use cmsgears\core\common\models\base\Entity;
-
 use cmsgears\core\common\models\traits\base\ApprovalTrait;
 use cmsgears\core\common\models\traits\base\AuthorTrait;
 use cmsgears\core\common\models\traits\base\MultiSiteTrait;
@@ -63,7 +61,7 @@ use foxslider\common\models\resources\Slide;
  * @property boolean $circular
  * @property datetime $createdAt
  * @property datetime $modifiedAt
- * @property string $htmlOptions;
+ * @property string $htmlOptions
  * @property string $content
  * @property string $data
  * @property string $gridCache
@@ -72,7 +70,8 @@ use foxslider\common\models\resources\Slide;
  *
  * @since 1.0.0
  */
-class Slider extends Entity implements IApproval, IAuthor, IData, IGridCache, IMultiSite, IName, ISlug {
+class Slider extends \cmsgears\core\common\models\base\Entity implements IApproval,
+	IAuthor, IData, IGridCache, IMultiSite, IName, ISlug {
 
 	// Variables ---------------------------------------------------
 
@@ -195,7 +194,7 @@ class Slider extends Entity implements IApproval, IAuthor, IData, IGridCache, IM
 			'slug' => Yii::$app->coreMessage->getMessage( CoreGlobal::FIELD_SLUG ),
 			'title' => Yii::$app->coreMessage->getMessage( CoreGlobal::FIELD_TITLE ),
 			'description' => Yii::$app->coreMessage->getMessage( CoreGlobal::FIELD_DESCRIPTION ),
-			'full_page' => 'Full Page',
+			'fullPage' => 'Full Page',
 			'slideWidth' => 'Slide Width',
 			'slideHeight' => 'Slide Height',
 			'scrollAuto' => 'Auto Scroll',
@@ -224,7 +223,7 @@ class Slider extends Entity implements IApproval, IAuthor, IData, IGridCache, IM
 	public function getSlides() {
 
     	return $this->hasMany( Slide::className(), [ 'sliderId' => 'id' ] )
-				->orderBy( 'order DESC' );
+			->orderBy( 'order DESC' );
 	}
 
 	/**
@@ -292,8 +291,9 @@ class Slider extends Entity implements IApproval, IAuthor, IData, IGridCache, IM
 	 */
 	public static function queryWithHasOne( $config = [] ) {
 
-		$relations				= isset( $config[ 'relations' ] ) ? $config[ 'relations' ] : [ 'creator' ];
-		$config[ 'relations' ]	= $relations;
+		$relations = isset( $config[ 'relations' ] ) ? $config[ 'relations' ] : [ 'creator' ];
+
+		$config[ 'relations' ] = $relations;
 
 		return parent::queryWithAll( $config );
 	}
@@ -306,7 +306,7 @@ class Slider extends Entity implements IApproval, IAuthor, IData, IGridCache, IM
 	 */
 	public static function queryWithSlides( $config = [] ) {
 
-		$config[ 'relations' ]	= [ 'slides' ];
+		$config[ 'relations' ] = [ 'slides' ];
 
 		return parent::queryWithAll( $config );
 	}
@@ -318,4 +318,5 @@ class Slider extends Entity implements IApproval, IAuthor, IData, IGridCache, IM
 	// Update -----------------
 
 	// Delete -----------------
+
 }

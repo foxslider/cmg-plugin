@@ -23,14 +23,12 @@ use foxslider\common\config\FxsCoreGlobal;
 use foxslider\admin\models\forms\SliderSettingsForm;
 use foxslider\common\models\entities\Slider;
 
-use cmsgears\core\admin\controllers\base\CrudController;
-
 /**
  * SliderController provides actions specific to slider model.
  *
  * @since 1.0.0
  */
-class SliderController extends CrudController {
+class SliderController extends \cmsgears\core\admin\controllers\base\CrudController {
 
 	// Variables ---------------------------------------------------
 
