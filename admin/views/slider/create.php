@@ -1,7 +1,11 @@
 <?php
 // Yii Imports
-use yii\widgets\ActiveForm;
 use yii\helpers\Html;
+
+// CMG Imports
+use cmsgears\core\common\widgets\ActiveForm;
+
+use cmsgears\icons\widgets\TextureChooser;
 
 // FX Imports
 use foxslider\common\models\entities\Slider;
@@ -62,6 +66,11 @@ $statusMap = Slider::$statusMap;
 						</div>
 						<div class="col col2">
 							<?= $form->field( $model, 'htmlOptions' )->textarea() ?>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col col2">
+							<?= TextureChooser::widget( [ 'model' => $model, 'options' => [ 'class' => 'icon-picker-wrap' ] ] ) ?>
 						</div>
 					</div>
 				</div>

@@ -201,6 +201,10 @@ class SlideService extends \cmsgears\core\common\services\base\ResourceService i
 
 		$image = isset( $config[ 'image' ] ) ? $config[ 'image' ] : null;
 
+		$attributes = [
+			'imageId', 'name', 'title', 'texture', 'description', 'content', 'url', 'order'
+		];
+
 		$slider = Yii::$app->factory->get( 'fxSliderService' )->getById( $model->sliderId );
 
 		$this->fileService->saveImage( $image, [
@@ -209,7 +213,7 @@ class SlideService extends \cmsgears\core\common\services\base\ResourceService i
 		]);
 
 		return parent::update( $model, [
-			'attributes' => [ 'imageId', 'name', 'title', 'description', 'content', 'url', 'order' ]
+			'attributes' => $attributes
 		]);
 	}
 

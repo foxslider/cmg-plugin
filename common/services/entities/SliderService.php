@@ -251,7 +251,7 @@ class SliderService extends \cmsgears\core\common\services\base\EntityService im
 		$admin = isset( $config[ 'admin' ] ) ? $config[ 'admin' ] : false;
 
 		$attributes	= isset( $config[ 'attributes' ] ) ? $config[ 'attributes' ] : [
-			'name', 'slug', 'title', 'description', 'slideWidth', 'slideHeight',
+			'name', 'slug', 'title', 'texture', 'description', 'slideWidth', 'slideHeight',
 			'fullPage', 'scrollAuto', 'scrollType', 'circular', 'htmlOptions', 'content'
 		];
 

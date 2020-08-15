@@ -51,6 +51,7 @@ use foxslider\common\models\resources\Slide;
  * @property string $name
  * @property string $slug
  * @property string $title
+ * @property string $texture
  * @property string $description
  * @property integer $status
  * @property boolean $fullPage
@@ -161,7 +162,8 @@ class Slider extends \cmsgears\core\common\models\base\Entity implements IApprov
             [ [ 'name', 'fullPage', 'slideWidth', 'slideHeight', 'scrollAuto', 'scrollType', 'circular' ], 'required' ],
             [ [ 'id', 'htmlOptions', 'content', 'data', 'gridCache' ], 'safe' ],
             // Text Limit
-            [ 'name', 'string', 'min' => 1, 'max' => Yii::$app->core->xLargeText ],
+            [ 'texture', 'string', 'min' => 1, 'max' => Yii::$app->core->largeText ],
+			[ 'name', 'string', 'min' => 1, 'max' => Yii::$app->core->xLargeText ],
             [ 'slug', 'string', 'min' => 1, 'max' => Yii::$app->core->xxLargeText ],
 			[ 'title', 'string', 'min' => 1, 'max' => Yii::$app->core->xxxLargeText ],
             [ 'description', 'string', 'min' => 1, 'max' => Yii::$app->core->xtraLargeText ],
@@ -193,6 +195,7 @@ class Slider extends \cmsgears\core\common\models\base\Entity implements IApprov
 			'name' => Yii::$app->coreMessage->getMessage( CoreGlobal::FIELD_NAME ),
 			'slug' => Yii::$app->coreMessage->getMessage( CoreGlobal::FIELD_SLUG ),
 			'title' => Yii::$app->coreMessage->getMessage( CoreGlobal::FIELD_TITLE ),
+			'texture' => Yii::$app->coreMessage->getMessage( CoreGlobal::FIELD_TEXTURE ),
 			'description' => Yii::$app->coreMessage->getMessage( CoreGlobal::FIELD_DESCRIPTION ),
 			'fullPage' => 'Full Page',
 			'slideWidth' => 'Slide Width',

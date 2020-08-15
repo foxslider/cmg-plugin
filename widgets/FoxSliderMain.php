@@ -200,9 +200,13 @@ class FoxSliderMain extends \cmsgears\core\common\base\Widget {
 
         foreach( $slides as $slide ) {
 
+			$texture = $this->slideTexture;
+			$texture = !empty( $this->model->texture ) ? $this->model->texture : $texture;
+			$texture = !empty( $slide->texture ) ? $slide->texture : $texture;
+
             $items[] = $this->render( $slidePath, [
 				'widget' => $this, 'fxOptions' => $this->fxOptions, 'slide' => $slide,
-				'genericContent' => $this->genericContent
+				'texture' => $texture, 'genericContent' => $this->genericContent
 			]);
         }
 

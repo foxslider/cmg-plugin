@@ -108,7 +108,7 @@ class SlideController extends \cmsgears\core\admin\controllers\apix\base\Control
 				'name' => $file->name, 'extension' => $file->extension, 'order' => $model->order,
 				'title' => $model->name, 'stitle' => $model->title, 'ititle' => $file->title, 'caption' => $file->caption,
 				'altText' => $file->altText, 'link' => $file->link, 'url' => $file->getFileUrl(),
-				'description' => $model->description, 'idescription' => $file->description,
+				'texture' => $model->texture, 'description' => $model->description, 'idescription' => $file->description,
 				'content' => $model->content, 'icontent' => $file->content
 			];
 
@@ -145,7 +145,7 @@ class SlideController extends \cmsgears\core\admin\controllers\apix\base\Control
 				'name' => $file->name, 'extension' => $file->extension, 'order' => $model->order,
 				'title' => $model->name, 'stitle' => $model->title, 'ititle' => $file->title, 'caption' => $file->caption,
 				'altText' => $file->altText, 'link' => $file->link, 'url' => $file->getFileUrl(),
-				'description' => $model->description, 'idescription' => $file->description,
+				'texture' => $model->texture, 'description' => $model->description, 'idescription' => $file->description,
 				'content' => $model->content, 'icontent' => $file->content
 			];
 
@@ -188,7 +188,7 @@ class SlideController extends \cmsgears\core\admin\controllers\apix\base\Control
 					'name' => $file->name, 'extension' => $file->extension, 'order' => $model->order,
 					'title' => $model->name, 'stitle' => $model->title, 'ititle' => $file->title, 'caption' => $file->caption,
 					'altText' => $file->altText, 'link' => $file->link, 'url' => $file->getFileUrl(),
-					'description' => $model->description, 'idescription' => $file->description,
+					'texture' => $model->texture, 'description' => $model->description, 'idescription' => $file->description,
 					'content' => $model->content, 'icontent' => $file->content
 				];
 
