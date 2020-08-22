@@ -140,6 +140,8 @@ class SliderController extends \cmsgears\core\admin\controllers\base\CrudControl
 
 	public function actionSettings( $id ) {
 
+		$modelClass = $this->modelService->getModelClass();
+
 		// Find Model
 		$model = $this->modelService->getById( $id );
 
@@ -148,7 +150,9 @@ class SliderController extends \cmsgears\core\admin\controllers\base\CrudControl
 
 			$settings = new SliderSettingsForm( $model->getDataMeta( 'settings' ) );
 
-			if( $settings->load( Yii::$app->request->post(), $settings->getClassName() ) && $settings->validate() ) {
+			if( $model->load( Yii::$app->request->post(), $model->getClassName() ) &&
+				$settings->load( Yii::$app->request->post(), $settings->getClassName() ) &&
+				$model->validate() && $settings->validate() ) {
 
 				$this->model = $this->modelService->updateDataMeta( $model, 'settings', $settings );
 
@@ -157,7 +161,8 @@ class SliderController extends \cmsgears\core\admin\controllers\base\CrudControl
 
 			return $this->render( 'settings', [
 				'model' => $model,
-				'settings' => $settings
+				'settings' => $settings,
+				'scrollTypeMap'	=> $modelClass::$scrollTypeMap
 			]);
 		}
 

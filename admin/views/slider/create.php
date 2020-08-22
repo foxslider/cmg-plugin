@@ -10,9 +10,6 @@ use cmsgears\icons\widgets\TextureChooser;
 // FX Imports
 use foxslider\common\models\entities\Slider;
 
-$modelClass		= $this->context->modelService->getModelClass();
-$scrollTypeMap	= $modelClass::$scrollTypeMap;
-
 $coreProperties = $this->context->getCoreProperties();
 $this->title 	= 'Add Slider | ' . $coreProperties->getSiteTitle();
 $returnUrl		= $this->context->returnUrl;
@@ -33,7 +30,7 @@ $statusMap = Slider::$statusMap;
 							<?= $form->field( $model, 'name' ) ?>
 						</div>
 						<div class="col col2">
-							<?= $form->field( $model, 'scrollType' )->dropDownList( $scrollTypeMap, [ 'class' => 'cmt-select' ] ) ?>
+							<?= $form->field( $model, 'title' ) ?>
 						</div>
 					</div>
 					<div class="row">
@@ -42,22 +39,6 @@ $statusMap = Slider::$statusMap;
 						</div>
 						<div class="col col2">
 							<?= $form->field( $model, 'slideHeight' ) ?>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col col2">
-							<?= $form->field( $model, 'description' )->textarea() ?>
-						</div>
-						<div class="col col2">
-							<?= Yii::$app->formDesigner->getIconCheckbox( $form, $model, 'scrollAuto', null, 'cmti cmti-checkbox' ) ?>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col col2">
-							<?= Yii::$app->formDesigner->getIconCheckbox( $form, $model, 'circular', null, 'cmti cmti-checkbox' ) ?>
-						</div>
-						<div class="col col2">
-							<?= Yii::$app->formDesigner->getIconCheckbox( $form, $model, 'fullPage', null, 'cmti cmti-checkbox' ) ?>
 						</div>
 					</div>
 					<div class="row">
@@ -71,6 +52,9 @@ $statusMap = Slider::$statusMap;
 					<div class="row">
 						<div class="col col2">
 							<?= TextureChooser::widget( [ 'model' => $model, 'options' => [ 'class' => 'icon-picker-wrap' ] ] ) ?>
+						</div>
+						<div class="col col2">
+							<?= $form->field( $model, 'description' )->textarea() ?>
 						</div>
 					</div>
 				</div>
