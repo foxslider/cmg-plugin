@@ -128,7 +128,9 @@ fxs.FoxSliderManager.prototype.defaults = {
 	preSlideChange: null,
 	// Listener Callback for post processing
 	postSlideChange: null,
-	onSlideClick: null
+	onSlideClick: null,
+	// Lazy Loading
+	lazyLoad: false
 };
 
 // == Slider Manager ======================
@@ -387,26 +389,24 @@ fxs.FoxSlider.prototype.normalise = function() {
 
 			if( null != image && image.length > 0 ) {
 
+				image.addClass( 'width width-100' );
+
 				var slideAspectRatio	= slideWidth / slideHeight;
-				var imageAspectRatio	= image[0].width / image[0].height;
+				var imageAspectRatio	= image[ 0 ].width / image[ 0 ].height;
 
 				if ( slideAspectRatio > imageAspectRatio ) {
 
-					image.removeClass( 'width-100 height-100' );
-					image.addClass( 'width-100' );
-
 					var adjust = ( image.height() - slideHeight ) / 2;
 
-					image.css( { 'margin-top': '-' + adjust + 'px' } );
+					// TODO: check it once more before enabling. It must work fine with sliders dependent on images.
+					//image.css( { 'margin-top': '-' + adjust + 'px' } );
 				}
-				else {
-
-					image.removeClass( 'width-100 height-100' );
-					image.addClass( 'height-100' );
+				else if ( slideAspectRatio < imageAspectRatio ) {
 
 					var adjust = ( image.width() - slideWidth ) / 2;
 
-					image.css( { 'margin-left': '-' + adjust + 'px' } );
+					// TODO: check it once more before enabling. It must work fine with sliders dependent on images.
+					//image.css( { 'margin-left': '-' + adjust + 'px' } );
 				}
 			}
 		}
@@ -423,6 +423,25 @@ fxs.FoxSlider.prototype.normalise = function() {
 			});
 		}
 	});
+
+	if( settings.lazyLoad && slidesCount > 0 ) {
+
+		var first = jQuery( slidesSelector[ 0 ] );
+
+		var img = first.find( '.fxs-lazy-img' );
+
+		if( img.length > 0 ) {
+
+			this.lazyLoadImg( img );
+		}
+
+		var bkg = first.find( '.fxs-lazy-bkg' );
+
+		if( bkg.length > 0 ) {
+
+			this.lazyLoadBkg( bkg );
+		}
+	}
 };
 
 // Initialise the Slider controls
@@ -633,7 +652,9 @@ fxs.FoxSlider.prototype.showNextSlide = function() {
 
 		var duration = 500;
 
-		// do pre processing
+		// Pre processing
+		this.lazyLoad( slidesSelector.first().next() );
+
 		if( null != settings.preSlideChange ) {
 
 			settings.preSlideChange( firstSlideIndex );
@@ -737,7 +758,9 @@ fxs.FoxSlider.prototype.showPrevSlide = function() {
 		var slideWidth		= firstSlide.width();
 		var filmstrip		= slider.find( '.slides-wrap' );
 
-		// do pre processing
+		// Pre processing
+		this.lazyLoad( slidesSelector.first().next() );
+
 		if( null != settings.preSlideChange ) {
 
 			settings.preSlideChange( firstSlideIndex );
@@ -940,7 +963,9 @@ fxs.FoxSlider.prototype.showBackwardSlides = function() {
 		var slideWidth		= firstSlide.width();
 		var filmstrip		= slider.find( '.slides-wrap' );
 
-		// do pre processing
+		// Pre processing
+		this.lazyLoad( firstSlide );
+
 		if( null != settings.preSlideChange ) {
 
 			settings.preSlideChange( firstSlideIndex );
@@ -994,9 +1019,11 @@ fxs.FoxSlider.prototype.showForwardSlides = function() {
 		var firstSlideIndex	= firstSlide.attr( 'slide' );
 		var slideWidth		= firstSlide.width();
 		var filmstrip		= slider.find( '.slides-wrap' );
-		var duration		= 1000;
+		var duration		= 50;
 
-		// do pre processing
+		// Pre processing
+		this.lazyLoad( firstSlide );
+
 		if( null != settings.preSlideChange ) {
 
 			settings.preSlideChange( firstSlideIndex );
@@ -1035,5 +1062,74 @@ fxs.FoxSlider.prototype.showForwardSlides = function() {
 
 			settings.postSlideChange( firstSlideIndex );
 		}
+	}
+};
+
+fxs.FoxSlider.prototype.lazyLoad = function( slide ) {
+
+	var settings = this.options;
+
+	if( settings.lazyLoad && null != slide ) {
+		
+		// Image Slides
+		var img = slide.find( '.fxs-lazy-img' );
+
+		if( img.length > 0 ) {
+
+			this.lazyLoadImg( img );
+		}
+
+		// Bkg Slides
+		var bkg = slide.find( '.fxs-lazy-bkg' );
+
+		if( bkg.length > 0 ) {
+			
+			this.lazyLoadBkg( bkg );
+		}
+	}
+};
+
+fxs.FoxSlider.prototype.lazyLoadImg = function( slide ) {
+
+	var loaded = parseInt( slide.attr( 'data-lazy' ) );
+
+	if( loaded == 0 ) {
+
+		var src		= slide.attr( 'data-src' );
+		var srcset	= slide.attr( 'data-srcset' );
+		var sizes	= slide.attr( 'data-sizes' );
+
+		typeof src !== 'undefined' ? slide.attr( 'src', src ) : null;
+		typeof srcset !== 'undefined' ? slide.attr( 'srcset', srcset ) : null;
+		typeof sizes !== 'undefined' ? slide.attr( 'sizes', sizes ) : null;
+
+		slide.attr( 'data-lazy', '1' );
+	}
+};
+
+fxs.FoxSlider.prototype.lazyLoadBkg = function( slide ) {
+
+	var loaded = parseInt( slide.attr( 'data-lazy' ) );
+
+	if( loaded == 0 ) {
+
+		var width	= jQuery( window ).width();
+		var srcset	= slide.attr( 'data-srcset' ).split( ',' );
+		var sizes	= slide.attr( 'data-sizes' ).split( ',' );
+
+		if( typeof sizes[ 0 ] !== 'undefined' && width >= parseInt( sizes[ 0 ] ) ) {
+
+			slide.css( 'backgroundImage', "url('" + srcset[ 0 ] + "')" );
+		}
+		else if( typeof sizes[ 1 ] !== 'undefined' && width >= parseInt( sizes[ 1 ] ) ) {
+
+			slide.css( 'backgroundImage', "url('" + srcset[ 1 ] + "')" );
+		}
+		else if( typeof sizes[ 2 ] !== 'undefined' ) {
+
+			slide.css( 'backgroundImage', "url('" + srcset[ 2 ] + "')" ); 
+		}
+
+		slide.attr( 'data-lazy', '1' );
 	}
 };

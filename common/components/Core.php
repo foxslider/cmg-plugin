@@ -11,14 +11,13 @@ namespace foxslider\common\components;
 
 // Yii Imports
 use Yii;
-use yii\base\Component;
 
 /**
  * Core component register the services provided by Core Module.
  *
  * @since 1.0.0
  */
-class Core extends Component {
+class Core extends \yii\base\Component {
 
 	// Global -----------------
 

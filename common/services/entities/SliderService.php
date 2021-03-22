@@ -11,12 +11,12 @@ namespace foxslider\common\services\entities;
 
 // Yii Imports
 use Yii;
+use yii\base\Exception;
 use yii\data\Sort;
 
 // CMG Imports
-use cmsgears\core\common\services\base\EntityService;
-
 use cmsgears\core\common\services\traits\base\ApprovalTrait;
+use cmsgears\core\common\services\traits\base\MultisiteTrait;
 use cmsgears\core\common\services\traits\base\NameTrait;
 use cmsgears\core\common\services\traits\base\SlugTrait;
 use cmsgears\core\common\services\traits\resources\DataTrait;
@@ -25,7 +25,7 @@ use cmsgears\core\common\services\traits\resources\DataTrait;
 use foxslider\common\services\interfaces\entities\ISliderService;
 use foxslider\common\services\interfaces\resources\ISlideService;
 
-class SliderService extends EntityService implements ISliderService {
+class SliderService extends \cmsgears\core\common\services\base\EntityService implements ISliderService {
 
 	// Variables ---------------------------------------------------
 
@@ -53,6 +53,7 @@ class SliderService extends EntityService implements ISliderService {
 
 	use ApprovalTrait;
 	use DataTrait;
+	use MultisiteTrait;
 	use NameTrait;
 	use SlugTrait;
 
@@ -80,6 +81,11 @@ class SliderService extends EntityService implements ISliderService {
 	// Data Provider ------
 
 	public function getPage( $config = [] ) {
+
+		$searchParam	= $config[ 'search-param' ] ?? 'keywords';
+		$searchColParam	= $config[ 'search-col-param' ] ?? 'search';
+
+		$defaultSort = isset( $config[ 'defaultSort' ] ) ? $config[ 'defaultSort' ] : [ 'id' => SORT_DESC ];
 
 		$modelClass	= static::$modelClass;
 		$modelTable	= $this->getModelTable();
@@ -143,9 +149,7 @@ class SliderService extends EntityService implements ISliderService {
 					'label' => 'Updated At'
 				]
 	        ],
-			'defaultOrder' => [
-				'id' => SORT_DESC
-			]
+			'defaultOrder' => $defaultSort
 	    ]);
 
 		if( !isset( $config[ 'sort' ] ) ) {
@@ -194,17 +198,22 @@ class SliderService extends EntityService implements ISliderService {
 
 		// Searching --------
 
-		$searchCol	= Yii::$app->request->getQueryParam( 'search' );
+		$searchCol		= Yii::$app->request->getQueryParam( $searchColParam );
+		$keywordsCol	= Yii::$app->request->getQueryParam( $searchParam );
+
+		$search = [
+			'name' => "$modelTable.name",
+			'title' =>  "$modelTable.title",
+			'desc' => "$modelTable.description"
+		];
 
 		if( isset( $searchCol ) ) {
 
-			$search = [
-				'name' => "$modelTable.name",
-				'title' =>  "$modelTable.title",
-				'desc' => "$modelTable.description"
-			];
-
 			$config[ 'search-col' ] = $search[ $searchCol ];
+		}
+		else if( isset( $keywordsCol ) ) {
+
+			$config[ 'search-col' ] = $search;
 		}
 
 		// Reporting --------
@@ -239,8 +248,12 @@ class SliderService extends EntityService implements ISliderService {
 
 	public function update( $model, $config = [] ) {
 
-		$admin		= isset( $config[ 'admin' ] ) ? $config[ 'admin' ] : false;
-		$attributes	= isset( $config[ 'attributes' ] ) ? $config[ 'attributes' ] : [ 'name', 'slug', 'title', 'description', 'slideWidth', 'slideHeight', 'fullPage', 'scrollAuto', 'scrollType', 'circular', 'htmlOptions', 'content' ];
+		$admin = isset( $config[ 'admin' ] ) ? $config[ 'admin' ] : false;
+
+		$attributes	= isset( $config[ 'attributes' ] ) ? $config[ 'attributes' ] : [
+			'name', 'slug', 'title', 'texture', 'description', 'slideWidth', 'slideHeight',
+			'fullPage', 'scrollAuto', 'scrollType', 'circular', 'htmlOptions', 'content'
+		];
 
 		if( $admin ) {
 
@@ -256,10 +269,32 @@ class SliderService extends EntityService implements ISliderService {
 
 	public function delete( $model, $config = [] ) {
 
-		// Clear all related slides
-		$this->slideService->deleteBySliderId( $model->id );
+		$config[ 'hard' ] = $config[ 'hard' ] ?? !Yii::$app->core->isSoftDelete();
 
-		// Delete Slider
+		if( $config[ 'hard' ] ) {
+
+			$transaction = Yii::$app->db->beginTransaction();
+
+			try {
+
+				// Clear all related slides
+				$this->slideService->deleteBySliderId( $model->id );
+
+				// Commit
+				$transaction->commit();
+
+				// Delete Slider
+				return parent::delete( $model, $config );
+			}
+			catch( Exception $e ) {
+
+				$transaction->rollBack();
+
+				throw new Exception( Yii::$app->coreMessage->getMessage( CoreGlobal::ERROR_DEPENDENCY ) );
+			}
+		}
+
+		// Delete model
 		return parent::delete( $model, $config );
 	}
 
@@ -267,39 +302,60 @@ class SliderService extends EntityService implements ISliderService {
 
 	protected function applyBulk( $model, $column, $action, $target, $config = [] ) {
 
+		$direct = isset( $config[ 'direct' ] ) ? $config[ 'direct' ] : true; // Trigger direct notifications
+		$users	= isset( $config[ 'users' ] ) ? $config[ 'users' ] : []; // Trigger user notifications
+
 		switch( $column ) {
 
 			case 'status': {
 
 				switch( $action ) {
 
-					case 'confirmed': {
+					case 'accept': {
 
-						$this->confirm( $model );
-
-						break;
-					}
-					case 'rejected': {
-
-						$this->reject( $model );
+						$this->accept( $model, [ 'direct' => $direct, 'users' => $users ] );
 
 						break;
 					}
-					case 'active': {
+					case 'confirm': {
 
-						$this->approve( $model );
-
-						break;
-					}
-					case 'frozen': {
-
-						$this->freeze( $model );
+						$this->confirm( $model, [ 'direct' => $direct, 'users' => $users ] );
 
 						break;
 					}
-					case 'blocked': {
+					case 'approve': {
 
-						$this->block( $model );
+						$this->approve( $model, [ 'direct' => $direct, 'users' => $users ] );
+
+						break;
+					}
+					case 'reject': {
+
+						$this->reject( $model, [ 'direct' => $direct, 'users' => $users ] );
+
+						break;
+					}
+					case 'activate': {
+
+						$this->activate( $model, [ 'direct' => $direct, 'users' => $users ] );
+
+						break;
+					}
+					case 'freeze': {
+
+						$this->freeze( $model, [ 'direct' => $direct, 'users' => $users ] );
+
+						break;
+					}
+					case 'block': {
+
+						$this->block( $model, [ 'direct' => $direct, 'users' => $users ] );
+
+						break;
+					}
+					case 'terminate': {
+
+						$this->terminate( $model, [ 'direct' => $direct, 'users' => $users ] );
 
 						break;
 					}

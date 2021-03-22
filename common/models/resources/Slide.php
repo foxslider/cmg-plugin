@@ -16,7 +16,6 @@ use yii\helpers\ArrayHelper;
 // CMG Imports
 use cmsgears\core\common\config\CoreGlobal;
 
-use cmsgears\core\common\models\base\Entity;
 use cmsgears\core\common\models\resources\File;
 
 // FXS Imports
@@ -31,6 +30,7 @@ use foxslider\common\models\entities\Slider;
  * @property integer $imageId
  * @property string $name
  * @property string $title
+ * @property string $texture
  * @property string $description
  * @property string $content
  * @property string $url
@@ -38,7 +38,7 @@ use foxslider\common\models\entities\Slider;
  *
  * @since 1.0.0
  */
-class Slide extends Entity {
+class Slide extends \cmsgears\core\common\models\base\Resource {
 
 	// Variables ---------------------------------------------------
 
@@ -85,6 +85,7 @@ class Slide extends Entity {
             // Unique
 			[ [ 'sliderId', 'name' ], 'unique', 'targetAttribute' => [ 'sliderId', 'name' ] ],
             // Text Limit
+			[ 'texture', 'string', 'min' => 1, 'max' => Yii::$app->core->largeText ],
             [ 'name', 'string', 'min' => 1, 'max' => Yii::$app->core->xLargeText ],
 			[ [ 'title', 'url' ], 'string', 'min' => 1, 'max' => Yii::$app->core->xxxLargeText ],
             [ 'description', 'string', 'min' => 1, 'max' => Yii::$app->core->xtraLargeText ],
@@ -108,6 +109,7 @@ class Slide extends Entity {
 		return [
 			'name' => Yii::$app->coreMessage->getMessage( CoreGlobal::FIELD_NAME ),
 			'title' => Yii::$app->coreMessage->getMessage( CoreGlobal::FIELD_TITLE ),
+			'texture' => Yii::$app->coreMessage->getMessage( CoreGlobal::FIELD_TEXTURE ),
 			'description' => Yii::$app->coreMessage->getMessage( CoreGlobal::FIELD_DESCRIPTION ),
 			'url' => Yii::$app->coreMessage->getMessage( CoreGlobal::FIELD_LINK )
 		];

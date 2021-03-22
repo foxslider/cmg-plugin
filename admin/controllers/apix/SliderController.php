@@ -26,7 +26,7 @@ use foxslider\common\config\FxsCoreGlobal;
  *
  * @since 1.0.0
  */
-class SliderController extends \cmsgears\core\admin\controllers\base\Controller {
+class SliderController extends \cmsgears\core\admin\controllers\apix\base\Controller {
 
 	// Variables ---------------------------------------------------
 
@@ -86,7 +86,7 @@ class SliderController extends \cmsgears\core\admin\controllers\base\Controller 
 	public function actions() {
 
 		return [
-			'bulk' => [ 'class' => 'cmsgears\core\common\actions\grid\Bulk' ],
+			'bulk' => [ 'class' => 'cmsgears\core\common\actions\grid\Bulk', 'admin' => true ],
 			'delete' => [ 'class' => 'cmsgears\core\common\actions\grid\Delete' ]
 		];
 	}

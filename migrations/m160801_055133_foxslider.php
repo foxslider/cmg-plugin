@@ -7,17 +7,13 @@
  * @copyright Copyright (c) 2015 VulpineCode Technologies Pvt. Ltd.
  */
 
-// CMG Imports
-use cmsgears\core\common\base\Migration;
-
-
 /**
  * The foxslider migration inserts the database tables of foxslider module. It also insert the foreign
  * keys if FK flag of migration component is true.
  *
  * @since 1.0.0
  */
-class m160801_055133_foxslider extends Migration {
+class m160801_055133_foxslider extends \cmsgears\core\common\base\Migration {
 
 	// Public Variables
 
@@ -32,12 +28,12 @@ class m160801_055133_foxslider extends Migration {
 	public function init() {
 
 		// Fixed
-		$this->cmgPrefix	= Yii::$app->migration->cmgPrefix;
-		$this->fxsPrefix	= 'fxs_';
+		$this->cmgPrefix = Yii::$app->migration->cmgPrefix;
+		$this->fxsPrefix = 'fxs_';
 
 		// Get the values via config
-		$this->fk			= Yii::$app->migration->isFk();
-		$this->options		= Yii::$app->migration->getTableOptions();
+		$this->fk		= Yii::$app->migration->isFk();
+		$this->options	= Yii::$app->migration->getTableOptions();
 
 		// Default collation
 		if( $this->db->driverName === 'mysql' ) {
@@ -70,6 +66,7 @@ class m160801_055133_foxslider extends Migration {
 			'name' => $this->string( Yii::$app->core->xLargeText )->notNull(),
 			'slug' => $this->string( Yii::$app->core->xxLargeText )->notNull(),
 			'title' => $this->string( Yii::$app->core->xxxLargeText )->defaultValue( null ),
+			'texture' => $this->string( Yii::$app->core->largeText )->defaultValue( null ),
 			'description' => $this->string( Yii::$app->core->xtraLargeText )->defaultValue( null ),
 			'status' => $this->smallInteger( 6 )->defaultValue( 0 ),
 			'fullPage' => $this->boolean()->notNull()->defaultValue( false ),
@@ -102,6 +99,7 @@ class m160801_055133_foxslider extends Migration {
 			'imageId' => $this->bigInteger( 20 ),
 			'name' => $this->string( Yii::$app->core->xLargeText )->notNull(),
 			'title' => $this->string( Yii::$app->core->xxxLargeText )->defaultValue( null ),
+			'texture' => $this->string( Yii::$app->core->largeText )->defaultValue( null ),
 			'description' => $this->string( Yii::$app->core->xtraLargeText )->defaultValue( null ),
 			'url' => $this->string( Yii::$app->core->xxxLargeText )->defaultValue( null ),
 			'order' => $this->smallInteger( 6 )->defaultValue( 0 ),

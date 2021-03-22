@@ -1,26 +1,67 @@
 <?php
-$slideImage		= $slide->image;
+$slideImage = $slide->image;
+
+$slideName		= $slide->name;
 $slideTitle		= $slide->name;
+$slideUrl		= $slide->url;
 $slideDesc		= $slide->description;
 $slideContent	= $slide->content;
-$slideUrl		= $slide->url;
-$slideImageUrl	= '';
-$slideImageAlt	= '';
+
 $slideTexture	= isset( $widget->slideTexture ) ? "<div class=\"$widget->slideTexture\"></div>" : null;
 $content		= "<div class=\"wrap-slide-content\">";
 
 if( isset( $slideImage ) ) {
 
-	$slideImageUrl	= $slideImage->getFileUrl();
-	$slideImageAlt	= $slideImage->altText;
+	$imageUrl = $slideImage->getFileUrl();
 
-	$content = "<div class=\"wrap-slide-content\" style=\"background-image:url($slideImageUrl)\">";
+	$imageTitle		= $slideImage->title;
+	$imageCaption	= $slideImage->caption;
+	$imageAlt		= $slideImage->altText;
+	$imageDesc		= $slideImage->description;
 
-	if( isset( $fxOptions[ 'resizeBkgImage' ] ) && isset( $fxOptions[ 'bkgImageClass' ] ) ) {
+	$lazyImg = !empty( $widget->lazyImageUrl ) ? $widget->lazyImageUrl : ( $widget->lazySmall ? $slideImage->getSmallPlaceholderUrl() : $slideImage->getPlaceholderUrl() );
 
-		$imgClass	= $fxOptions[ 'bkgImageClass' ];
-		$content	= "<img src=\"$slideImageUrl\" class=\"$imgClass\" alt=\"$slideImageAlt\" />
-					   <div class=\"wrap-slide-content\">";
+	if( isset( $widget->lazyLoad ) && $widget->lazyLoad ) {
+
+		$srcset = $slideImage->generateSrcset( true );
+		$sizes	= $slideImage->srcset;
+
+		$content = "<div class=\"fxs-lazy fxs-lazy-bkg wrap-slide-content\" style=\"background-image:url($lazyImg)\" data-lazy=\"0\" data-src=\"$imageUrl\" data-srcset=\"$srcset\" data-sizes=\"$sizes\">";
+	}
+	else if( isset( $widget->responsiveImage ) && $widget->responsiveImage ) {
+
+		$srcset = $slideImage->generateSrcset( true );
+		$sizes	= $slideImage->srcset;
+
+		$content = "<div class=\"fxs-lazy fxs-lazy-bkg wrap-slide-content\" style=\"background-image:url($imageUrl)\" data-lazy=\"0\" data-src=\"$imageUrl\" data-srcset=\"$srcset\" data-sizes=\"$sizes\">";
+	}
+	else {
+
+		$content = "<div class=\"wrap-slide-content\" style=\"background-image:url($imageUrl)\">";
+	}
+
+	if( $fxOptions[ 'resizeBkgImage' ] ) {
+
+		$srcset = $slideImage->generateSrcset();
+		$sizes	= $slideImage->sizes;
+
+		$imgClass = $fxOptions[ 'bkgImageClass' ];
+
+		if( isset( $widget->lazyLoad ) && $widget->lazyLoad ) {
+
+			$content = "<img src=\"$lazyImg\" class=\"fxs-lazy fxs-lazy-img $imgClass\" alt=\"$imageAlt\" data-lazy=\"0\" data-src=\"$imageUrl\" data-srcset=\"$srcset\" data-sizes=\"$sizes\" />
+						<div class=\"wrap-slide-content\">";
+		}
+		else if( isset( $widget->responsiveImage ) && $widget->responsiveImage ) {
+
+			$content = "<img src=\"$imageUrl\" class=\"fxs-lazy fxs-lazy-img $imgClass\" alt=\"$imageAlt\" data-lazy=\"0\" data-src=\"$imageUrl\" data-srcset=\"$srcset\" data-sizes=\"$sizes\" />
+						<div class=\"wrap-slide-content\">";
+		}
+		else {
+
+			$content = "<img src=\"$imageUrl\" class=\"$imgClass\" alt=\"$imageAlt\" srcset=\"$srcset\" sizes=\"$sizes\" />
+						<div class=\"wrap-slide-content\">";
+		}
 	}
 }
 ?>

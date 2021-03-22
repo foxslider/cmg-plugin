@@ -7,9 +7,6 @@
  * @copyright Copyright (c) 2015 VulpineCode Technologies Pvt. Ltd.
  */
 
-// CMG Imports
-use cmsgears\core\common\base\Migration;
-
 /**
  * The foxslider index migration inserts the recommended indexes for better performance. It
  * also list down other possible index commented out. These indexes can be created using
@@ -17,7 +14,7 @@ use cmsgears\core\common\base\Migration;
  *
  * @since 1.0.0
  */
-class m160801_055326_foxslider_index extends Migration {
+class m160801_055326_foxslider_index extends \cmsgears\core\common\base\Migration {
 
 	// Public Variables
 
@@ -29,8 +26,8 @@ class m160801_055326_foxslider_index extends Migration {
 	public function init() {
 
 		// Fixed
-		$this->cmgPrefix	= Yii::$app->migration->cmgPrefix;
-		$this->fxsPrefix	= 'fxs_';
+		$this->cmgPrefix = Yii::$app->migration->cmgPrefix;
+		$this->fxsPrefix = 'fxs_';
 	}
 
 	public function up() {

@@ -23,14 +23,12 @@ use foxslider\common\config\FxsCoreGlobal;
 use foxslider\admin\models\forms\SliderSettingsForm;
 use foxslider\common\models\entities\Slider;
 
-use cmsgears\core\admin\controllers\base\CrudController;
-
 /**
  * SliderController provides actions specific to slider model.
  *
  * @since 1.0.0
  */
-class SliderController extends CrudController {
+class SliderController extends \cmsgears\core\admin\controllers\base\CrudController {
 
 	// Variables ---------------------------------------------------
 
@@ -142,6 +140,8 @@ class SliderController extends CrudController {
 
 	public function actionSettings( $id ) {
 
+		$modelClass = $this->modelService->getModelClass();
+
 		// Find Model
 		$model = $this->modelService->getById( $id );
 
@@ -150,7 +150,9 @@ class SliderController extends CrudController {
 
 			$settings = new SliderSettingsForm( $model->getDataMeta( 'settings' ) );
 
-			if( $settings->load( Yii::$app->request->post(), $settings->getClassName() ) && $settings->validate() ) {
+			if( $model->load( Yii::$app->request->post(), $model->getClassName() ) &&
+				$settings->load( Yii::$app->request->post(), $settings->getClassName() ) &&
+				$model->validate() && $settings->validate() ) {
 
 				$this->model = $this->modelService->updateDataMeta( $model, 'settings', $settings );
 
@@ -159,7 +161,8 @@ class SliderController extends CrudController {
 
 			return $this->render( 'settings', [
 				'model' => $model,
-				'settings' => $settings
+				'settings' => $settings,
+				'scrollTypeMap'	=> $modelClass::$scrollTypeMap
 			]);
 		}
 

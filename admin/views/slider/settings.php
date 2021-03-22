@@ -74,6 +74,9 @@ Editor::widget();
 								<div class="col col4">
 									<?= Yii::$app->formDesigner->getIconCheckbox( $form, $settings, 'loadAssets', null, 'cmti cmti-checkbox' ) ?>
 								</div>
+								<div class="col col4">
+									<?= Yii::$app->formDesigner->getIconCheckbox( $form, $model, 'scrollAuto', null, 'cmti cmti-checkbox' ) ?>
+								</div>
 							</div>
 							<div class="row">
 								<div class="col col2">
@@ -84,6 +87,9 @@ Editor::widget();
 								</div>
 							</div>
 							<div class="row">
+								<div class="col col2">
+									<?= $form->field( $model, 'scrollType' )->dropDownList( $scrollTypeMap, [ 'class' => 'cmt-select' ] ) ?>
+								</div>
 								<div class="col col2">
 									<p class="note">The autoScroll, autoScrollType, fullPage, and circular settings will be used from Slider.</p>
 								</div>
@@ -136,6 +142,9 @@ Editor::widget();
 								<div class="col col4">
 									<?= Yii::$app->formDesigner->getIconCheckbox( $form, $settings, 'resizeBkgImage', null, 'cmti cmti-checkbox' ) ?>
 								</div>
+								<div class="col col4">
+									<?= Yii::$app->formDesigner->getIconCheckbox( $form, $settings, 'responsiveImage', null, 'cmti cmti-checkbox' ) ?>
+								</div>
 								<div class="col col2">
 									<?= TextureChooser::widget( [ 'model' => $settings, 'attribute' => 'slideTexture', 'options' => [ 'class' => 'icon-picker-wrap' ] ] ) ?>
 								</div>
@@ -162,6 +171,26 @@ Editor::widget();
 								</div>
 								<div class="col col2">
 									<?= $form->field( $settings, 'postSlideChange' )->textarea() ?>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col col2">
+									<?= Yii::$app->formDesigner->getIconCheckbox( $form, $model, 'circular', null, 'cmti cmti-checkbox' ) ?>
+								</div>
+								<div class="col col2">
+									<?= Yii::$app->formDesigner->getIconCheckbox( $form, $model, 'fullPage', null, 'cmti cmti-checkbox' ) ?>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col col4">
+									<?= Yii::$app->formDesigner->getIconCheckbox( $form, $settings, 'lazyLoad', null, 'cmti cmti-checkbox' ) ?>
+								</div>
+								<div class="col col4">
+									<?= Yii::$app->formDesigner->getIconCheckbox( $form, $settings, 'lazySmall', null, 'cmti cmti-checkbox' ) ?>
+								</div>
+								<div class="col col2">
+									<?= $form->field( $settings, 'lazyImageUrl' ) ?>
+									<p class="note">Provide the path relative to the @images alias.</p>
 								</div>
 							</div>
 							<div class="row">

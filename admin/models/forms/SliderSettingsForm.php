@@ -12,15 +12,12 @@ namespace foxslider\admin\models\forms;
 // Yii Imports
 use Yii;
 
-// CMG Imports
-use cmsgears\core\common\models\forms\DataModel;
-
 /**
  * SliderSettingsForm provide slider settings data.
  *
  * @since 1.0.0
  */
-class SliderSettingsForm extends DataModel {
+class SliderSettingsForm extends \cmsgears\core\common\models\forms\DataModel {
 
 	// Variables ---------------------------------------------------
 
@@ -71,6 +68,7 @@ class SliderSettingsForm extends DataModel {
 	// Resize Background Image
 	public $resizeBkgImage;
 	public $bkgImageClass;
+	public $responsiveImage;
 
 	// Auto Height
 	public $autoHeight;
@@ -91,6 +89,12 @@ class SliderSettingsForm extends DataModel {
 	public $slideTexture;
 
 	public $genericContent;
+
+	// Lazy Loading
+	public $lazyLoad = false;
+	public $lazySmall = false;
+
+	public $lazyImageUrl;
 
 	// Protected --------------
 
@@ -117,12 +121,12 @@ class SliderSettingsForm extends DataModel {
 
 		return [
 			[ [ 'genericContent' ], 'safe' ],
-			[ [ 'loadAssets', 'bullets', 'controls', 'bulletsIndexing', 'stopOnHover', 'resizeBkgImage', 'slideDimMax', 'autoHeight' ], 'boolean' ],
+			[ [ 'loadAssets', 'bullets', 'controls', 'bulletsIndexing', 'stopOnHover', 'resizeBkgImage', 'responsiveImage', 'slideDimMax', 'autoHeight', 'lazyLoad', 'lazySmall' ], 'boolean' ],
 			[ [ 'slideTemplate', 'slideTemplateDir' ], 'string', 'min' => 1, 'max' => Yii::$app->core->largeText ],
 			[ [ 'bulletClass', 'lControlClass', 'rControlClass', 'bkgImageClass', 'slideTexture' ], 'string', 'min' => 1, 'max' => Yii::$app->core->xxxLargeText ],
 			[ [ 'lControlContent', 'rControlContent', 'preSlideChange', 'postSlideChange', 'onSlideClick' ], 'string', 'min' => 1, 'max' => Yii::$app->core->xtraLargeText ],
 			[ [ 'sliderWidth', 'sliderHeight', 'slideWidth', 'slideHeight', 'autoScrollDuration', 'duration' ], 'number', 'integerOnly' => true ],
-			[ [ 'slideArrangement' ], 'string', 'min' => 1, 'max' => Yii::$app->core->mediumText ]
+			[ [ 'slideArrangement', 'lazyImageUrl' ], 'string', 'min' => 1, 'max' => Yii::$app->core->mediumText ]
 		];
 	}
 
