@@ -159,7 +159,7 @@ class Slider extends \cmsgears\core\common\models\base\Entity implements IApprov
 		// Model Rules
 		$rules = [
             // Required, Safe
-            [ [ 'name', 'fullPage', 'slideWidth', 'slideHeight', 'scrollAuto', 'scrollType', 'circular' ], 'required' ],
+            [ [ 'name', 'slideWidth', 'slideHeight' ], 'required' ],
             [ [ 'id', 'htmlOptions', 'content', 'data', 'gridCache' ], 'safe' ],
             // Text Limit
             [ 'texture', 'string', 'min' => 1, 'max' => Yii::$app->core->largeText ],
@@ -208,6 +208,47 @@ class Slider extends \cmsgears\core\common\models\base\Entity implements IApprov
 			'data' => Yii::$app->coreMessage->getMessage( CoreGlobal::FIELD_DATA ),
 			'gridCache' => Yii::$app->coreMessage->getMessage( CoreGlobal::FIELD_GRID_CACHE )
 		];
+	}
+
+	// yii\db\BaseActiveRecord
+
+	/**
+	 * @inheritdoc
+	 */
+	public function beforeSave( $insert ) {
+
+		if( parent::beforeSave( $insert ) ) {
+
+			if( empty( $this->fullPage ) ) {
+
+				$this->fullPage = true;
+			}
+
+			if( empty( $this->scrollAuto ) ) {
+
+				$this->scrollAuto = true;
+			}
+
+			if( empty( $this->scrollType ) ) {
+
+				$this->scrollType = self::SCROLL_LEFT;
+			}
+
+			if( empty( $this->circular ) ) {
+
+				$this->circular = true;
+			}
+
+			// Default Status - New
+			if( empty( $this->status ) || $this->status <= 0 ) {
+
+				$this->status = self::STATUS_NEW;
+			}
+
+			return true;
+		}
+
+		return false;
 	}
 
 	// CMG interfaces ------------------------
