@@ -201,7 +201,7 @@ fxs.FoxSlider = function( manager, element ) {
 };
 
 fxs.FoxSlider.prototype.init = function() {
-	
+
 	var slider		= this.element;
 	var settings	= this.options;
 
@@ -260,7 +260,7 @@ fxs.FoxSlider.prototype.initView = function() {
 
 	// wrap the slides
 	var sliderHtml = '<div class="slides-wrap">' + slider.html() + '</div>';
-	
+
 	sliderHtml += '<div class="control control-left"></div><div class="control control-right"></div>';
 
 	if( settings.bullets ) {
@@ -329,7 +329,7 @@ fxs.FoxSlider.prototype.normalise = function() {
 
 	// Initialise Slide Width and reposition
 	var count = 0;
-	
+
 	var currentPosition	= 0;
 
 	// Use settings for Slide dimensions
@@ -446,7 +446,7 @@ fxs.FoxSlider.prototype.normalise = function() {
 
 // Initialise the Slider controls
 fxs.FoxSlider.prototype.initControls = function() {
-	
+
 	var self = this;
 
 	var slider		= this.element;
@@ -636,12 +636,12 @@ fxs.FoxSlider.prototype.resetSlides = function() {
 
 // Show Previous Slide on clicking next button
 fxs.FoxSlider.prototype.showNextSlide = function() {
-	
+
 	var self = this;
 
 	var slider		= this.element;
 	var settings	= this.options;
-	
+
 	if( settings.circular && settings.slideArrangement == 'filmstrip' ) {
 
 		var slidesSelector	= slider.find( '.slide' );
@@ -749,7 +749,7 @@ fxs.FoxSlider.prototype.showPrevSlide = function() {
 
 	var slider		= this.element;
 	var settings	= this.options;
-	
+
 	if( settings.circular && settings.slideArrangement == 'filmstrip' ) {
 
 		var slidesSelector	= slider.find( '.slide' );
@@ -768,10 +768,10 @@ fxs.FoxSlider.prototype.showPrevSlide = function() {
 
 		// Remove last and append to first
 		var lastSlide = slidesSelector.last();
-		
+
 		lastSlide.insertBefore( slidesSelector.eq(0) );
 		lastSlide.css( 'left', -slideWidth );
-		
+
 		var activeSlide = lastSlide.attr( 'slide' );
 
 		// TODO: Add animation extension and move this code to the animations extension
@@ -795,7 +795,7 @@ fxs.FoxSlider.prototype.showPrevSlide = function() {
 		}
 
 		firstSlide = slidesSelector.first();
-		
+
 		firstSlideIndex	= firstSlide.attr( 'slide' );
 
 		// do post processing
@@ -855,13 +855,13 @@ fxs.FoxSlider.prototype.activateBullet = function( bulletNum ) {
 }
 
 fxs.FoxSlider.prototype.showSelectedSlide = function( bullet ) {
-	
+
 	var self = this;
 
 	var slider		= this.element;
 	var settings	= this.options;
 	var bulletNum	= parseInt( bullet.attr( 'slide' ) );
-	
+
 	if( settings.autoScroll && settings.slideArrangement == 'filmstrip' ) {
 
 		var filmstrip		= slider.find( '.slides-wrap' );
@@ -949,12 +949,12 @@ fxs.FoxSlider.prototype.showSelectedSlide = function( bullet ) {
 };
 
 fxs.FoxSlider.prototype.showBackwardSlides = function() {
-	
+
 	var self = this;
 
 	var slider		= this.element;
 	var settings	= this.options;
-	
+
 	if( settings.circular && settings.slideArrangement == 'filmstrip' ) {
 
 		var slidesSelector	= slider.find( '.slide' );
@@ -973,10 +973,10 @@ fxs.FoxSlider.prototype.showBackwardSlides = function() {
 
 		// Remove last and append to first
 		var lastSlide = slidesSelector.last();
-		
+
 		lastSlide.insertBefore( slidesSelector.eq(0) );
 		lastSlide.css( 'left', -slideWidth );
-		
+
 		var activeSlide = lastSlide.attr( 'slide' );
 
 		// TODO: Add animation extension and move this code to the animations extension
@@ -994,7 +994,7 @@ fxs.FoxSlider.prototype.showBackwardSlides = function() {
 		);
 
 		firstSlide = slidesSelector.first();
-		
+
 		firstSlideIndex	= firstSlide.attr( 'slide' );
 
 		// do post processing
@@ -1038,9 +1038,9 @@ fxs.FoxSlider.prototype.showForwardSlides = function() {
 
 					// Remove first and append to last
 					var slidesSelector = slider.find( '.slide' );
-					
+
 					var firstSlide = slidesSelector.first();
-					
+
 					firstSlide.insertAfter( slidesSelector.eq( slidesSelector.length - 1 ) );
 					firstSlide.css( 'right', -slideWidth );
 
@@ -1054,7 +1054,7 @@ fxs.FoxSlider.prototype.showForwardSlides = function() {
 		);
 
 		firstSlide = slidesSelector.first();
-		
+
 		firstSlideIndex	= firstSlide.attr( 'slide' );
 
 		// do post processing
@@ -1070,7 +1070,7 @@ fxs.FoxSlider.prototype.lazyLoad = function( slide ) {
 	var settings = this.options;
 
 	if( settings.lazyLoad && null != slide ) {
-		
+
 		// Image Slides
 		var img = slide.find( '.fxs-lazy-img' );
 
@@ -1083,7 +1083,7 @@ fxs.FoxSlider.prototype.lazyLoad = function( slide ) {
 		var bkg = slide.find( '.fxs-lazy-bkg' );
 
 		if( bkg.length > 0 ) {
-			
+
 			this.lazyLoadBkg( bkg );
 		}
 	}
@@ -1127,7 +1127,7 @@ fxs.FoxSlider.prototype.lazyLoadBkg = function( slide ) {
 		}
 		else if( typeof sizes[ 2 ] !== 'undefined' ) {
 
-			slide.css( 'backgroundImage', "url('" + srcset[ 2 ] + "')" ); 
+			slide.css( 'backgroundImage', "url('" + srcset[ 2 ] + "')" );
 		}
 
 		slide.attr( 'data-lazy', '1' );

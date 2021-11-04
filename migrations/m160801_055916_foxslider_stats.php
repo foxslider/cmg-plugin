@@ -8,7 +8,9 @@
  */
 
 // CMG Imports
-use cmsgears\core\common\models\resources\Stats;
+use cmsgears\core\common\config\CoreGlobal;
+
+use cmsgears\core\common\models\resources\ModelStats;
 
 // FXS Imports
 use foxslider\common\models\base\FxsTables;
@@ -54,20 +56,20 @@ class m160801_055916_foxslider_stats extends \cmsgears\core\common\base\Migratio
 
 	private function insertTables() {
 
-		$columns  = [ 'tableName', 'type', 'count' ];
+		$columns = [ 'parentId', 'parentType', 'name', 'type', 'count' ];
 
 		$tableData = [
-			[ $this->fxsPrefix . 'slider', 'rows', 0 ],
-			[ $this->fxsPrefix . 'slide', 'rows', 0 ]
+			[ 1, CoreGlobal::TYPE_SITE, $this->fxsPrefix . 'slider', 'rows', 0 ],
+			[ 1, CoreGlobal::TYPE_SITE, $this->fxsPrefix . 'slide', 'rows', 0 ]
 		];
 
-		$this->batchInsert( $this->cmgPrefix . 'core_stats', $columns, $tableData );
+		$this->batchInsert( $this->cmgPrefix . 'core_model_stats', $columns, $tableData );
 	}
 
 	public function down() {
 
-		Stats::deleteByTableName( FxsTables::getTableName( FxsTables::TABLE_SLIDER ) );
-		Stats::deleteByTableName( FxsTables::getTableName( FxsTables::TABLE_SLIDE ) );
+		ModelStats::deleteByTable( FxsTables::getTableName( FxsTables::TABLE_SLIDER ) );
+		ModelStats::deleteByTable( FxsTables::getTableName( FxsTables::TABLE_SLIDE ) );
 	}
 
 }
